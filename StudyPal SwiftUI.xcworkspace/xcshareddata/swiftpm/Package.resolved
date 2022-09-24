@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "agorartcengine_ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
+      "state" : {
+        "revision" : "8b3777c3e663c3a4623a656d0760cc5da1b12488",
+        "version" : "4.0.0"
+      }
+    },
+    {
+      "identity" : "agorartm_ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AgoraIO/AgoraRtm_iOS",
+      "state" : {
+        "revision" : "2e87ada22df8110cf85b9f18c2ac08083f4f63f4",
+        "version" : "1.5.1"
+      }
+    },
+    {
+      "identity" : "videouikit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AgoraIO-Community/VideoUIKit-iOS.git",
+      "state" : {
+        "revision" : "67de83149550489099147acb27c0cdb799bef64c",
+        "version" : "4.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

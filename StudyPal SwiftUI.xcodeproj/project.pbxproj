@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9807AA4D28DF3CF600697784 /* AgoraRtmControl in Frameworks */ = {isa = PBXBuildFile; productRef = 9807AA4C28DF3CF600697784 /* AgoraRtmControl */; };
-		9807AA4F28DF3CF600697784 /* AgoraUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9807AA4E28DF3CF600697784 /* AgoraUIKit */; };
 		980B000D28E0EE3D002DBFA7 /* ResourcesDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */; };
 		980B001028E1270F002DBFA7 /* ResourcesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000F28E1270F002DBFA7 /* ResourcesModel.swift */; };
 		980B001328E2DE36002DBFA7 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B001228E2DE36002DBFA7 /* CircularProgressBar.swift */; };
@@ -17,6 +15,8 @@
 		98187095288F1BF700A0808E /* SideMenuCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98187094288F1BF700A0808E /* SideMenuCellView.swift */; };
 		98187097288F1C7A00A0808E /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98187096288F1C7A00A0808E /* SideMenuViewModel.swift */; };
 		98194994288655B700A18117 /* CloseBtnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98194993288655B600A18117 /* CloseBtnView.swift */; };
+		982E6B6D28EC9E470097B0A9 /* AgoraRtmControl in Frameworks */ = {isa = PBXBuildFile; productRef = 982E6B6C28EC9E470097B0A9 /* AgoraRtmControl */; };
+		982E6B6F28EC9E470097B0A9 /* AgoraUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 982E6B6E28EC9E470097B0A9 /* AgoraUIKit */; };
 		9830A3412893E88600F9B775 /* SignOutAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830A3402893E88600F9B775 /* SignOutAlertView.swift */; };
 		9830A344289449BC00F9B775 /* OverlayBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830A343289449BC00F9B775 /* OverlayBtn.swift */; };
 		98439F1F28945BB1009B28B0 /* NewMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98439F1E28945BB0009B28B0 /* NewMessageView.swift */; };
@@ -210,9 +210,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9807AA4D28DF3CF600697784 /* AgoraRtmControl in Frameworks */,
-				9807AA4F28DF3CF600697784 /* AgoraUIKit in Frameworks */,
 				9935F0BDA4FB3768D5A7B196 /* Pods_StudyPal_SwiftUI.framework in Frameworks */,
+				982E6B6D28EC9E470097B0A9 /* AgoraRtmControl in Frameworks */,
+				982E6B6F28EC9E470097B0A9 /* AgoraUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,8 +759,8 @@
 			);
 			name = "StudyPal SwiftUI";
 			packageProductDependencies = (
-				9807AA4C28DF3CF600697784 /* AgoraRtmControl */,
-				9807AA4E28DF3CF600697784 /* AgoraUIKit */,
+				982E6B6C28EC9E470097B0A9 /* AgoraRtmControl */,
+				982E6B6E28EC9E470097B0A9 /* AgoraUIKit */,
 			);
 			productName = "StudyPal SwiftUI";
 			productReference = 98CABC272884D64100D66DCF /* StudyPal SwiftUI.app */;
@@ -791,7 +791,7 @@
 			);
 			mainGroup = 98CABC1E2884D64100D66DCF;
 			packageReferences = (
-				9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */,
+				982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */,
 			);
 			productRefGroup = 98CABC282884D64100D66DCF /* Products */;
 			projectDirPath = "";
@@ -1221,7 +1221,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */ = {
+		982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AgoraIO-Community/VideoUIKit-iOS.git";
 			requirement = {
@@ -1232,14 +1232,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9807AA4C28DF3CF600697784 /* AgoraRtmControl */ = {
+		982E6B6C28EC9E470097B0A9 /* AgoraRtmControl */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
+			package = 982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
 			productName = AgoraRtmControl;
 		};
-		9807AA4E28DF3CF600697784 /* AgoraUIKit */ = {
+		982E6B6E28EC9E470097B0A9 /* AgoraUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
+			package = 982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
 			productName = AgoraUIKit;
 		};
 /* End XCSwiftPackageProductDependency section */

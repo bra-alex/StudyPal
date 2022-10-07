@@ -128,7 +128,7 @@ extension LoginScreenView {
                     .padding(.vertical, 4.0)
                     .foregroundColor(.red)
                 
-                LoginTextFields(text: $email, title: "Email", imgName: "person.fill")
+                LoginTextFields(text: $email, title: "Email", imgName: "person.fill", color: .white, txtColor: .white)
                     .focused($focusedField, equals: .email)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
@@ -140,7 +140,7 @@ extension LoginScreenView {
                         }
                     }
                 
-                LoginTextFields(text: $password, title: "Password", imgName: "lock.fill", isSecure: true)
+                LoginTextFields(text: $password, title: "Password", imgName: "lock.fill", isSecure: true, color: .white, txtColor: .white)
                     .padding(.top)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)

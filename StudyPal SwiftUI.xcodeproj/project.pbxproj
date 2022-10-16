@@ -199,6 +199,7 @@
 		98EF09F228C10E7D0079E35C /* CommentsViewBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewBottom.swift; sourceTree = "<group>"; };
 		98F4967F2886F32000761792 /* RegisterTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextFields.swift; sourceTree = "<group>"; };
 		98F4968128875EBA00761792 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		98F98D5028F49710004FDD67 /* StudyPal SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "StudyPal SwiftUI.entitlements"; sourceTree = "<group>"; };
 		98FA3A92289308B9000D2CAA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		98FA3A94289353CB000D2CAA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		98FA3A962893546C000D2CAA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
@@ -663,6 +664,7 @@
 		98CABC292884D64100D66DCF /* StudyPal SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				98F98D5028F49710004FDD67 /* StudyPal SwiftUI.entitlements */,
 				986DE0C928BF452E00BABA3A /* StudyPal-SwiftUI-Info.plist */,
 				98CABC2A2884D64100D66DCF /* StudyPal_SwiftUIApp.swift */,
 				98CABC2C2884D64100D66DCF /* ContentView.swift */,
@@ -1072,6 +1074,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "StudyPal SwiftUI/StudyPal SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StudyPal SwiftUI/Preview Content\"";
@@ -1124,10 +1127,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1138,6 +1141,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "StudyPal SwiftUI/StudyPal SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StudyPal SwiftUI/Preview Content\"";
@@ -1190,10 +1194,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

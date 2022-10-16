@@ -29,7 +29,7 @@ struct HomeView: View {
                 WelcomeScreenView()
             }
         } else {
-            NavigationView {
+            NavigationStack {
                 ZStack {
                     VStack {
                         HStack(spacing: 0) {
@@ -37,15 +37,12 @@ struct HomeView: View {
                             VStack(spacing: 0) {
                                 TabView(selection: $currentTab){
                                     ForumView(user: user.user, showMenu: $sideMenuIsShowing)
-//                                        .toolbar(.hidden)
                                         .tag("Forum")
                                     
                                     GroupsView(user: user.user, showMenu: $sideMenuIsShowing)
-//                                        .toolbar(.hidden)
                                         .tag("Groups")
                                     
                                     MessagesView(showMenu: $sideMenuIsShowing)
-//                                        .toolbar(.hidden)
                                         .tag("Messages")
                                     
 //                                    NotificationsView(showMenu: $sideMenuIsShowing)

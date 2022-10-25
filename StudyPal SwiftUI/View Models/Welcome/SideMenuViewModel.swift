@@ -38,6 +38,17 @@ enum SideMenuViewModel: Int, CaseIterable{
         }
     }
     
+    @ViewBuilder var view: some View{
+        switch self{
+            case .profile: Profile()
+            case .topics:  Topics(user: UserViewModel().user)
+            case .resources:  Resources()
+            case .stickyNotes:  StickyNotes()
+            case .miniGames: MiniGames()
+            case .logout: WelcomeScreenView()
+        }
+    }
+    
     var viewName: String{
         switch self{
         case .profile: return "Profile"

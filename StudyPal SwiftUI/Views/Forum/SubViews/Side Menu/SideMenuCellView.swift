@@ -13,7 +13,7 @@ struct SideMenuCellView: View {
     
     var body: some View {
         NavigationLink(
-            destination: SideMenuLinks(user: user, viewName: sideMenuVM.viewName)
+            destination: sideMenuVM.view
                 .navigationTitle(sideMenuVM.viewName)
         ) {
             HStack(spacing: 16) {

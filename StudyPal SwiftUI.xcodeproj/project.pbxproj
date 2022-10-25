@@ -276,7 +276,6 @@
 				9818708D288F1B1D00A0808E /* SideMenuView.swift */,
 				98187092288F1BDB00A0808E /* SideMenuHeader.swift */,
 				98187094288F1BF700A0808E /* SideMenuCellView.swift */,
-				98D2B1992890069500633BAB /* SideMenuLinks.swift */,
 				98D2B1A228907B9700633BAB /* NavBar.swift */,
 			);
 			path = "Side Menu";
@@ -634,6 +633,7 @@
 		9890E2C328E4EBFF00715C6A /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				98D2B1992890069500633BAB /* SideMenuLinks.swift */,
 				980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */,
 				9890E2C128E4B3E000715C6A /* DocDemo.swift */,
 				988D047B28C78580008B1D9B /* VCDemo.swift */,

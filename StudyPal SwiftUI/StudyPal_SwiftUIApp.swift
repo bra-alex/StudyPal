@@ -9,9 +9,7 @@ import SwiftUI
 
 @main
 struct StudyPal_SwiftUIApp: App {
-    
     var body: some Scene {
-        
         WindowGroup {
             ContentView()
         }

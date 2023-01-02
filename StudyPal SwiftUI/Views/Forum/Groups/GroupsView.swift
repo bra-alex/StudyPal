@@ -9,21 +9,20 @@ import SwiftUI
 
 struct GroupsView: View {
     @ObservedObject var groupChatVM: GroupChatViewModel
+    @ObservedObject var userVM: UserViewModel
     @Binding var showMenu: Bool
     @State var newGroup = false
     
-    let user: UserInfo?
-    
-    init(user: UserInfo?, showMenu: Binding<Bool>) {
-        self.user = user
-        self.groupChatVM = .init(users: user)
+    init(userVM: UserViewModel, showMenu: Binding<Bool>) {
+        self.userVM = userVM
+        groupChatVM = .init(users: userVM.user)
         self._showMenu = showMenu
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                NavBar(showMenu: $showMenu, title: "Groups")
+                NavBar(user: userVM.user!, title: "Groups", showMenu: $showMenu)
                     .transaction { transaction in
                         transaction.animation = nil
                     }
@@ -50,7 +49,7 @@ struct GroupsView: View {
                         OverlayBtn(showModal: $newGroup, img: "plus")
                     }
                     .sheet(isPresented: $newGroup) {
-                        NewGroupView(user: user, createComplete: $newGroup)
+                        NewGroupView(user: userVM.user, createComplete: $newGroup)
                     }
             }
         }
@@ -59,6 +58,6 @@ struct GroupsView: View {
 
 struct GroupsView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupsView(user: .init(id: "btllqsJxHxZFYalecGyPQp2zZlI2", name: "Me", email: "you@gmail.com", username: "@hiiiii", profileImageUrl: "longshih"), showMenu: .constant(false))
+        GroupsView(userVM: UserViewModel(), showMenu: .constant(false))
     }
 }

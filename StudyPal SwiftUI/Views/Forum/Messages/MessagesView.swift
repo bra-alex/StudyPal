@@ -8,27 +8,24 @@
 import SwiftUI
 
 struct MessagesView: View {
-    @ObservedObject var user = UserViewModel()
-    @State var newMessage = false
-    @State var chatUser: UserInfo?
-    @State var showChatView = false
-    @State private var query = ""
+    @ObservedObject var userVM: UserViewModel
     @Binding var showMenu: Bool
     
-    init(showMenu: Binding<Bool>){
-        self._showMenu = showMenu
-        user.fetchRecentMessages()
-    }
+    @State private var query = ""
+    @State private var chatUser: UserInfo?
+    
+    @State private var newMessage = false
+    @State private var showChatView = false
     
     var body: some View {
         NavigationStack {
             VStack {
-                NavBar(showMenu: $showMenu, title: "Message")
+                NavBar(user: userVM.users[0], title: "Message", showMenu: $showMenu)
                     .transaction { transaction in
                         transaction.animation = nil
                     }
                 List {
-                    ForEach(user.searchChats(query: query)){ recentMessage in
+                    ForEach(userVM.searchChats(query: query)){ recentMessage in
                         VStack {
                             ZStack{
                                 ChatRow(recentMessages: recentMessage)
@@ -63,12 +60,11 @@ struct MessagesView: View {
                 })
             }
         }
-        
     }
 }
 
 struct MessagesView_Previews: PreviewProvider {
     static var previews: some View {
-        MessagesView(showMenu: .constant(false))
+        MessagesView(userVM: UserViewModel(), showMenu: .constant(false))
     }
 }

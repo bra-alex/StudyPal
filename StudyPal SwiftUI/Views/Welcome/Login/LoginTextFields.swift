@@ -12,41 +12,48 @@ struct LoginTextFields: View {
     var title: String
     var imgName: String
     var isSecure = false
+    var color: Color
+    var txtColor: Color
     var body: some View {
         ZStack(alignment: .leading){
             if text.isEmpty {
                 HStack {
-                    Icon(imgName: " ")
                     Text(title)
-                        .foregroundColor(.white)
+                        .foregroundColor(color)
                         .font(.custom("Helvetica", size: 17))
+                        .padding(.leading, (imgName.isEmpty) ? 10 : 30)
                 }
             }
             VStack {
                 HStack(alignment: .center) {
-                    Icon(imgName: imgName)
+                    if !imgName.isEmpty{
+                        Icon(imgName: imgName)
+                            .foregroundColor(txtColor)
+                    }
                     if isSecure{
                         SecureField("", text: $text)
-                            .foregroundColor(.white)
+                            .foregroundColor(txtColor)
                             .frame(maxWidth: 280)
+                        
                     } else {
                         TextField("", text: $text)
-                            .foregroundColor(.white)
+                            .foregroundColor(txtColor)
                             .frame(maxWidth: 280)
+                        
                     }
                     
                 }
-                HorizontalLine(color: .white)
+                HorizontalLine(color: color)
             }
         }
     }
 }
 
-//struct CustomTextFields_Previews: PreviewProvider {
-//    static var previews: some View {
-//    LoginTextFields(text: "Username", title: "Username", imgName: "person.circle.fill")
-//    }
-//}
+struct LoginTextFields_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginTextFields(text: .constant(""), title: "Username", imgName: "person.circle.fill", color: .black, txtColor: .black)
+    }
+}
 
 struct Icon: View {
     var imgName: String
@@ -55,6 +62,6 @@ struct Icon: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 20.0, height: 20)
-            .foregroundColor(.white)
+            .padding(.top, 4)
     }
 }

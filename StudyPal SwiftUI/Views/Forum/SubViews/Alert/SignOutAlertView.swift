@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SignOutAlertView: View {
-    @Binding var bool: Bool
-    @Binding var rootView: Bool
+    @ObservedObject var authController: AuthController
+    @Binding var showAlert: Bool
     var body: some View {
         ZStack {
             Color.black
@@ -23,7 +23,7 @@ struct SignOutAlertView: View {
                 Divider()
                 
                 Button {
-                    signOut()
+                    authController.signOut()
                 } label: {
                     Text("Logout")
                         .foregroundColor(.red)
@@ -32,7 +32,7 @@ struct SignOutAlertView: View {
                 Divider()
                 
                 Button {
-                    bool.toggle()
+                    showAlert.toggle()
                 } label: {
                     Text("Cancel")
                         .foregroundColor(.black)
@@ -47,19 +47,10 @@ struct SignOutAlertView: View {
         }
         
     }
-    
-    private func signOut(){
-        do{
-            try FirebaseManager.shared.auth.signOut()
-            rootView.toggle()
-        }catch let signOutError as NSError{
-            print("Error signing out: %@", signOutError)
-        }
-    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        SignOutAlertView(bool: .constant(false), rootView: .constant(false))
+        SignOutAlertView(authController: AuthController(), showAlert: .constant(false))
     }
 }

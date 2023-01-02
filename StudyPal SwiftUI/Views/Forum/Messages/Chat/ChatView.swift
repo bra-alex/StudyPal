@@ -17,6 +17,7 @@ struct ChatView: View {
     init(user: UserInfo?) {
         self.user = user
         self.messagesVM = .init(user: user)
+        messagesVM.fetchMessages()
     }
     
     var body: some View {
@@ -34,9 +35,7 @@ struct ChatView: View {
                                     scrollViewProxy.scrollTo("Empty", anchor: .bottom)
                                 }
                             }
-                        
                     }
-                    
                 }
             }
             .scrollDismissesKeyboard(.interactively)

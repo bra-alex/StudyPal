@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct SplashScreenView: View {
+    @StateObject var authController = AuthController()
+    
     @State private var isActive = false
     @State private var size = 0.5
     @State private var opacity = 0.5
     var body: some View {
         if isActive{
-            let loggedIn = FirebaseManager.shared.auth.currentUser?.uid
-            if loggedIn == nil{
-                WelcomeScreenView()
-            } else{
-                HomeView()
-            }
-        }else{
+            HomeView(authController: authController)
+        } else {
             ZStack {
                 Color("bgColor")
                     .ignoresSafeArea()
@@ -45,6 +42,7 @@ struct SplashScreenView: View {
                 .onAppear{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
                         withAnimation {
+                            authController.isLoggedIn()
                             self.isActive = true
                         }
                     }

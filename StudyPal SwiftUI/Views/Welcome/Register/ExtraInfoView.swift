@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct ExtraInfoView: View {
-    let comm: DBCommunication
-    @ObservedObject var signUpVM = SignUpViewModel()
+    @ObservedObject var authController: AuthController
     @FocusState var focusedField: FormFields?
+    
     @State private var shouldShowImagePicker = false
     @State private var image: UIImage?
     @State private var showPrompt = false
-    @State var isSuccessful = false
-    
     
     var body: some View {
-        if isSuccessful{
-            HomeView()
+        if authController.isSuccessful{
+            HomeView(authController: authController)
         }else{
             GeometryReader{ _ in
                 ZStack {
@@ -68,7 +66,7 @@ struct ExtraInfoView: View {
                             }
                             
                             VStack(alignment: .leading) {
-                                TextField("Type your username here...", text: $signUpVM.username, onEditingChanged: {_ in showPrompt.toggle()})
+                                TextField("Type your username here...", text: $authController.username, onEditingChanged: {_ in showPrompt.toggle()})
                                     .foregroundColor(.black)
                                     .frame(maxWidth: 300)
                                     .autocorrectionDisabled()
@@ -81,7 +79,7 @@ struct ExtraInfoView: View {
                                     }
                                 HorizontalLine(color: Color("BasicColor").opacity(0.7))
                                 
-                                Text(showPrompt ? signUpVM.usernameValid : "")
+                                Text(showPrompt ? authController.usernameValid : "")
                                     .frame(maxWidth: 300.0)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .font(.caption)
@@ -99,9 +97,9 @@ struct ExtraInfoView: View {
                         Button {
                             if image == nil{
                                 self.image = UIImage(named: "profile")
-                                persistImageToStorage()
+                                authController.persistImageToStorage(image)
                             } else {
-                                persistImageToStorage()
+                                authController.persistImageToStorage(image)
                             }
                         } label: {
                             Text("Next")
@@ -112,8 +110,8 @@ struct ExtraInfoView: View {
                                 .background(Color("BasicColor"))
                                 .cornerRadius(10)
                         }
-                        .opacity(signUpVM.isUsernameValid() ? 1 : 0.5)
-                        .disabled(!signUpVM.isUsernameValid())
+                        .opacity(authController.isUsernameValid() ? 1 : 0.5)
+                        .disabled(!authController.isUsernameValid())
                     }
                     .sheet(isPresented: $shouldShowImagePicker) {
                         ImagePicker(image: $image)
@@ -122,38 +120,11 @@ struct ExtraInfoView: View {
             }.ignoresSafeArea(.keyboard, edges: .all)
         }
     }
-    
-    private func persistImageToStorage(){
-        guard let uid = FirebaseManager.shared.auth.currentUser?.uid
-        else { return }
-        
-        let ref = FirebaseManager.shared.storage.reference(withPath: uid)
-        
-        guard let imageData = image?.jpegData(compressionQuality: 0.5)
-        else { return }
-        ref.putData(imageData) { metadata, error in
-            if error != nil{
-                print(error!.localizedDescription)
-            }
-            
-            ref.downloadURL { url, error in
-                if error != nil{
-                    print("Could not retrieve url")
-                    return
-                }
-                guard let url = url else { return }
-                
-                comm.storeUserInfo(name: comm.name, username: signUpVM.username, email: comm.email, url: url, $isSuccessful)
-            }
-            
-            
-        }
-    }
 }
 
 
 struct ExtraInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        ExtraInfoView(comm: .init(name: "", email: ""))
+        ExtraInfoView(authController: AuthController())
     }
 }

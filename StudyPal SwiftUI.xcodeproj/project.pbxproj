@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9807AA4D28DF3CF600697784 /* AgoraRtmControl in Frameworks */ = {isa = PBXBuildFile; productRef = 9807AA4C28DF3CF600697784 /* AgoraRtmControl */; };
-		9807AA4F28DF3CF600697784 /* AgoraUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9807AA4E28DF3CF600697784 /* AgoraUIKit */; };
 		980B000D28E0EE3D002DBFA7 /* ResourcesDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */; };
 		980B001028E1270F002DBFA7 /* ResourcesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000F28E1270F002DBFA7 /* ResourcesModel.swift */; };
 		980B001328E2DE36002DBFA7 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B001228E2DE36002DBFA7 /* CircularProgressBar.swift */; };
+		9817134E296262CC0043CCF6 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817134D296262CC0043CCF6 /* LoginForm.swift */; };
+		981713502962684F0043CCF6 /* SocialLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817134F2962684F0043CCF6 /* SocialLogo.swift */; };
+		981713522962692D0043CCF6 /* SignUpForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981713512962692D0043CCF6 /* SignUpForm.swift */; };
+		98171354296271640043CCF6 /* FormFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98171353296271640043CCF6 /* FormFields.swift */; };
+		981713562962D1240043CCF6 /* GroupMessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981713552962D1240043CCF6 /* GroupMessageBubble.swift */; };
 		9818708E288F1B1D00A0808E /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9818708D288F1B1D00A0808E /* SideMenuView.swift */; };
-		98187093288F1BDB00A0808E /* SideMenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98187092288F1BDB00A0808E /* SideMenuHeader.swift */; };
 		98187095288F1BF700A0808E /* SideMenuCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98187094288F1BF700A0808E /* SideMenuCellView.swift */; };
 		98187097288F1C7A00A0808E /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98187096288F1C7A00A0808E /* SideMenuViewModel.swift */; };
-		98194994288655B700A18117 /* CloseBtnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98194993288655B600A18117 /* CloseBtnView.swift */; };
+		982E6B6D28EC9E470097B0A9 /* AgoraRtmControl in Frameworks */ = {isa = PBXBuildFile; productRef = 982E6B6C28EC9E470097B0A9 /* AgoraRtmControl */; };
+		982E6B6F28EC9E470097B0A9 /* AgoraUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 982E6B6E28EC9E470097B0A9 /* AgoraUIKit */; };
 		9830A3412893E88600F9B775 /* SignOutAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830A3402893E88600F9B775 /* SignOutAlertView.swift */; };
 		9830A344289449BC00F9B775 /* OverlayBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830A343289449BC00F9B775 /* OverlayBtn.swift */; };
 		98439F1F28945BB1009B28B0 /* NewMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98439F1E28945BB0009B28B0 /* NewMessageView.swift */; };
@@ -67,16 +70,14 @@
 		9890E2C228E4B3E000715C6A /* DocDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890E2C128E4B3E000715C6A /* DocDemo.swift */; };
 		9896065228A3905600E9FE92 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9896065128A3905600E9FE92 /* MessageBubble.swift */; };
 		9896065428A4F81E00E9FE92 /* RecentMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9896065328A4F81E00E9FE92 /* RecentMessages.swift */; };
+		98BDA6652962DC5300FE6779 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BDA6642962DC5300FE6779 /* ViewExtension.swift */; };
 		98CABC2B2884D64100D66DCF /* StudyPal_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC2A2884D64100D66DCF /* StudyPal_SwiftUIApp.swift */; };
 		98CABC2D2884D64100D66DCF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC2C2884D64100D66DCF /* ContentView.swift */; };
 		98CABC2F2884D64600D66DCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CABC2E2884D64600D66DCF /* Assets.xcassets */; };
 		98CABC322884D64600D66DCF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CABC312884D64600D66DCF /* Preview Assets.xcassets */; };
-		98CABC3D2884E42F00D66DCF /* WelcomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC3C2884E42F00D66DCF /* WelcomeScreenView.swift */; };
-		98CABC3F2884E47900D66DCF /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC3E2884E47900D66DCF /* Buttons.swift */; };
 		98CABC422884E53B00D66DCF /* LoginScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC412884E53B00D66DCF /* LoginScreenView.swift */; };
 		98CDE4712884F44F0097A023 /* LoginTextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CDE4702884F44F0097A023 /* LoginTextFields.swift */; };
 		98CDE4732884F8B30097A023 /* HorizontalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CDE4722884F8B30097A023 /* HorizontalLine.swift */; };
-		98CDE475288503140097A023 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CDE474288503140097A023 /* CheckboxView.swift */; };
 		98D2B198288FE3E600633BAB /* ForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D2B197288FE3E600633BAB /* ForumView.swift */; };
 		98D2B19A2890069500633BAB /* SideMenuLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D2B1992890069500633BAB /* SideMenuLinks.swift */; };
 		98D2B19C289079A200633BAB /* TabButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D2B19B289079A200633BAB /* TabButtons.swift */; };
@@ -91,7 +92,7 @@
 		98EF09F028C0FE500079E35C /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EF09EF28C0FE500079E35C /* CommentsView.swift */; };
 		98EF09F328C10E7D0079E35C /* CommentsViewBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EF09F228C10E7D0079E35C /* CommentsViewBottom.swift */; };
 		98F496802886F32000761792 /* RegisterTextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F4967F2886F32000761792 /* RegisterTextFields.swift */; };
-		98F4968228875EBB00761792 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F4968128875EBA00761792 /* SignUpViewModel.swift */; };
+		98F4968228875EBB00761792 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F4968128875EBA00761792 /* AuthController.swift */; };
 		98FA3A93289308BA000D2CAA /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA3A92289308B9000D2CAA /* UserInfo.swift */; };
 		98FA3A95289353CB000D2CAA /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA3A94289353CB000D2CAA /* FirebaseManager.swift */; };
 		98FA3A972893546C000D2CAA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA3A962893546C000D2CAA /* UserViewModel.swift */; };
@@ -118,11 +119,14 @@
 		980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesDemo.swift; sourceTree = "<group>"; };
 		980B000F28E1270F002DBFA7 /* ResourcesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesModel.swift; sourceTree = "<group>"; };
 		980B001228E2DE36002DBFA7 /* CircularProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
+		9817134D296262CC0043CCF6 /* LoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
+		9817134F2962684F0043CCF6 /* SocialLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogo.swift; sourceTree = "<group>"; };
+		981713512962692D0043CCF6 /* SignUpForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpForm.swift; sourceTree = "<group>"; };
+		98171353296271640043CCF6 /* FormFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormFields.swift; sourceTree = "<group>"; };
+		981713552962D1240043CCF6 /* GroupMessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMessageBubble.swift; sourceTree = "<group>"; };
 		9818708D288F1B1D00A0808E /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
-		98187092288F1BDB00A0808E /* SideMenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeader.swift; sourceTree = "<group>"; };
 		98187094288F1BF700A0808E /* SideMenuCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuCellView.swift; sourceTree = "<group>"; };
 		98187096288F1C7A00A0808E /* SideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewModel.swift; sourceTree = "<group>"; };
-		98194993288655B600A18117 /* CloseBtnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBtnView.swift; sourceTree = "<group>"; };
 		9830A3402893E88600F9B775 /* SignOutAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutAlertView.swift; sourceTree = "<group>"; };
 		9830A343289449BC00F9B775 /* OverlayBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBtn.swift; sourceTree = "<group>"; };
 		98439F1E28945BB0009B28B0 /* NewMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageView.swift; sourceTree = "<group>"; };
@@ -173,17 +177,15 @@
 		9890E2C128E4B3E000715C6A /* DocDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocDemo.swift; sourceTree = "<group>"; };
 		9896065128A3905600E9FE92 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		9896065328A4F81E00E9FE92 /* RecentMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentMessages.swift; sourceTree = "<group>"; };
+		98BDA6642962DC5300FE6779 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		98CABC272884D64100D66DCF /* StudyPal SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StudyPal SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98CABC2A2884D64100D66DCF /* StudyPal_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPal_SwiftUIApp.swift; sourceTree = "<group>"; };
 		98CABC2C2884D64100D66DCF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		98CABC2E2884D64600D66DCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98CABC312884D64600D66DCF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		98CABC3C2884E42F00D66DCF /* WelcomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenView.swift; sourceTree = "<group>"; };
-		98CABC3E2884E47900D66DCF /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		98CABC412884E53B00D66DCF /* LoginScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreenView.swift; sourceTree = "<group>"; };
 		98CDE4702884F44F0097A023 /* LoginTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextFields.swift; sourceTree = "<group>"; };
 		98CDE4722884F8B30097A023 /* HorizontalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalLine.swift; sourceTree = "<group>"; };
-		98CDE474288503140097A023 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		98D2B197288FE3E600633BAB /* ForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumView.swift; sourceTree = "<group>"; };
 		98D2B1992890069500633BAB /* SideMenuLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuLinks.swift; sourceTree = "<group>"; };
 		98D2B19B289079A200633BAB /* TabButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButtons.swift; sourceTree = "<group>"; };
@@ -198,7 +200,8 @@
 		98EF09EF28C0FE500079E35C /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		98EF09F228C10E7D0079E35C /* CommentsViewBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewBottom.swift; sourceTree = "<group>"; };
 		98F4967F2886F32000761792 /* RegisterTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextFields.swift; sourceTree = "<group>"; };
-		98F4968128875EBA00761792 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		98F4968128875EBA00761792 /* AuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthController.swift; sourceTree = "<group>"; };
+		98F98D5028F49710004FDD67 /* StudyPal SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "StudyPal SwiftUI.entitlements"; sourceTree = "<group>"; };
 		98FA3A92289308B9000D2CAA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		98FA3A94289353CB000D2CAA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		98FA3A962893546C000D2CAA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
@@ -210,9 +213,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9807AA4D28DF3CF600697784 /* AgoraRtmControl in Frameworks */,
-				9807AA4F28DF3CF600697784 /* AgoraUIKit in Frameworks */,
 				9935F0BDA4FB3768D5A7B196 /* Pods_StudyPal_SwiftUI.framework in Frameworks */,
+				982E6B6D28EC9E470097B0A9 /* AgoraRtmControl in Frameworks */,
+				982E6B6F28EC9E470097B0A9 /* AgoraUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,15 +255,6 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
-		9818708F288F1B3900A0808E /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				98CABC3E2884E47900D66DCF /* Buttons.swift */,
-				98CABC3C2884E42F00D66DCF /* WelcomeScreenView.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
 		98187090288F1B6D00A0808E /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,9 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				9818708D288F1B1D00A0808E /* SideMenuView.swift */,
-				98187092288F1BDB00A0808E /* SideMenuHeader.swift */,
 				98187094288F1BF700A0808E /* SideMenuCellView.swift */,
-				98D2B1992890069500633BAB /* SideMenuLinks.swift */,
 				98D2B1A228907B9700633BAB /* NavBar.swift */,
 			);
 			path = "Side Menu";
@@ -313,7 +305,6 @@
 			isa = PBXGroup;
 			children = (
 				98D2B19B289079A200633BAB /* TabButtons.swift */,
-				98194993288655B600A18117 /* CloseBtnView.swift */,
 				9830A343289449BC00F9B775 /* OverlayBtn.swift */,
 			);
 			path = Buttons;
@@ -397,7 +388,6 @@
 		985B22842888D3BF00398CB8 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				9818708F288F1B3900A0808E /* Home */,
 				985B22862888D55500398CB8 /* Login */,
 				985B22852888D41400398CB8 /* Register */,
 			);
@@ -409,7 +399,9 @@
 			children = (
 				98F4967F2886F32000761792 /* RegisterTextFields.swift */,
 				9880668C2885FDD700AA56CE /* RegisterScreenView.swift */,
+				981713512962692D0043CCF6 /* SignUpForm.swift */,
 				98D2B1A8289273FC00633BAB /* ExtraInfoView.swift */,
+				9817134F2962684F0043CCF6 /* SocialLogo.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -418,9 +410,9 @@
 			isa = PBXGroup;
 			children = (
 				98CABC412884E53B00D66DCF /* LoginScreenView.swift */,
-				98CDE474288503140097A023 /* CheckboxView.swift */,
 				98CDE4702884F44F0097A023 /* LoginTextFields.swift */,
 				98CDE4722884F8B30097A023 /* HorizontalLine.swift */,
+				9817134D296262CC0043CCF6 /* LoginForm.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -531,6 +523,7 @@
 			children = (
 				988E639628AE4BB80015AB01 /* GroupChatBottomView.swift */,
 				986B321C28AD5004006CC585 /* GroupChatRow.swift */,
+				981713552962D1240043CCF6 /* GroupMessageBubble.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -548,7 +541,7 @@
 		988E63A828B030680015AB01 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				98F4968128875EBA00761792 /* SignUpViewModel.swift */,
+				98F4968128875EBA00761792 /* AuthController.swift */,
 				98187096288F1C7A00A0808E /* SideMenuViewModel.swift */,
 			);
 			path = Welcome;
@@ -601,6 +594,8 @@
 				988E63B728B16DC40015AB01 /* VoteUpdater.swift */,
 				98D8A71B28E0C53C006FB5C1 /* DocumentPicker.swift */,
 				9890E2BF28E4A7DE00715C6A /* DocumentViewer.swift */,
+				98171353296271640043CCF6 /* FormFields.swift */,
+				98BDA6642962DC5300FE6779 /* ViewExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -633,6 +628,7 @@
 		9890E2C328E4EBFF00715C6A /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				98D2B1992890069500633BAB /* SideMenuLinks.swift */,
 				980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */,
 				9890E2C128E4B3E000715C6A /* DocDemo.swift */,
 				988D047B28C78580008B1D9B /* VCDemo.swift */,
@@ -663,6 +659,7 @@
 		98CABC292884D64100D66DCF /* StudyPal SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				98F98D5028F49710004FDD67 /* StudyPal SwiftUI.entitlements */,
 				986DE0C928BF452E00BABA3A /* StudyPal-SwiftUI-Info.plist */,
 				98CABC2A2884D64100D66DCF /* StudyPal_SwiftUIApp.swift */,
 				98CABC2C2884D64100D66DCF /* ContentView.swift */,
@@ -759,8 +756,8 @@
 			);
 			name = "StudyPal SwiftUI";
 			packageProductDependencies = (
-				9807AA4C28DF3CF600697784 /* AgoraRtmControl */,
-				9807AA4E28DF3CF600697784 /* AgoraUIKit */,
+				982E6B6C28EC9E470097B0A9 /* AgoraRtmControl */,
+				982E6B6E28EC9E470097B0A9 /* AgoraUIKit */,
 			);
 			productName = "StudyPal SwiftUI";
 			productReference = 98CABC272884D64100D66DCF /* StudyPal SwiftUI.app */;
@@ -791,7 +788,7 @@
 			);
 			mainGroup = 98CABC1E2884D64100D66DCF;
 			packageReferences = (
-				9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */,
+				982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */,
 			);
 			productRefGroup = 98CABC282884D64100D66DCF /* Products */;
 			projectDirPath = "";
@@ -870,15 +867,16 @@
 				98CDE4712884F44F0097A023 /* LoginTextFields.swift in Sources */,
 				98D2B1A528907EBB00633BAB /* MessagesView.swift in Sources */,
 				984BB7A328B2231200D7E493 /* TopicsModel.swift in Sources */,
-				98187093288F1BDB00A0808E /* SideMenuHeader.swift in Sources */,
 				9867F24D288954DA00CD5123 /* LoginDemo.swift in Sources */,
 				985D00C32896F0AD009212F3 /* ChatBarBottom.swift in Sources */,
 				988E63A328B006110015AB01 /* CellTopView.swift in Sources */,
 				98D8A71C28E0C53C006FB5C1 /* DocumentPicker.swift in Sources */,
 				986B322628AD942E006CC585 /* NewGroupView.swift in Sources */,
+				98171354296271640043CCF6 /* FormFields.swift in Sources */,
 				985D00C728A302F9009212F3 /* Message.swift in Sources */,
 				984BB79028B1AAFF00D7E493 /* StickyNotes.swift in Sources */,
 				980B001028E1270F002DBFA7 /* ResourcesModel.swift in Sources */,
+				98BDA6652962DC5300FE6779 /* ViewExtension.swift in Sources */,
 				9818708E288F1B1D00A0808E /* SideMenuView.swift in Sources */,
 				988E63B628B03A290015AB01 /* CreatePostView.swift in Sources */,
 				980B001328E2DE36002DBFA7 /* CircularProgressBar.swift in Sources */,
@@ -888,12 +886,13 @@
 				98CABC422884E53B00D66DCF /* LoginScreenView.swift in Sources */,
 				986B321928AB70A7006CC585 /* ChatRow.swift in Sources */,
 				98D2B19A2890069500633BAB /* SideMenuLinks.swift in Sources */,
+				9817134E296262CC0043CCF6 /* LoginForm.swift in Sources */,
 				986B322428AD61E3006CC585 /* GroupChatModel.swift in Sources */,
 				988E639E28AFF3A50015AB01 /* ForumCellView.swift in Sources */,
 				98F496802886F32000761792 /* RegisterTextFields.swift in Sources */,
 				98D2B19C289079A200633BAB /* TabButtons.swift in Sources */,
+				981713502962684F0043CCF6 /* SocialLogo.swift in Sources */,
 				9871AF34288559800019BA58 /* SplashScreenView.swift in Sources */,
-				98CABC3D2884E42F00D66DCF /* WelcomeScreenView.swift in Sources */,
 				98187097288F1C7A00A0808E /* SideMenuViewModel.swift in Sources */,
 				9890E2C028E4A7DE00715C6A /* DocumentViewer.swift in Sources */,
 				98FA3A95289353CB000D2CAA /* FirebaseManager.swift in Sources */,
@@ -905,7 +904,7 @@
 				988E63A728B00F1D0015AB01 /* Reactions.swift in Sources */,
 				98EF09F328C10E7D0079E35C /* CommentsViewBottom.swift in Sources */,
 				98439F232894A58F009B28B0 /* ChatView.swift in Sources */,
-				98F4968228875EBB00761792 /* SignUpViewModel.swift in Sources */,
+				98F4968228875EBB00761792 /* AuthController.swift in Sources */,
 				9880668D2885FDD700AA56CE /* RegisterScreenView.swift in Sources */,
 				98CABC2D2884D64100D66DCF /* ContentView.swift in Sources */,
 				98FA3A972893546C000D2CAA /* UserViewModel.swift in Sources */,
@@ -914,7 +913,6 @@
 				98CABC2B2884D64100D66DCF /* StudyPal_SwiftUIApp.swift in Sources */,
 				986B321D28AD5004006CC585 /* GroupChatRow.swift in Sources */,
 				98FA3A93289308BA000D2CAA /* UserInfo.swift in Sources */,
-				98CABC3F2884E47900D66DCF /* Buttons.swift in Sources */,
 				988D047C28C78580008B1D9B /* VCDemo.swift in Sources */,
 				9845CDEE2892A5FF00A3709D /* DBCommunication.swift in Sources */,
 				988E639B28AF49490015AB01 /* KeyboardDismiss.swift in Sources */,
@@ -927,17 +925,17 @@
 				98CDE4732884F8B30097A023 /* HorizontalLine.swift in Sources */,
 				98D2B1A328907B9700633BAB /* NavBar.swift in Sources */,
 				985D00C12896DC33009212F3 /* ChatBubble.swift in Sources */,
-				98194994288655B700A18117 /* CloseBtnView.swift in Sources */,
 				984BB79A28B212DC00D7E493 /* AddTopicView.swift in Sources */,
+				981713522962692D0043CCF6 /* SignUpForm.swift in Sources */,
 				9830A3412893E88600F9B775 /* SignOutAlertView.swift in Sources */,
 				985B228B2888FD0E00398CB8 /* HomeView.swift in Sources */,
 				98D2B198288FE3E600633BAB /* ForumView.swift in Sources */,
 				984BB78A28B1AA9600D7E493 /* Profile.swift in Sources */,
 				98439F1F28945BB1009B28B0 /* NewMessageView.swift in Sources */,
 				98D2B1AB289274FC00633BAB /* ImagePicker.swift in Sources */,
-				98CDE475288503140097A023 /* CheckboxView.swift in Sources */,
 				986DE0D128C0F43F00BABA3A /* CallView.swift in Sources */,
 				98EF09F028C0FE500079E35C /* CommentsView.swift in Sources */,
+				981713562962D1240043CCF6 /* GroupMessageBubble.swift in Sources */,
 				980B000D28E0EE3D002DBFA7 /* ResourcesDemo.swift in Sources */,
 				98D2B1A728907EC900633BAB /* NotificationsView.swift in Sources */,
 				984BB78E28B1AAF200D7E493 /* Resources.swift in Sources */,
@@ -1072,6 +1070,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "StudyPal SwiftUI/StudyPal SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StudyPal SwiftUI/Preview Content\"";
@@ -1124,10 +1123,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1138,6 +1137,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "StudyPal SwiftUI/StudyPal SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StudyPal SwiftUI/Preview Content\"";
@@ -1190,10 +1190,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1221,7 +1221,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */ = {
+		982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AgoraIO-Community/VideoUIKit-iOS.git";
 			requirement = {
@@ -1232,14 +1232,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9807AA4C28DF3CF600697784 /* AgoraRtmControl */ = {
+		982E6B6C28EC9E470097B0A9 /* AgoraRtmControl */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
+			package = 982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
 			productName = AgoraRtmControl;
 		};
-		9807AA4E28DF3CF600697784 /* AgoraUIKit */ = {
+		982E6B6E28EC9E470097B0A9 /* AgoraUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9807AA4B28DF3CF600697784 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
+			package = 982E6B6B28EC9E470097B0A9 /* XCRemoteSwiftPackageReference "VideoUIKit-iOS" */;
 			productName = AgoraUIKit;
 		};
 /* End XCSwiftPackageProductDependency section */

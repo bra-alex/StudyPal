@@ -13,7 +13,7 @@ struct SideMenuCellView: View {
     
     var body: some View {
         NavigationLink(
-            destination: SideMenuLinks(user: user, viewName: sideMenuVM.viewName)
+            destination: sideMenuVM.view
                 .navigationTitle(sideMenuVM.viewName)
         ) {
             HStack(spacing: 16) {
@@ -31,6 +31,6 @@ struct SideMenuCellView: View {
 
 struct SideMenuCellView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuCellView(sideMenuVM: .topics, user: .none)
+        SideMenuCellView(sideMenuVM: .profile, user: .none)
     }
 }

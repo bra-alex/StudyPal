@@ -21,7 +21,6 @@ class MessagesViewModel: ObservableObject{
     
     init(user: UserInfo?) {
         self.user = user
-        fetchMessages()
     }
     
     func fetchMessages(){

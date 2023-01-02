@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct LoginScreenView: View {
-    @StateObject var authController = AuthController()
+    @ObservedObject var authController: AuthController
     
     var body: some View {
         NavigationStack {
             if authController.isSuccessful{
                 withAnimation {
-                    HomeView()
+                    HomeView(authController: authController)
                 }
             } else {
                 GeometryReader { _ in
@@ -40,6 +40,6 @@ struct LoginScreenView: View {
 
 struct LoginScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginScreenView()
+        LoginScreenView(authController: AuthController())
     }
 }

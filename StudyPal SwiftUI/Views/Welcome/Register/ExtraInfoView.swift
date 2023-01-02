@@ -17,7 +17,7 @@ struct ExtraInfoView: View {
     
     var body: some View {
         if authController.isSuccessful{
-            HomeView()
+            HomeView(authController: authController)
         }else{
             GeometryReader{ _ in
                 ZStack {

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct NotificationsView: View {
+    @ObservedObject var userVM: UserViewModel
     @Binding var showMenu: Bool
+
     var body: some View {
         VStack {
-            NavBar(showMenu: $showMenu, title: "Notifications")
+            NavBar(user: userVM.user!, title: "Notifications", showMenu: $showMenu)
             Spacer()
         }
     }
@@ -19,6 +21,6 @@ struct NotificationsView: View {
 
 struct NotificationsView_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationsView(showMenu: .constant(false))
+        NotificationsView(userVM: UserViewModel(), showMenu: .constant(false))
     }
 }

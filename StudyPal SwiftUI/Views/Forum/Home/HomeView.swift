@@ -6,115 +6,117 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct HomeView: View {
+    @StateObject var userVM = UserViewModel()
+    @ObservedObject var authController: AuthController
     
-    init() {
+    @GestureState var gestureOffset: CGFloat = 0
+    
+    @State private var showLoggedIn = false
+    @State private var signOutAlert = false
+    @State private var sideMenuIsShowing = false
+    
+    @State private var currentTab = "Forum"
+    
+    @State private var offset: CGFloat = 0
+    @State private var lastOffset: CGFloat = 0
+    
+    init(authController: AuthController) {
+        self.authController = authController
         UITabBar.appearance().isHidden = true
     }
-    @ObservedObject var user = UserViewModel()
-    @State var rootView = false
-    @State var signOutAlert = false
-    @State private var sideMenuIsShowing = false
-    @State var currentTab = "Forum"
-    @State var offset: CGFloat = 0
-    @State var lastOffset: CGFloat = 0
-    @GestureState var gestureOffset: CGFloat = 0
     
     var body: some View {
         let sideBarWidth = getRect().width - 90
-        if rootView{
-            withAnimation {
-                LoginScreenView()
-//                WelcomeScreenView()
-            }
-        } else {
-            NavigationStack {
-                ZStack {
-                    VStack {
-                        HStack(spacing: 0) {
-                            SideMenuView(showMenu: $sideMenuIsShowing, signOutAlert: $signOutAlert)
-                            VStack(spacing: 0) {
-                                TabView(selection: $currentTab){
-                                    ForumView(user: user.user, showMenu: $sideMenuIsShowing)
-                                        .tag("Forum")
-                                    
-                                    GroupsView(user: user.user, showMenu: $sideMenuIsShowing)
-                                        .tag("Groups")
-                                    
-                                    MessagesView(showMenu: $sideMenuIsShowing)
-                                        .tag("Messages")
-                                    
-//                                    NotificationsView(showMenu: $sideMenuIsShowing)
-//                                    //                                    .navigationBarTitleDisplayMode(.inline)
-//                                    //                                    .navigationBarHidden(true)
-//                                        .tag("Notifications")
-                                }
+        
+        NavigationStack {
+            ZStack {
+                VStack {
+                    HStack(spacing: 0) {
+                        SideMenuView(userVM: userVM, showMenu: $sideMenuIsShowing, signOutAlert: $signOutAlert)
+                        VStack(spacing: 0) {
+                            TabView(selection: $currentTab){
+                                ForumView(userVM: userVM, showMenu: $sideMenuIsShowing)
+                                    .tag("Forum")
                                 
+                                GroupsView(userVM: userVM, showMenu: $sideMenuIsShowing)
+                                    .tag("Groups")
                                 
-                                VStack(spacing: 0) {
-                                    Divider()
-                                    HStack(spacing: 0) {
-                                        TabButtons(image: "globe", name: "Forum", tab: $currentTab)
-                                        TabButtons(image: "person.2", name: "Groups", tab: $currentTab)
-                                        TabButtons(image: "envelope", name: "Messages", tab: $currentTab)
-//                                        TabButtons(image: "bell", name: "Notifications", tab: $currentTab)
-                                    }.padding(.vertical, 15)
-                                }
-                            }
-                            .frame(width: getRect().width)
-                            .overlay{
-                                Rectangle()
-                                    .fill(
-                                        Color.primary
-                                            .opacity(Double((offset / sideBarWidth) / 5))
-                                    )
-                                    .ignoresSafeArea(.container, edges: .vertical)
-                                    .onTapGesture {
-                                        sideMenuIsShowing.toggle()
-                                    }
-                            }
-                        }
-                        .ignoresSafeArea(.keyboard)
-                        .blur(radius: signOutAlert ? 10 : 0)
-                        .animation(.easeInOut, value: signOutAlert == true)
-                        .onDisappear{
-                            sideMenuIsShowing = false
-                        }
-                        .frame(width:  getRect().width + sideBarWidth)
-                        .offset(x: -sideBarWidth/2)
-                        .offset(x: offset > 0 ? offset : 0)
-                        .gesture(
-                            DragGesture()
-                                .updating($gestureOffset, body: { value, out, _ in
-                                    out = value.translation.width
-                                })
-                                .onEnded(onEnd(value:))
-                        )
-                        .animation(.spring(), value: offset == 0)
-                        .onChange(of: sideMenuIsShowing) { newValue in
-                            if sideMenuIsShowing && offset == 0{
-                                offset = sideBarWidth
-                                lastOffset = offset
+                                MessagesView(userVM: userVM, showMenu: $sideMenuIsShowing)
+                                    .tag("Messages")
+                                
+                                NotificationsView(userVM: userVM, showMenu: $sideMenuIsShowing)
+                                    .navigationBarTitleDisplayMode(.inline)
+                                    .navigationBarHidden(true)
+                                    .tag("Notifications")
                             }
                             
-                            if !sideMenuIsShowing && offset == sideBarWidth{
-                                offset = 0
-                                lastOffset = 0
+                            
+                            VStack(spacing: 0) {
+                                Divider()
+                                HStack(spacing: 0) { 
+                                    TabButtons(image: "globe", name: "Forum", tab: $currentTab)
+                                    TabButtons(image: "person.2", name: "Groups", tab: $currentTab)
+                                    TabButtons(image: "envelope", name: "Messages", tab: $currentTab)
+                                    TabButtons(image: "bell", name: "Notifications", tab: $currentTab)
+                                }.padding(.vertical, 15)
                             }
                         }
-                        .onChange(of: gestureOffset) { newValue in
-                            onChange()
+                        .frame(width: getRect().width)
+                        .overlay{
+                            Rectangle()
+                                .fill(
+                                    Color.primary
+                                        .opacity(Double((offset / sideBarWidth) / 5))
+                                )
+                                .ignoresSafeArea(.container, edges: .vertical)
+                                .onTapGesture {
+                                    sideMenuIsShowing.toggle()
+                                }
                         }
                     }
-                    
-                    if signOutAlert{
-                        SignOutAlertView(bool: $signOutAlert, rootView: $rootView)
-                            .transition(AnyTransition.opacity.animation(.easeInOut))
+                    .ignoresSafeArea(.keyboard)
+                    .blur(radius: signOutAlert ? 10 : 0)
+                    .animation(.easeInOut, value: signOutAlert == true)
+                    .onDisappear{
+                        sideMenuIsShowing = false
+                    }
+                    .frame(width:  getRect().width + sideBarWidth)
+                    .offset(x: -sideBarWidth/2)
+                    .offset(x: offset > 0 ? offset : 0)
+                    .gesture(
+                        DragGesture()
+                            .updating($gestureOffset, body: { value, out, _ in
+                                out = value.translation.width
+                            })
+                            .onEnded(onEnd(value:))
+                    )
+                    .animation(.spring(), value: offset == 0)
+                    .onChange(of: sideMenuIsShowing) { newValue in
+                        if sideMenuIsShowing && offset == 0{
+                            offset = sideBarWidth
+                            lastOffset = offset
+                        }
+                        
+                        if !sideMenuIsShowing && offset == sideBarWidth{
+                            offset = 0
+                            lastOffset = 0
+                        }
+                    }
+                    .onChange(of: gestureOffset) { newValue in
+                        onChange()
                     }
                 }
+                
+                if signOutAlert{
+                    SignOutAlertView(authController: authController, showAlert: $signOutAlert)
+                        .transition(AnyTransition.opacity.animation(.easeInOut))
+                }
             }
+        }
+        .fullScreenCover(isPresented: $showLoggedIn) {
+            LoginScreenView(authController: authController)
         }
     }
     
@@ -159,6 +161,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(authController: AuthController())
     }
 }

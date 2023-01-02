@@ -9,28 +9,27 @@ import SwiftUI
 
 struct ForumView: View {
     @ObservedObject var forumsVM: ForumsViewModel
+    @ObservedObject var userVM: UserViewModel
     @Binding var showMenu: Bool
     @State var createPost = false
     
-    let user: UserInfo?
-    
-    init(user: UserInfo?, showMenu: Binding<Bool>){
-        self.user = user
+    init(userVM: UserViewModel, showMenu: Binding<Bool>){
+        self.userVM = userVM
         self._showMenu = showMenu
-        self.forumsVM = .init(user: user)
+        forumsVM = .init(user: userVM.user)
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                NavBar(showMenu: $showMenu, title: "Forum")
+                NavBar(user: userVM.user, title: "Forum", showMenu: $showMenu)
                     .transaction { transaction in
                         transaction.animation = nil
                     }
                 ScrollView {
                     ForEach(forumsVM.posts) { posts in
                         NavigationLink {
-                            CommentsView(user: user, id: posts.id ?? "")
+                            CommentsView(user: userVM.user, id: posts.id ?? "")
                                 .navigationBarTitle("Question")
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
@@ -49,7 +48,7 @@ struct ForumView: View {
             }
         }
         .sheet(isPresented: $createPost) {
-            CreatePostView(user: user, createComplete: $createPost)
+            CreatePostView(user: userVM.user, createComplete: $createPost)
         }
         
     }
@@ -57,6 +56,6 @@ struct ForumView: View {
 
 struct ForumView_Previews: PreviewProvider {
     static var previews: some View {
-        ForumView(user: .none, showMenu: .constant(false))
+        ForumView(userVM: UserViewModel(), showMenu: .constant(false))
     }
 }

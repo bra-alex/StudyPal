@@ -9,23 +9,24 @@ import SwiftUI
 import FirebaseAuth
 
 struct SideMenuView: View {
-    @ObservedObject var user = UserViewModel()
+    @ObservedObject var userVM: UserViewModel
     @Binding var showMenu: Bool
     @Binding var signOutAlert: Bool
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 15) {
-                AsyncImage(url: URL(string: user.user?.profileImageUrl ?? ""), content: { image in
+                AsyncImage(url: URL(string: userVM.user?.profileImageUrl ?? ""), content: { image in
                     image.resizable()
                 }, placeholder: {})
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 65, height: 65)
                 .clipShape(Circle())
                 
-                Text(user.user?.name ?? "")
+                Text(userVM.user?.name ?? "")
                     .font(.title2.bold())
                 
-                Text("@\(user.user?.username ?? "")")
+                Text("@\(userVM.user?.username ?? "")")
                     .font(.callout)
             }
             .padding(.horizontal)
@@ -34,8 +35,8 @@ struct SideMenuView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     VStack(alignment: .leading, spacing: 35) {
-                        ForEach(0..<SideMenuViewModel.allCases.count - 1, id: \.self) { option in
-                            SideMenuCellView(sideMenuVM: SideMenuViewModel(rawValue: option) ?? .topics, user: user.user)
+                        ForEach(0..<SideMenuViewModel.allCases.count, id: \.self) { option in
+                            SideMenuCellView(sideMenuVM: SideMenuViewModel(rawValue: option) ?? .profile, user: userVM.user)
                         }
                     }
                     .padding()
@@ -59,16 +60,12 @@ struct SideMenuView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                         .padding(.leading)
-                        
                     })
                 }
             }
-            
         }
-        
         .padding(.vertical)
         .frame(maxWidth: .infinity, alignment: .leading)
-        
         .frame(width: getRect().width - 90)
         .frame(maxHeight: .infinity)
         .background(
@@ -77,13 +74,12 @@ struct SideMenuView: View {
                 .ignoresSafeArea(.container, edges: .vertical )
         )
         .frame(maxWidth: .infinity, alignment: .leading)
-        
     }
 }
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuView(showMenu: .constant(true), signOutAlert: .constant(false))
+        SideMenuView(userVM: UserViewModel(), showMenu: .constant(true), signOutAlert: .constant(false))
     }
 }
 

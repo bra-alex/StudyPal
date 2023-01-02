@@ -14,7 +14,6 @@ enum SideMenuViewModel: Int, CaseIterable{
     case resources
     case stickyNotes
     case miniGames
-    case logout
     
     var title: String{
         switch self{
@@ -23,7 +22,6 @@ enum SideMenuViewModel: Int, CaseIterable{
         case .resources: return "Resources"
         case .stickyNotes: return "Sticky Notes"
         case .miniGames: return "Mini Games"
-        case .logout: return "Logout"
         }
     }
     
@@ -34,7 +32,6 @@ enum SideMenuViewModel: Int, CaseIterable{
         case .resources: return "doc.plaintext"
         case .stickyNotes: return "note.text"
         case .miniGames: return "gamecontroller"
-        case .logout: return "arrow.left.square"
         }
     }
     
@@ -45,8 +42,6 @@ enum SideMenuViewModel: Int, CaseIterable{
             case .resources:  Resources()
             case .stickyNotes:  StickyNotes()
             case .miniGames: MiniGames()
-            case .logout: LoginScreenView()
-//            WelcomeScreenView()
         }
     }
     
@@ -57,7 +52,6 @@ enum SideMenuViewModel: Int, CaseIterable{
         case .resources: return "Resources"
         case .stickyNotes: return "StickyNotes"
         case .miniGames: return "Mini Games"
-        case .logout: return "Logout"
         }
     }
     

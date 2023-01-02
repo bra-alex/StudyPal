@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct NavBar: View {
-    @Binding var showMenu: Bool
-    @ObservedObject var user = UserViewModel()
+    let user: UserInfo?
+    let title: String
     
-    var title: String
+    @Binding var showMenu: Bool
+    
     var body: some View {
         VStack {
             HStack {
@@ -20,7 +21,7 @@ struct NavBar: View {
                         showMenu.toggle()
                     }
                 } label: {
-                    AsyncImage(url: URL(string: user.user?.profileImageUrl ?? ""), content: { image in
+                    AsyncImage(url: URL(string: user?.profileImageUrl ?? ""), content: { image in
                         image.resizable()
                     }, placeholder: {})
                         .aspectRatio(contentMode: .fill)
@@ -32,7 +33,7 @@ struct NavBar: View {
                 Spacer()
             }
             .padding(.horizontal)
-//            .padding(.vertical, 10)
+            
             Divider()
         }
         .overlay(
@@ -46,6 +47,6 @@ struct NavBar: View {
 
 struct NavBar_Previews: PreviewProvider {
     static var previews: some View {
-        NavBar(showMenu: .constant(false), title: "Forum")
+        NavBar(user: UserInfo(name: "", email: "", username: "", profileImageUrl: ""), title: "Forum", showMenu: .constant(false))
     }
 }

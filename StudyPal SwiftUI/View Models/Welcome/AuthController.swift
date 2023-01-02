@@ -6,28 +6,25 @@
 //
 
 import Foundation
+import FirebaseAuth
 import FirebaseFirestore
 
 class AuthController: ObservableObject{
-    @Published var name: String = ""
-    @Published var username: String = ""
-    @Published var email: String = ""
-    @Published var password: String = ""
-    @Published var isUnsuccessful = false
-    @Published var isSuccessful = false
+    @Published var name = ""
+    @Published var email = ""
     @Published var errors = ""
+    @Published var username = ""
+    @Published var password = ""
+    @Published var isSuccessful = false
+    @Published var isUnsuccessful = false
+    @Published var showLoggedIn = false
     
     //MARK: - Auth Functions
     
-    func login(){
-        FirebaseManager.shared.auth.signIn(withEmail: email, password: password) { authResult, error in
-            if error != nil{
-                self.isUnsuccessful.toggle()
-            } else {
-                self.isSuccessful.toggle()
-                UserViewModel().fetchCurrentUser()
-                UserViewModel().fetchRecentMessages()
-            }
+    func isLoggedIn(){
+        let loggedIn = FirebaseManager.shared.auth.currentUser?.uid
+        if loggedIn == nil{
+            showLoggedIn = true
         }
     }
     
@@ -91,6 +88,24 @@ class AuthController: ObservableObject{
             }
         }
     }
+    
+    func login(){
+        FirebaseManager.shared.auth.signIn(withEmail: email, password: password) { authResult, error in
+            if error != nil{
+                self.isUnsuccessful.toggle()
+            } else {
+                self.isSuccessful.toggle()            }
+        }
+    }
+    
+    func signOut(){
+       do{
+           try FirebaseManager.shared.auth.signOut()
+           self.showLoggedIn = true
+       }catch let signOutError as NSError{
+           print("Error signing out: %@", signOutError)
+       }
+   }
     
     //MARK: - Validation
     func isNameValid() -> Bool {

@@ -11,14 +11,16 @@ import FirebaseFirestoreSwift
 
 class UserViewModel: ObservableObject{
     
-    @Published var user: UserInfo?
+    @Published var users = [UserInfo]()
     @Published var recentMessages = [RecentMessages]()
     private var firestoreListener: ListenerRegistration?
+    var user: UserInfo?
     
     init(){
         fetchCurrentUser()
         fetchRecentMessages()
     }
+    
     func searchChats(query: String) -> [RecentMessages]{
         let sortedChats = recentMessages.sorted {
             let date1 = $0.timestamp
@@ -60,7 +62,7 @@ class UserViewModel: ObservableObject{
                     
                     do{
                         let rm = try change.document.data(as: RecentMessages.self)
-                            self.recentMessages.insert(rm, at: 0)
+                        self.recentMessages.insert(rm, at: 0)
                     } catch {
                         print(error)
                     }
@@ -81,12 +83,12 @@ class UserViewModel: ObservableObject{
             
             do{
                 let data = try snapshot?.data(as: UserInfo.self)
-                self.user = data
+                self.users.removeAll()
+                self.users.append(data!)
+                self.user = self.users[0]
             } catch {
                 print(error)
             }
-            
         }
-        
     }
 }

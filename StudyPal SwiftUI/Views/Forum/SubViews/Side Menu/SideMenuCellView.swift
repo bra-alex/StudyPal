@@ -31,6 +31,6 @@ struct SideMenuCellView: View {
 
 struct SideMenuCellView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuCellView(sideMenuVM: .topics, user: .none)
+        SideMenuCellView(sideMenuVM: .profile, user: .none)
     }
 }

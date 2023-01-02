@@ -24,8 +24,9 @@ struct SideMenuLinks: View {
         case "Mini Games":
             MiniGames()
         case "Logout":
-            WelcomeScreenView()
-                .navigationBarHidden(true)
+            LoginScreenView()
+//            WelcomeScreenView()
+//                .navigationBarHidden(true)
         default:
             Text("Hello World")
         }

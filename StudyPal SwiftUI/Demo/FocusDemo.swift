@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FocusDemo: View {
     @FocusState private var nameInFocus: Bool
-    @ObservedObject var signUpVM = SignUpViewModel()
+    @ObservedObject var signUpVM = AuthController()
     var body: some View {
         VStack(alignment: .leading, spacing: 3.0) {
             RegisterTextFields(field: $signUpVM.name, placeholder: "Full Name", prompt: "")

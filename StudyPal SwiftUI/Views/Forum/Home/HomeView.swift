@@ -26,7 +26,8 @@ struct HomeView: View {
         let sideBarWidth = getRect().width - 90
         if rootView{
             withAnimation {
-                WelcomeScreenView()
+                LoginScreenView()
+//                WelcomeScreenView()
             }
         } else {
             NavigationStack {

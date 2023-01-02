@@ -45,7 +45,8 @@ enum SideMenuViewModel: Int, CaseIterable{
             case .resources:  Resources()
             case .stickyNotes:  StickyNotes()
             case .miniGames: MiniGames()
-            case .logout: WelcomeScreenView()
+            case .logout: LoginScreenView()
+//            WelcomeScreenView()
         }
     }
     

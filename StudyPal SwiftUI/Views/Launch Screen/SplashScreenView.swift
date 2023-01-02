@@ -15,7 +15,7 @@ struct SplashScreenView: View {
         if isActive{
             let loggedIn = FirebaseManager.shared.auth.currentUser?.uid
             if loggedIn == nil{
-                WelcomeScreenView()
+                LoginScreenView()
             } else{
                 HomeView()
             }

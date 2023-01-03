@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CellTopView: View {
-    @Binding var name: String
-    @Binding var username: String
-    @Binding var date: String
+    var name: String
+    var username: String
+    var date: String
     var body: some View {
         HStack{
 //            AsyncImage(url: URL(string: profileImageUrl), content: { image in
@@ -40,6 +40,6 @@ struct CellTopView: View {
 
 struct CellTopView_Previews: PreviewProvider {
     static var previews: some View {
-        CellTopView(name: .constant("Alexander"), username: .constant("@bredaalex"), date: .constant("Date()"))
+        CellTopView(name: "Alexander", username: "@bredaalex", date: "Date()")
     }
 }

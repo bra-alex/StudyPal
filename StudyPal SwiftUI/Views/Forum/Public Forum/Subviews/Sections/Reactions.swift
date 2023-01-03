@@ -9,17 +9,17 @@ import SwiftUI
 
 struct Reactions: View {
     @ObservedObject var updater = VoteUpdater()
-    @Binding var id: String
-    @Binding var topic: String
-    @Binding var commentCount: Int
+    var id: String
+    var topic: String
+    var commentCount: Int
     //    @State var upvote = false
     //    @State var downVote = false
     
-    init(id: Binding<String>, topic: Binding<String>, commentCount: Binding<Int>) {
-        self._id = id
-        self._topic = topic
-        self._commentCount = commentCount
-        updater.fetchVote(topic.wrappedValue, docID: id.wrappedValue)
+    init(id: String, topic: String, commentCount: Int) {
+        self.id = id
+        self.topic = topic
+        self.commentCount = commentCount
+        updater.fetchVote(topic, docID: id)
     }
     
     var body: some View {
@@ -80,7 +80,7 @@ struct Reactions: View {
 
 struct Reactions_Previews: PreviewProvider {
     static var previews: some View {
-        Reactions(id: .constant("biPI19StJa3JuW8HaTMP"), topic: .constant("General"), commentCount: .constant(5))
+        Reactions(id: "biPI19StJa3JuW8HaTMP", topic: "General", commentCount: 5)
         
     }
 }

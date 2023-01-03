@@ -94,7 +94,9 @@ class AuthController: ObservableObject{
             if error != nil{
                 self.isUnsuccessful.toggle()
             } else {
-                self.isSuccessful.toggle()            }
+                self.isSuccessful.toggle()
+                
+            }
         }
     }
     
@@ -102,7 +104,7 @@ class AuthController: ObservableObject{
        do{
            try FirebaseManager.shared.auth.signOut()
            self.showLoggedIn = true
-       }catch let signOutError as NSError{
+       } catch let signOutError as NSError {
            print("Error signing out: %@", signOutError)
        }
    }

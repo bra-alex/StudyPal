@@ -118,6 +118,7 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $showLoggedIn) {
             LoginScreenView(authController: authController)
         }
+        .sync($authController.showLoggedIn, with: $showLoggedIn)
     }
     
     private func onChange(){

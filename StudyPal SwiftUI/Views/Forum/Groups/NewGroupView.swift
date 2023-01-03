@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct NewGroupView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
+    
     @ObservedObject var groupChatVM: GroupChatViewModel
     @Binding var createComplete: Bool
     
@@ -58,7 +59,7 @@ struct NewGroupView: View {
                 
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
                         Text("Cancel")
                             .foregroundColor(.primary)

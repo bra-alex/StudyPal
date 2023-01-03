@@ -15,16 +15,18 @@ class GroupMessageViewModel: ObservableObject{
     @Published var users: UserInfo?
     @Published var message = ""
     @Published var count = 0
+    var groupID: String
     
-    init(){
+    init(groupID: String){
+        self.groupID = groupID
         fetchUser()
     }
     
-    func sendMessage(docID: String){
+    func sendMessage(){
         guard let sender = FirebaseManager.shared.auth.currentUser?.uid else { return }
         let doc = FirebaseManager.shared.firestore
             .collection("groupChats")
-            .document(docID)
+            .document(groupID)
             .collection("messages")
             .document()
         
@@ -36,11 +38,11 @@ class GroupMessageViewModel: ObservableObject{
         }
     }
     
-    func fetchMessages(docID: String){
+    func fetchMessages(){
         messages.removeAll()
         FirebaseManager.shared.firestore
             .collection("groupChats")
-            .document(docID)
+            .document(groupID)
             .collection("messages")
             .order(by: "time", descending: false)
             .addSnapshotListener { snapshot, error in

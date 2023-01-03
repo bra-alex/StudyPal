@@ -7,11 +7,16 @@
 
 import SwiftUI
 
-extension GroupChatView {
-    var GroupChatBottomView: some View {
+struct GroupChatBottomView: View {
+    @ObservedObject var groupMessageVM: GroupMessageViewModel
+    let group: GroupChatModel
+    
+    @State var textEditorHeight : CGFloat = 20
+    var body: some View {
         HStack(spacing: 13) {
-//            Image(systemName: "photo.on.rectangle.angled")
-//                .font(.system(size: 24))
+            Image(systemName: "photo.on.rectangle.angled")
+                .font(.system(size: 24))
+            
             ZStack {
                 Text(groupMessageVM.message)
                     .font(.system(.body))
@@ -42,7 +47,7 @@ extension GroupChatView {
             }.onPreferenceChange(ViewHeight.self) { textEditorHeight = $0 }
 
             Button {
-                groupMessageVM.sendMessage(docID: group.id!)
+                groupMessageVM.sendMessage()
                 groupMessageVM.message = ""
                 groupMessageVM.count += 1
             } label: {
@@ -54,7 +59,6 @@ extension GroupChatView {
             .animation(.easeInOut(duration: 0.2), value: groupMessageVM.message.isEmpty)
         }
         .padding(8)
-
     }
 }
 
@@ -62,5 +66,11 @@ struct ViewHeight: PreferenceKey {
     static var defaultValue: CGFloat { 0 }
     static func reduce(value: inout Value, nextValue: () -> Value) {
         value = value + nextValue()
+    }
+}
+
+struct GroupChatBottomView_Previews: PreviewProvider {
+    static var previews: some View {
+        GroupChatBottomView(groupMessageVM: GroupMessageViewModel(groupID: ""), group: .init(title: "Hihi", joinCode: 22583, isPublic: false, time: Date(), users: ["btllqsJxHxZFYalecGyPQp2zZlI2"]))
     }
 }

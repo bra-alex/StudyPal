@@ -10,6 +10,7 @@ import SwiftUI
 struct GroupsView: View {
     @ObservedObject var groupChatVM: GroupChatViewModel
     @ObservedObject var userVM: UserViewModel
+    
     @Binding var showMenu: Bool
     @State var newGroup = false
     
@@ -22,10 +23,11 @@ struct GroupsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                NavBar(user: userVM.user!, title: "Groups", showMenu: $showMenu)
+                NavBar(user: userVM.user, title: "Groups", showMenu: $showMenu)
                     .transaction { transaction in
                         transaction.animation = nil
                     }
+                
                 List{
                     ForEach(groupChatVM.groupChats) { chats in
                         VStack {

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct GroupChatView: View {
-    @ObservedObject var groupMessageVM = GroupMessageViewModel()
-    @State var textEditorHeight : CGFloat = 20
+    @ObservedObject var groupMessageVM: GroupMessageViewModel
     @State var isVideo = false
     
     let group: GroupChatModel
     
     init(group: GroupChatModel) {
         self.group = group
-        groupMessageVM.fetchMessages(docID: group.id ?? "")
+        self.groupMessageVM = .init(groupID: group.id ?? "doc")
+        groupMessageVM.fetchMessages()
     }
     
     var body: some View {
@@ -44,7 +44,7 @@ struct GroupChatView: View {
                 }
                 .background(Color(.init(white: 0.95, alpha: 1)))
                 .safeAreaInset(edge: .bottom) {
-                    GroupChatBottomView
+                    GroupChatBottomView(groupMessageVM: groupMessageVM, group: group)
                         .background(
                             Color(
                                 .systemBackground)

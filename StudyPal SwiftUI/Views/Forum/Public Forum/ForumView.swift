@@ -10,6 +10,7 @@ import SwiftUI
 struct ForumView: View {
     @ObservedObject var forumsVM: ForumsViewModel
     @ObservedObject var userVM: UserViewModel
+    
     @Binding var showMenu: Bool
     @State var createPost = false
     
@@ -26,31 +27,31 @@ struct ForumView: View {
                     .transaction { transaction in
                         transaction.animation = nil
                     }
+                
                 ScrollView {
-                    ForEach(forumsVM.posts) { posts in
+                    ForEach(forumsVM.posts) { post in
                         NavigationLink {
-                            CommentsView(user: userVM.user, id: posts.id ?? "")
+                            CommentsView(user: userVM.user, id: post.id ?? "")
                                 .navigationBarTitle("Question")
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
-                            ForumCellView(id: posts.id ?? "", name: posts.name, username: posts.username, postContent: posts.postContent, mediaURL: posts.mediaURL, date: posts.formattedTime, topic: posts.topic, commentCount: forumsVM.comments.count)
+                            ForumCellView(post: post, commentCount: forumsVM.comments.count)
                                 .frame(minHeight: 100, maxHeight: .infinity)
-                                .padding(posts.mediaURL.isEmpty ? [.top] : [.top], 0)
+                                .padding(post.mediaURL.isEmpty ? [.top] : [.top], 0)
                                 .foregroundColor(.primary)
                         }
                         Divider()
-                    }.padding([.horizontal, .top])
-                    
-                    
-                }//.listStyle(PlainListStyle())
-            }.overlay(alignment: .bottom) {
+                    }
+                    .padding([.horizontal, .top])
+                }
+            }
+            .overlay(alignment: .bottom) {
                 OverlayBtn(showModal: $createPost, img: "plus")
             }
         }
         .sheet(isPresented: $createPost) {
             CreatePostView(user: userVM.user, createComplete: $createPost)
         }
-        
     }
 }
 

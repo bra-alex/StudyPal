@@ -7,11 +7,16 @@
 
 import SwiftUI
 
-extension ChatView{
-    var ChatBarBottom: some View {
+struct ChatBarBottom: View{
+    @ObservedObject var messagesVM: MessagesViewModel
+    
+    @State var textEditorHeight : CGFloat = 20
+    
+    var body: some View {
             HStack(spacing: 13) {
-//                Image(systemName: "photo.on.rectangle.angled")
-//                    .font(.system(size: 24))
+                Image(systemName: "photo.on.rectangle.angled")
+                    .font(.system(size: 24))
+                
                 ZStack {
                     Text(messagesVM.message)
                         .font(.system(.body))
@@ -55,6 +60,12 @@ extension ChatView{
             }
             .padding(8)
         }
+}
+
+struct ChatBarBottomView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatBarBottom(messagesVM: MessagesViewModel(user: .none))
+    }
 }
 
 struct ViewHeightKey: PreferenceKey {

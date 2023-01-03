@@ -8,23 +8,16 @@
 import SwiftUI
 
 struct ForumCellView: View {
-    
-    @State var id : String
-    @State var name : String
-    @State var username: String
-    @State var postContent: String
-    @State var mediaURL: String
-    @State var date: String
-    @State var topic: String
-    @State var commentCount: Int
+    var post: Forums
+    var commentCount: Int
     
     var body: some View {
         HStack() {
             VStack(alignment: .leading, spacing: 5){
-                CellTopView(name: $name, username: $username, date: $date)
-                CellMiddleView(postContent: $postContent, mediaURL: $mediaURL)
+                CellTopView(name: post.name, username: post.username, date: post.formattedTime)
+                CellMiddleView(postContent: post.postContent, mediaURL: post.mediaURL)
                     .padding(.bottom)
-                Reactions(id: $id, topic: $topic, commentCount: $commentCount)
+                Reactions(id: post.id ?? "id", topic: post.topic, commentCount: commentCount)
                 Spacer()
             }
             Spacer()
@@ -34,6 +27,6 @@ struct ForumCellView: View {
 
 struct ForumCellView_Previews: PreviewProvider {
     static var previews: some View {
-        ForumCellView(id: "biPI19StJa3JuW8HaTMP", name: "Me", username: "you", postContent: "tui", mediaURL: "", date: "Date()", topic: "Hi", commentCount: 3)
+        ForumCellView( post: .init(id: "biPI19StJa3JuW8HaTMP", name: "Me", username: "you", postContent: "tui", mediaURL: "", topic: "Hi", time: Date(), votes: 5), commentCount: 3)
     }
 }

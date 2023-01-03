@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CellMiddleView: View {
-    @Binding var postContent: String
-    @Binding var mediaURL: String
+    var postContent: String
+    var mediaURL: String
     var body: some View {
         VStack(alignment: .leading) {
             Text(postContent)
@@ -32,6 +32,6 @@ struct CellMiddleView: View {
 
 struct CellMiddleView_Previews: PreviewProvider {
     static var previews: some View {
-        CellMiddleView(postContent: .constant("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nulla quam, pellentesque nec egestas non, molestie ut nisl. Donec in sagittis erat, at congue eros. Vestibulum sit amet semper dui. Aenean scelerisque eleifend eros."), mediaURL: .constant("https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960"))
+        CellMiddleView(postContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nulla quam, pellentesque nec egestas non, molestie ut nisl. Donec in sagittis erat, at congue eros. Vestibulum sit amet semper dui. Aenean scelerisque eleifend eros.", mediaURL: "https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960")
     }
 }

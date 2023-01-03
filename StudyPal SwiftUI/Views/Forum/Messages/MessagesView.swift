@@ -20,7 +20,7 @@ struct MessagesView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                NavBar(user: userVM.users[0], title: "Message", showMenu: $showMenu)
+                NavBar(user: userVM.user, title: "Message", showMenu: $showMenu)
                     .transaction { transaction in
                         transaction.animation = nil
                     }

@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct GroupChatRow: View {
-    @ObservedObject var groupMessagesVM = GroupMessageViewModel()
+    @ObservedObject var groupMessagesVM: GroupMessageViewModel
     let groupInfo: GroupChatModel
     
     init(groupInfo: GroupChatModel){
         self.groupInfo = groupInfo
-        groupMessagesVM.fetchMessages(docID: groupInfo.id ?? "")
+        self.groupMessagesVM = .init(groupID: groupInfo.id ?? "doc")
+        groupMessagesVM.fetchMessages()
     }
     
     var body: some View {

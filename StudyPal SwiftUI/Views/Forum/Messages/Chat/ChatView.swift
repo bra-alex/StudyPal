@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     @ObservedObject var messagesVM: MessagesViewModel
-    @State var textEditorHeight : CGFloat = 20
+    
     @State var isVideo = false
     
     let user: UserInfo?
@@ -44,7 +44,7 @@ struct ChatView: View {
                 }
             .background(Color(.init(white: 0.95, alpha: 1)))
             .safeAreaInset(edge: .bottom) {
-                ChatBarBottom
+                ChatBarBottom(messagesVM: messagesVM)
                     .background(
                         Color(
                             .systemBackground)

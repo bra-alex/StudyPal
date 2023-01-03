@@ -13,7 +13,7 @@ struct NotificationsView: View {
 
     var body: some View {
         VStack {
-            NavBar(user: userVM.user!, title: "Notifications", showMenu: $showMenu)
+            NavBar(user: userVM.user, title: "Notifications", showMenu: $showMenu)
             Spacer()
         }
     }

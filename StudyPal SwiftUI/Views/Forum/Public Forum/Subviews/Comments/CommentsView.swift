@@ -14,23 +14,24 @@ struct CommentsView: View {
     let id: String
     
     init(user: UserInfo?, id: String){
+        self.id = id
         self.user = user
         self.forumsVM = .init(user: user)
-        self.id = id
         forumsVM.fetchComments(id)
     }
+    
     var body: some View {
         ScrollView{
-            ForEach(forumsVM.posts) { posts in
-                if posts.id == id{
-                    ForumCellView(id: posts.id ?? "", name: posts.name, username: posts.username, postContent: posts.postContent, mediaURL: posts.mediaURL, date: posts.formattedTime, topic: posts.topic, commentCount: forumsVM.comments.count)
+            ForEach(forumsVM.posts) { post in
+                if post.id == id{
+                    ForumCellView(post: post, commentCount: forumsVM.comments.count)
                         .padding([.horizontal, .top])
                     
                     Divider()
                 }
             }
-            ForEach(forumsVM.comments) { comments in
-                ForumCellView(id: comments.id ?? "", name: comments.name, username: comments.username, postContent: comments.postContent, mediaURL: comments.mediaURL, date: comments.formattedTime, topic: comments.topic, commentCount: 0)
+            ForEach(forumsVM.comments) { comment in
+                ForumCellView(post: comment, commentCount: 0)
                     .padding([.horizontal, .top])
                 
                 Divider()

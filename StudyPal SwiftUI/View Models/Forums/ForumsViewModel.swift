@@ -14,7 +14,6 @@ class ForumsViewModel: ObservableObject{
     @Published var comments = [Forums]()
     @Published var postContent = ""
     @Published var topic = "General"
-    var id = ""
     
     let user: UserInfo?
     

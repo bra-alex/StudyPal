@@ -18,6 +18,6 @@ class DocumentViewer: NSObject, ObservableObject, UIDocumentInteractionControlle
     }
 
     func documentInteractionControllerViewControllerForPreview(_: UIDocumentInteractionController) -> UIViewController {
-        return UIApplication.shared.windows.first!.rootViewController!
+        return UIApplication.shared.currentUIWindow()!.rootViewController!
     }
 }

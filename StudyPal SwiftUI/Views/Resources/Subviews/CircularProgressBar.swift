@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircularProgressBar: View {
-    @ObservedObject var resourceModel: ResourcesModel
+    @ObservedObject var resourceModel: ResourcesViewModel
     @State var status: String
     var body: some View {
         VStack(spacing: 50) {
@@ -36,6 +36,6 @@ struct CircularProgressBar: View {
 
 struct CircularProgressBar_Previews: PreviewProvider {
     static var previews: some View {
-        CircularProgressBar(resourceModel: ResourcesModel(), status: "Uploading...")
+        CircularProgressBar(resourceModel: ResourcesViewModel(), status: "Uploading...")
     }
 }

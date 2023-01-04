@@ -10,13 +10,12 @@ import FirebaseStorage
 import SwiftUI
 
 
-class ResourcesModel: ObservableObject{
+class ResourcesViewModel: ObservableObject{
     @Published var items: [StorageReference] = []
     @Published var progress: CGFloat = 0.0
     @Published var alert = false
     @Published var alertMessage = ""
     var download = false
-    
     
     init() {
         getFiles()
@@ -35,7 +34,6 @@ class ResourcesModel: ObservableObject{
                 self.items.append(item)
             }
         }
-        
     }
     
     func openFiles(_ name: String){
@@ -67,7 +65,7 @@ class ResourcesModel: ObservableObject{
             
             print("File already exists")
             
-        }else{
+        } else {
             let downloadTask = ref.write(toFile: path)
             
             self.download.toggle()
@@ -89,20 +87,20 @@ class ResourcesModel: ObservableObject{
     }
     
     func deleteFile(_ name: String) {
-            let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-
-            let destinationUrl = docsUrl?.appendingPathComponent("\(name)")
-            if let destinationUrl = destinationUrl {
-                guard FileManager().fileExists(atPath: destinationUrl.path) else { return }
-                do {
-                    try FileManager().removeItem(atPath: destinationUrl.path)
-                    self.alertMessage = "File deleted successfully"
-                    self.alert.toggle()
-                } catch let error {
-                    print("Error while deleting video file: ", error)
-                }
+        let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        
+        let destinationUrl = docsUrl?.appendingPathComponent("\(name)")
+        if let destinationUrl = destinationUrl {
+            guard FileManager().fileExists(atPath: destinationUrl.path) else { return }
+            do {
+                try FileManager().removeItem(atPath: destinationUrl.path)
+                self.alertMessage = "File deleted successfully"
+                self.alert.toggle()
+            } catch let error {
+                print("Error while deleting video file: ", error)
             }
         }
+    }
     
     func checkIfExists(_ name: String) -> Bool{
         if let ref = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("\(name)"){

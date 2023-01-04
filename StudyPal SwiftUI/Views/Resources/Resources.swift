@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct Resources: View {
-    @ObservedObject var resourcesModel = ResourcesModel()
+    @StateObject var resourcesVM = ResourcesViewModel()
     @State var show = false
     @State var uploadAlert = false
     @State var upload = false
     
     var body: some View {
         ZStack{
-            List(resourcesModel.items, id: \.self) { item in
-                var check = resourcesModel.checkIfExists(item.name)
+            List(resourcesVM.items, id: \.self) { item in
+                var check = resourcesVM.checkIfExists(item.name)
                 Button{
-                    resourcesModel.openFiles(item.name)
+                    resourcesVM.openFiles(item.name)
                 } label: {
                     HStack {
                         Image(systemName: "doc.text")
@@ -28,35 +28,35 @@ struct Resources: View {
                         
                         Button {
                             if check{
-                                resourcesModel.deleteFile(item.name)
+                                resourcesVM.deleteFile(item.name)
                                 check = false
                             } else {
-                                resourcesModel.downloadFiles(item.name)
+                                resourcesVM.downloadFiles(item.name)
                                 check = true
                             }
                         } label: {
                             Image(systemName: check ? "trash" : "square.and.arrow.down")
                                 .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Color.primary)
+                                .foregroundColor(check ? .red : Color.primary)
                                 .opacity(0.7)
                         }
                     }
                 }
                 .padding(.vertical)
             }
-            .listStyle(PlainListStyle())
+            .listStyle(.plain)
             .blur(radius: upload ? 10 : 0)
             .animation(.easeInOut, value: upload == true)
-            .blur(radius: resourcesModel.download ? 10 : 0)
-            .animation(.easeInOut, value: resourcesModel.download == true)
+            .blur(radius: resourcesVM.download ? 10 : 0)
+            .animation(.easeInOut, value: resourcesVM.download == true)
             .sheet(isPresented: $show) {
-                DocumentPicker(alert: self.$uploadAlert, upload: self.$upload, resourcesModel: resourcesModel)
+                DocumentPicker(alert: self.$uploadAlert, upload: self.$upload, resourcesVM: resourcesVM)
             }
             .alert(isPresented: $uploadAlert) {
                 Alert(title: Text("Success"), message: Text("Upload Complete"), dismissButton: .default(Text("Ok")))
             }
-            .alert(isPresented: $resourcesModel.alert){
-                Alert(title: Text("Success"), message: Text(resourcesModel.alertMessage), dismissButton: .default(Text("Ok")))
+            .alert(isPresented: $resourcesVM.alert){
+                Alert(title: Text("Success"), message: Text(resourcesVM.alertMessage), dismissButton: .default(Text("Ok")))
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -69,8 +69,8 @@ struct Resources: View {
                 }
             }
             
-            if upload || resourcesModel.download{
-                CircularProgressBar(resourceModel: resourcesModel, status: upload ? "Uploading..." : "Downloading...")
+            if upload || resourcesVM.download{
+                CircularProgressBar(resourceModel: resourcesVM, status: upload ? "Uploading..." : "Downloading...")
                     .transition(AnyTransition.opacity.animation(.easeInOut))
             }
         }

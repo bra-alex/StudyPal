@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		980B000D28E0EE3D002DBFA7 /* ResourcesDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */; };
-		980B001028E1270F002DBFA7 /* ResourcesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000F28E1270F002DBFA7 /* ResourcesModel.swift */; };
+		980B001028E1270F002DBFA7 /* ResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B000F28E1270F002DBFA7 /* ResourcesViewModel.swift */; };
 		980B001328E2DE36002DBFA7 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B001228E2DE36002DBFA7 /* CircularProgressBar.swift */; };
 		9817134E296262CC0043CCF6 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817134D296262CC0043CCF6 /* LoginForm.swift */; };
 		981713502962684F0043CCF6 /* SocialLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817134F2962684F0043CCF6 /* SocialLogo.swift */; };
@@ -70,7 +70,7 @@
 		9890E2C228E4B3E000715C6A /* DocDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890E2C128E4B3E000715C6A /* DocDemo.swift */; };
 		9896065228A3905600E9FE92 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9896065128A3905600E9FE92 /* MessageBubble.swift */; };
 		9896065428A4F81E00E9FE92 /* RecentMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9896065328A4F81E00E9FE92 /* RecentMessages.swift */; };
-		98BDA6652962DC5300FE6779 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BDA6642962DC5300FE6779 /* ViewExtension.swift */; };
+		98BDA6652962DC5300FE6779 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BDA6642962DC5300FE6779 /* Extensions.swift */; };
 		98CABC2B2884D64100D66DCF /* StudyPal_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC2A2884D64100D66DCF /* StudyPal_SwiftUIApp.swift */; };
 		98CABC2D2884D64100D66DCF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CABC2C2884D64100D66DCF /* ContentView.swift */; };
 		98CABC2F2884D64600D66DCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CABC2E2884D64600D66DCF /* Assets.xcassets */; };
@@ -119,7 +119,7 @@
 		2B0220AB9BF4362681804D16 /* Pods-StudyPal SwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyPal SwiftUI.release.xcconfig"; path = "Target Support Files/Pods-StudyPal SwiftUI/Pods-StudyPal SwiftUI.release.xcconfig"; sourceTree = "<group>"; };
 		3ABBBBC6BD40A566DE311645 /* Pods_StudyPal_SwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyPal_SwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		980B000C28E0EE3D002DBFA7 /* ResourcesDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesDemo.swift; sourceTree = "<group>"; };
-		980B000F28E1270F002DBFA7 /* ResourcesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesModel.swift; sourceTree = "<group>"; };
+		980B000F28E1270F002DBFA7 /* ResourcesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesViewModel.swift; sourceTree = "<group>"; };
 		980B001228E2DE36002DBFA7 /* CircularProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
 		9817134D296262CC0043CCF6 /* LoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
 		9817134F2962684F0043CCF6 /* SocialLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLogo.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		9890E2C128E4B3E000715C6A /* DocDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocDemo.swift; sourceTree = "<group>"; };
 		9896065128A3905600E9FE92 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		9896065328A4F81E00E9FE92 /* RecentMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentMessages.swift; sourceTree = "<group>"; };
-		98BDA6642962DC5300FE6779 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		98BDA6642962DC5300FE6779 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		98CABC272884D64100D66DCF /* StudyPal SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StudyPal SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98CABC2A2884D64100D66DCF /* StudyPal_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPal_SwiftUIApp.swift; sourceTree = "<group>"; };
 		98CABC2C2884D64100D66DCF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 		980B000E28E126F6002DBFA7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				980B000F28E1270F002DBFA7 /* ResourcesModel.swift */,
+				980B000F28E1270F002DBFA7 /* ResourcesViewModel.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -600,7 +600,7 @@
 				98D8A71B28E0C53C006FB5C1 /* DocumentPicker.swift */,
 				9890E2BF28E4A7DE00715C6A /* DocumentViewer.swift */,
 				98171353296271640043CCF6 /* FormFields.swift */,
-				98BDA6642962DC5300FE6779 /* ViewExtension.swift */,
+				98BDA6642962DC5300FE6779 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -881,8 +881,8 @@
 				98171354296271640043CCF6 /* FormFields.swift in Sources */,
 				985D00C728A302F9009212F3 /* Message.swift in Sources */,
 				984BB79028B1AAFF00D7E493 /* StickyNotes.swift in Sources */,
-				980B001028E1270F002DBFA7 /* ResourcesModel.swift in Sources */,
-				98BDA6652962DC5300FE6779 /* ViewExtension.swift in Sources */,
+				980B001028E1270F002DBFA7 /* ResourcesViewModel.swift in Sources */,
+				98BDA6652962DC5300FE6779 /* Extensions.swift in Sources */,
 				9818708E288F1B1D00A0808E /* SideMenuView.swift in Sources */,
 				988E63B628B03A290015AB01 /* CreatePostView.swift in Sources */,
 				980B001328E2DE36002DBFA7 /* CircularProgressBar.swift in Sources */,

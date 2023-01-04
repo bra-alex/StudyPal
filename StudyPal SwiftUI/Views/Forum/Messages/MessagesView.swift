@@ -44,11 +44,14 @@ struct MessagesView: View {
                     }
                 }
                 .listStyle(.plain)
-                
-                
-                NavigationLink("", isActive: $showChatView) {
+                .navigationDestination(isPresented: $showChatView) {
                     ChatView(user: self.chatUser)
                 }
+                
+                
+//                NavigationLink("", isActive: $showChatView) {
+//                    ChatView(user: self.chatUser)
+//                }
             }
             .overlay(alignment: .bottom) {
                 OverlayBtn(showModal: $newMessage, img: "plus.message")

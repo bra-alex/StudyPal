@@ -13,7 +13,7 @@ import FirebaseStorage
 struct DocumentPicker: UIViewControllerRepresentable{
     @Binding var alert: Bool
     @Binding var upload: Bool
-    var resourcesModel: ResourcesModel
+    var resourcesVM: ResourcesViewModel
     
     func makeCoordinator() -> Coordinator {
         return DocumentPicker.Coordinator(parent1: self)
@@ -48,7 +48,7 @@ struct DocumentPicker: UIViewControllerRepresentable{
             self.parent.upload.toggle()
             
             uploadTask.observe(.progress) { snapshot in
-                self.parent.resourcesModel.progress = CGFloat(Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount))
+                self.parent.resourcesVM.progress = CGFloat(Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount))
             }
             
             uploadTask.observe(.failure) { snapshot in
@@ -86,8 +86,8 @@ struct DocumentPicker: UIViewControllerRepresentable{
                 self.parent.upload.toggle()
                 self.parent.alert.toggle()
                 uploadTask.removeAllObservers()
-                self.parent.resourcesModel.progress = 0.0
-                self.parent.resourcesModel.getFiles()
+                self.parent.resourcesVM.progress = 0.0
+                self.parent.resourcesVM.getFiles()
             }
             
         }

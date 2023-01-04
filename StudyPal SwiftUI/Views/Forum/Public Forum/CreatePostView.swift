@@ -22,7 +22,7 @@ struct CreatePostView: View {
         self.user = user
         self._createComplete = createComplete
         self.forumsVM = .init(user: user)
-        self.topicsVM = .init(user: user)
+        self.topicsVM = .init()
     }
     
     var body: some View {

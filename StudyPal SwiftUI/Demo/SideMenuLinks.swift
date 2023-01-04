@@ -16,7 +16,7 @@ struct SideMenuLinks: View {
         case "Profile":
             Profile()
         case "Topics":
-            Topics(user: user)
+            Topics()
         case "Resources":
             Resources()
         case "StickyNotes":

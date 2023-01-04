@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct AddTopicView: View {
-    @Binding var addTopic: Bool
-    @Binding var text: String
     @ObservedObject var topicsVM: TopicsViewModel
+    
     var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
                 .opacity(0.3)
                 .onTapGesture {
-                    addTopic.toggle()
-                    text = ""
+                    topicsVM.addTopic.toggle()
+                    topicsVM.topic = ""
                 }
             
             VStack{
@@ -27,7 +26,7 @@ struct AddTopicView: View {
                     .padding([.top, .horizontal])
                     .foregroundColor(Color("BasicColor"))
                 
-                TextField("", text: $text)
+                TextField("", text: $topicsVM.topic)
                     .padding()
                     .background{
                         RoundedRectangle(cornerRadius: 25).stroke(Color("BasicColor"), lineWidth: 1)
@@ -35,7 +34,7 @@ struct AddTopicView: View {
                     .cornerRadius(25)
                     .padding()
                     .overlay(alignment: .leading) {
-                        if text.isEmpty{
+                        if topicsVM.topic.isEmpty{
                             Text("Topic")
                                 .foregroundColor(.gray.opacity(0.9))
                                 .padding(.leading, 32)
@@ -55,21 +54,21 @@ struct AddTopicView: View {
                 .cornerRadius(25)
                 
                 Button {
-                    addTopic.toggle()
-                    text = ""
+                    topicsVM.addTopic.toggle()
+                    topicsVM.topic = ""
                 } label: {
                     Text("Cancel")
                         .foregroundColor(.black)
                 }
                 .frame(width: UIScreen.main.bounds.width - 100, height: 30)
                 .padding(.vertical)
-
-
+                
+                
             }
             .padding(.vertical)
             .frame(width: UIScreen.main.bounds.width - 100)
             .background(.white)
-        .cornerRadius(25)
+            .cornerRadius(25)
         }
         
     }
@@ -77,6 +76,6 @@ struct AddTopicView: View {
 
 struct AddTopicView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTopicView(addTopic: .constant(true), text: .constant(""), topicsVM: .init(user: .none))
+        AddTopicView(topicsVM: TopicsViewModel())
     }
 }

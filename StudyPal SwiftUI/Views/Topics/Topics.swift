@@ -8,14 +8,7 @@
 import SwiftUI
 
 struct Topics: View {
-    @ObservedObject var topicsVM: TopicsViewModel
-    
-    let user: UserInfo?
-    
-    init(user: UserInfo?){
-        self.user = user
-        self.topicsVM = .init(user: user)
-    }
+    @StateObject var topicsVM = TopicsViewModel()
     
     var body: some View {
         ZStack {
@@ -32,7 +25,7 @@ struct Topics: View {
                 }else{
                     ScrollView {
                         ForEach(topicsVM.topics) { topics in
-                            TopicCells(topicName: topics.name, user: user)
+                            TopicCells(topicsVM: topicsVM, topic: topics)
                                 .padding(.horizontal)
                             Divider()
                         }
@@ -50,7 +43,7 @@ struct Topics: View {
                 }
             }
             if topicsVM.addTopic{
-                AddTopicView(addTopic: $topicsVM.addTopic, text: $topicsVM.topic, topicsVM: topicsVM)
+                AddTopicView(topicsVM: topicsVM)
                     .transition(AnyTransition.opacity.animation(.easeInOut))
             }
         }
@@ -60,7 +53,7 @@ struct Topics: View {
 struct Topics_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            Topics(user: .none)
+            Topics()
         }
     }
 }

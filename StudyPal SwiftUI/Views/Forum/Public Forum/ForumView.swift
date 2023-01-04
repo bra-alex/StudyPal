@@ -31,11 +31,11 @@ struct ForumView: View {
                 ScrollView {
                     ForEach(forumsVM.posts) { post in
                         NavigationLink {
-                            CommentsView(user: userVM.user, id: post.id ?? "")
+                            CommentsView(post: post, forumsVM: forumsVM)
                                 .navigationBarTitle("Question")
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
-                            ForumCellView(post: post, commentCount: forumsVM.comments.count)
+                            ForumCellView(post: post)
                                 .frame(minHeight: 100, maxHeight: .infinity)
                                 .padding(post.mediaURL.isEmpty ? [.top] : [.top], 0)
                                 .foregroundColor(.primary)

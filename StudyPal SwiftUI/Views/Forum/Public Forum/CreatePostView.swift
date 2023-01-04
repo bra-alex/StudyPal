@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct CreatePostView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
+    
     @ObservedObject var forumsVM: ForumsViewModel
     @ObservedObject var topicsVM: TopicsViewModel
+    
     @Binding var createComplete: Bool
     @State private var dropDown = false
     
@@ -64,18 +66,20 @@ struct CreatePostView: View {
                             }
                             Spacer()
                         }
-                    }.accentColor(.white)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color("BasicColor"))
-                        .cornerRadius(10)
-                }.padding()
+                    }
+                    .accentColor(.white)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color("BasicColor"))
+                    .cornerRadius(10)
+                }
+                .padding()
                 Spacer()
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
                         Text("Cancel")
                             .foregroundColor(.primary)

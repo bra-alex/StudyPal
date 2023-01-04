@@ -7,8 +7,13 @@
 
 import SwiftUI
 
-extension CommentsView {
-    var CommentsViewBottomView: some View {
+struct CommentsViewBottomView: View{
+    @ObservedObject var forumsVM: ForumsViewModel
+    
+    @State var textEditorHeight : CGFloat = 20
+    let id: String
+    
+    var body: some View{
         HStack(spacing: 13) {
             ZStack {
                 Text(forumsVM.postContent)
@@ -35,7 +40,6 @@ extension CommentsView {
                             }
                         }
                         RoundedRectangle(cornerRadius: 25).stroke(Color(.lightGray))
-
                     }
             }.onPreferenceChange(CommentBottomHeight.self) { textEditorHeight = $0 }
 

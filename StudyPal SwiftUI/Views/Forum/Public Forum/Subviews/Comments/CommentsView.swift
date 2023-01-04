@@ -8,44 +8,41 @@
 import SwiftUI
 
 struct CommentsView: View {
+    @ObservedObject var commentsVM: CommentsViewModel
     @ObservedObject var forumsVM: ForumsViewModel
-    @State var textEditorHeight : CGFloat = 20
-    let user: UserInfo?
-    let id: String
     
-    init(user: UserInfo?, id: String){
-        self.id = id
-        self.user = user
-        self.forumsVM = .init(user: user)
-        forumsVM.fetchComments(id)
+    let post: Forums
+    
+    init(post: Forums, forumsVM: ForumsViewModel){
+        self.forumsVM = forumsVM
+        self.post = post
+        commentsVM = .init(id: post.id ?? "")
     }
     
     var body: some View {
         ScrollView{
-            ForEach(forumsVM.posts) { post in
-                if post.id == id{
-                    ForumCellView(post: post, commentCount: forumsVM.comments.count)
-                        .padding([.horizontal, .top])
-                    
-                    Divider()
-                }
-            }
-            ForEach(forumsVM.comments) { comment in
-                ForumCellView(post: comment, commentCount: 0)
+            ForumCellView(post: post)
+                .padding([.horizontal, .top])
+            
+            Divider()
+            
+            ForEach(commentsVM.comments) { comment in
+                CommentsCellView(comment: comment, commentCount: 0)
                     .padding([.horizontal, .top])
-                
+
                 Divider()
             }
         }
         .onTapGesture {
             hideKeyboard()
         }
-        CommentsViewBottomView
+        
+        CommentsViewBottomView(forumsVM: forumsVM, id: post.id ?? "")
     }
 }
 
 struct CommentsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsView(user: .none, id: "")
+        CommentsView(post: ForumsViewModel(user: .none).posts[0], forumsVM: ForumsViewModel(user: .none))
     }
 }

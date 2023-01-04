@@ -15,10 +15,7 @@ class TopicsViewModel: ObservableObject{
     @Published var clicked = false
     @Published var addTopic = false
     
-    let user: UserInfo?
-    
-    init(user: UserInfo?) {
-        self.user = user
+    init() {
         fetchTopics()
     }
     

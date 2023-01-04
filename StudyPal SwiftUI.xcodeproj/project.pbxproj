@@ -93,6 +93,8 @@
 		98EF09F328C10E7D0079E35C /* CommentsViewBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EF09F228C10E7D0079E35C /* CommentsViewBottom.swift */; };
 		98F496802886F32000761792 /* RegisterTextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F4967F2886F32000761792 /* RegisterTextFields.swift */; };
 		98F4968228875EBB00761792 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F4968128875EBA00761792 /* AuthController.swift */; };
+		98F55CB029659EBB004B51DD /* CommentsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F55CAF29659EBB004B51DD /* CommentsCellView.swift */; };
+		98F55CB22965A353004B51DD /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F55CB12965A353004B51DD /* CommentsViewModel.swift */; };
 		98FA3A93289308BA000D2CAA /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA3A92289308B9000D2CAA /* UserInfo.swift */; };
 		98FA3A95289353CB000D2CAA /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA3A94289353CB000D2CAA /* FirebaseManager.swift */; };
 		98FA3A972893546C000D2CAA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FA3A962893546C000D2CAA /* UserViewModel.swift */; };
@@ -201,6 +203,8 @@
 		98EF09F228C10E7D0079E35C /* CommentsViewBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewBottom.swift; sourceTree = "<group>"; };
 		98F4967F2886F32000761792 /* RegisterTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextFields.swift; sourceTree = "<group>"; };
 		98F4968128875EBA00761792 /* AuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthController.swift; sourceTree = "<group>"; };
+		98F55CAF29659EBB004B51DD /* CommentsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCellView.swift; sourceTree = "<group>"; };
+		98F55CB12965A353004B51DD /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
 		98F98D5028F49710004FDD67 /* StudyPal SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "StudyPal SwiftUI.entitlements"; sourceTree = "<group>"; };
 		98FA3A92289308B9000D2CAA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		98FA3A94289353CB000D2CAA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -570,6 +574,7 @@
 			isa = PBXGroup;
 			children = (
 				988E63AC28B031000015AB01 /* ForumsViewModel.swift */,
+				98F55CB12965A353004B51DD /* CommentsViewModel.swift */,
 			);
 			path = Forums;
 			sourceTree = "<group>";
@@ -732,6 +737,7 @@
 			isa = PBXGroup;
 			children = (
 				98EF09F228C10E7D0079E35C /* CommentsViewBottom.swift */,
+				98F55CAF29659EBB004B51DD /* CommentsCellView.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -899,12 +905,14 @@
 				984BB79628B1B01900D7E493 /* TopicCells.swift in Sources */,
 				98187095288F1BF700A0808E /* SideMenuCellView.swift in Sources */,
 				98E5B41C28AE3DB20014E7C5 /* GroupMessageViewModel.swift in Sources */,
+				98F55CB22965A353004B51DD /* CommentsViewModel.swift in Sources */,
 				984BB79228B1AB0A00D7E493 /* MiniGames.swift in Sources */,
 				986B322028AD5F9E006CC585 /* GroupChatView.swift in Sources */,
 				988E63A728B00F1D0015AB01 /* Reactions.swift in Sources */,
 				98EF09F328C10E7D0079E35C /* CommentsViewBottom.swift in Sources */,
 				98439F232894A58F009B28B0 /* ChatView.swift in Sources */,
 				98F4968228875EBB00761792 /* AuthController.swift in Sources */,
+				98F55CB029659EBB004B51DD /* CommentsCellView.swift in Sources */,
 				9880668D2885FDD700AA56CE /* RegisterScreenView.swift in Sources */,
 				98CABC2D2884D64100D66DCF /* ContentView.swift in Sources */,
 				98FA3A972893546C000D2CAA /* UserViewModel.swift in Sources */,

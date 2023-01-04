@@ -11,16 +11,15 @@ import FirebaseFirestoreSwift
 
 class ForumsViewModel: ObservableObject{
     @Published var posts = [Forums]()
-    @Published var comments = [Forums]()
+    
     @Published var postContent = ""
     @Published var topic = "General"
     
     let user: UserInfo?
-    
+
     init(user: UserInfo?){
         self.user = user
         fetchPosts()
-//        fetchComments()
     }
     
     func fetchPosts(){
@@ -53,7 +52,7 @@ class ForumsViewModel: ObservableObject{
             .collection("posts")
             .document()
         
-        let postData = Forums(name: user?.name ?? "", username: user?.username ?? "", postContent: postContent, mediaURL: "", topic: topic, time: Date(), votes: 0)
+        let postData = Forums(name: user?.name ?? "", username: user?.username ?? "", postContent: postContent, mediaURL: "", topic: topic, time: Date(), votes: 0, comments: nil)
         
         try? doc.setData(from: postData){ error in
             if let error = error{
@@ -63,32 +62,6 @@ class ForumsViewModel: ObservableObject{
         }
     }
     
-    func fetchComments(_ id: String){
-        self.comments.removeAll()
-        
-        FirebaseManager.shared.firestore
-            .collection("posts")
-            .document(id)
-            .collection("comments")
-            .addSnapshotListener { snapshot, error in
-                if let error = error{
-                    print(error.localizedDescription)
-                    return
-                }
-                
-                snapshot?.documentChanges.forEach({ change in
-                    if change.type == .added{
-                        do{
-                            let data = try change.document.data(as: Forums.self)
-                            self.comments.append(data)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                })
-            }
-    }
-    
     func createComment(_ id: String){
         let doc = FirebaseManager.shared.firestore
             .collection("posts")
@@ -96,7 +69,7 @@ class ForumsViewModel: ObservableObject{
             .collection("comments")
             .document()
         
-        let commentData = Forums(name: user?.name ?? "", username: user?.username ?? "", postContent: postContent, mediaURL: "", topic: topic, time: Date(), votes: 0)
+        let commentData = Forums(name: user?.name ?? "", username: user?.username ?? "", postContent: postContent, mediaURL: "", topic: topic, time: Date(), votes: 0, comments: nil)
         
         try? doc.setData(from: commentData){ error in
             if let error = error{

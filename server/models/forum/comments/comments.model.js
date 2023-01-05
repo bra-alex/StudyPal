@@ -19,7 +19,7 @@ async function deleteComment(commentId){
     } catch (e) {
         console.log(e)
         e.status = 500
-        e.message = 'Error creating post'
+        e.message = 'Error deleting comment'
         throw e
     }
 }

@@ -20,6 +20,9 @@ async function findPostById(id) {
         return await Post.findById(id, {
             '__v': 0
         })
+        .populate({
+            path: 'comments'
+        })
     } catch (e) {
         console.log(e)
         e.status = 500

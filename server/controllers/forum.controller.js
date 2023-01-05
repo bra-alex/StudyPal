@@ -1,4 +1,5 @@
 const postModel = require('../models/forum/posts/posts.model')
+const forumModel = require('../models/forum/comments/comments.model')
 
 async function httpFetchAllPosts(req, res, next) {
     try {
@@ -39,11 +40,26 @@ async function httpFetchPost(req, res, next) {
 async function httpCreatePost(req, res, next) {
     try {
         const postDetails = req.body
+        postDetails.comments = []
 
         await postModel.createPost(postDetails)
 
         res.status(200).json(postDetails)
     } catch (e) {
+        next(e)
+    }
+}
+
+async function httpAddComment(req, res, next) {
+    try{
+        const postId = req.params.postId
+        const comment = req.body
+        comment.post = postId
+
+        await forumModel.addComment(comment)
+        
+        res.status(200).json(comment)
+    } catch(e) {
         next(e)
     }
 }
@@ -60,9 +76,22 @@ async function httpDeletePost(req, res, next) {
     }
 }
 
+async function httpDeleteComment(req, res, next) {
+    try {
+        const commentId = req.params.commentId
+        await forumModel.deleteComment(commentId)
+        
+        res.status(200)
+    } catch (e) {
+        next(e)
+    }
+}
+
 module.exports = {
     httpFetchAllPosts,
     httpFetchPost,
     httpCreatePost,
-    httpDeletePost
+    httpAddComment,
+    httpDeletePost,
+    httpDeleteComment
 }

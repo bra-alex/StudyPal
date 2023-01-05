@@ -1,0 +1,14 @@
+{
+  "name": "studypal-server",
+  "version": "1.0.0",
+  "description": "StudyPal backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexander Asiamah Boakye",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

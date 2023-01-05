@@ -1,4 +1,4 @@
-const postModel = require('../models/posts/posts.model')
+const postModel = require('../models/forum/posts/posts.model')
 
 async function httpFetchAllPosts(req, res, next) {
     try {

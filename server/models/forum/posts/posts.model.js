@@ -20,6 +20,9 @@ async function findPostById(id) {
         return await Post.findById(id, {
             '__v': 0
         })
+        .populate({
+            path: 'comments'
+        })
     } catch (e) {
         console.log(e)
         e.status = 500
@@ -47,7 +50,7 @@ async function deletePost(postId){
     } catch (e) {
         console.log(e)
         e.status = 500
-        e.message = 'Error creating post'
+        e.message = 'Error deleting post'
         throw e
     }
 }

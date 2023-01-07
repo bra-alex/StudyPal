@@ -28,6 +28,12 @@ const userSchema = new Schema({
             type: mongoose.Types.ObjectId,
             ref: 'Post'
         }
+    ],
+    messages: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Message'
+        }
     ]
 })
 

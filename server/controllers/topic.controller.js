@@ -31,12 +31,12 @@ async function httpFetchTopic(req, res, next) {
 async function httpCreateTopic(req, res, next) {
     try {
         const topicDetails = req.body
-        topicDetails.users = []
+        topicDetails.users = [topicDetails.user]
         topicDetails.posts = []
 
-        await topicModel.createTopic(topicDetails)
+        const createdTopic = await topicModel.createTopic(topicDetails)
 
-        res.status(200).json(topicDetails)
+        res.status(200).json(createdTopic)
     } catch (e) {
         next(e)
     }

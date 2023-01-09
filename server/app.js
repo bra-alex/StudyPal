@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use('/', userRoute)
 app.use('/forum', forumRoute)
-app.use('/topics', topicRoute)
+app.use('/topic', topicRoute)
 app.use('/resources', resourceRoute)
 
 app.use((error, req, res, next) => {

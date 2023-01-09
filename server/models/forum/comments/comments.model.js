@@ -1,4 +1,5 @@
 const Comment = require('./comments.mongo')
+const Post = require('../posts/posts.mongo')
 
 async function addComment(commentDetails) {
     try {
@@ -24,8 +25,13 @@ async function findCommentById(commentId) {
     }
 }
 
-async function deleteComment(commentId) {
+async function deleteComment(postId, commentId) {
     try {
+        const post = await Post.findById(postId)
+        post.comments = post.comments.filter(c => c != commentId)
+
+        await post.save()
+
         return await Comment.findByIdAndDelete(commentId)
     } catch (e) {
         console.log(e)

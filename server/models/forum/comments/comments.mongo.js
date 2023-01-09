@@ -11,10 +11,6 @@ const commentSchema = new Schema({
     postContent: {
         type: String,
         required: true
-    },
-    post: {
-        type: mongoose.Types.ObjectId,
-        required: true
     }
 },
     {

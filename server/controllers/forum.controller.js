@@ -1,5 +1,7 @@
 const postModel = require('../models/forum/posts/posts.model')
 const commentModel = require('../models/forum/comments/comments.model')
+const User = require('../models/users/users.mongo')
+const Topic = require('../models/topics/topics.mongo')
 
 async function httpFetchAllPosts(req, res, next) {
     try {
@@ -33,10 +35,20 @@ async function httpCreatePost(req, res, next) {
         const postDetails = req.body
         postDetails.comments = []
 
-        await postModel.createPost(postDetails)
+        const createdPost = await postModel.createPost(postDetails)
 
-        res.status(200).json(postDetails)
+        const user = await User.findById(postDetails.user)
+        const topic = await Topic.findById(postDetails.topic)
+
+        user.posts = [...user.posts, createdPost]
+        topic.posts = [...topic.posts, createdPost]
+
+        await user.save()
+        await topic.save()
+
+        res.status(200).json(createdPost)
     } catch (e) {
+        e.status = 400
         next(e)
     }
 }
@@ -44,11 +56,14 @@ async function httpCreatePost(req, res, next) {
 async function httpAddComment(req, res, next) {
     try {
         const comment = req.body
-        comment.post = res.postId
+        const createdComment = await commentModel.addComment(comment)
 
-        await commentModel.addComment(comment)
+        const post = await postModel.findPostById(res.postId)
+        post.comments = [...post.comments, createdComment]
 
-        res.status(200).json(comment)
+        await post.save()
+
+        res.status(200).json(createdComment)
     } catch (e) {
         next(e)
     }
@@ -56,9 +71,23 @@ async function httpAddComment(req, res, next) {
 
 async function httpDeletePost(req, res, next) {
     try {
+
+        const post = await postModel.findPostById(res.postId)
+
+        const user = await User.findById(post.user)
+        const topic = await Topic.findById(post.topic)
+
+        user.posts = user.posts.filter(p => p._id != res.postId)
+        topic.posts = topic.posts.filter(p => p._id != res.postId)
+
+        await user.save()
+        await topic.save()
+
         await postModel.deletePost(res.postId)
 
-        res.status(200)
+        res.status(200).json({
+            message: 'Post deleted'
+        })
     } catch (e) {
         next(e)
     }
@@ -66,10 +95,12 @@ async function httpDeletePost(req, res, next) {
 
 async function httpDeleteComment(req, res, next) {
     try {
-        const commentId = req.params.commentId
-        await commentModel.deleteComment(commentId)
 
-        res.status(200)
+        await commentModel.deleteComment(res.postId, res.commentId)
+
+        res.status(200).json({
+            message: 'Comment deleted'
+        })
     } catch (e) {
         next(e)
     }

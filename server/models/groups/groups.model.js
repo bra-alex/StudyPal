@@ -13,7 +13,7 @@ async function getAllGroups() {
 
 async function getGroup(groupId) {
     try {
-        return await Groups.findById(groupId)
+        return await Groups.findById(groupId).populate('members', ['name', 'username'])
     } catch (e) {
         console.log(e)
         e.status = 500

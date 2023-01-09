@@ -24,10 +24,11 @@ async function httpCreateGroup(req, res, next) {
     try {
         const groupDetails = req.body
 
-        const createdGroup = groupModel.createGroup(groupDetails)
+        const createdGroup = await groupModel.createGroup(groupDetails)
 
-        res.status.json(createdGroup)
+        res.status(201).json(createdGroup)
     } catch (e) {
+        e.status = 400
         next(e)
     }
 }
@@ -36,6 +37,9 @@ async function httpDeleteGroup(req, res, next) {
     try {
         await groupModel.deleteGroup(res.groupId)
 
+        res.status(200).json({
+            message: 'Group Deleted'
+        })
     } catch (e) {
         next(e)
     }

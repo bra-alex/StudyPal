@@ -1,4 +1,5 @@
 const userModel = require('../models/users/users.model')
+const groupModel = require('../models/groups/groups.model')
 const topicModel = require('../models/topics/topics.model')
 const postModel = require('../models/forum/posts/posts.model')
 const resourceModel = require('../models/resources/resources.model')
@@ -17,6 +18,25 @@ async function userExists(req, res, next) {
         }
 
         res.uid = uid
+        next()
+    } catch (e) {
+        next(e)
+    }
+}
+
+async function groupExists(req, res, next) {
+    try {
+        const groupId = req.params.groupId
+
+        const group = await groupModel.getGroup(groupId)
+
+        if (!group) {
+            return res.status(400).json({
+                message: 'Group not found'
+            })
+        }
+
+        res.groupId = groupId
         next()
     } catch (e) {
         next(e)
@@ -102,6 +122,7 @@ async function commentExists(req, res, next) {
 module.exports = {
     userExists,
     postExists,
+    groupExists,
     topicExists,
     commentExists,
     resourceExists,

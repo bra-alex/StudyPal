@@ -10,3 +10,5 @@ resourceRoute.get('/:resourceId', existsMiddleware.resourceExists, resourceContr
 
 resourceRoute.post('', resourceController.httpCreateResource)
 resourceRoute.delete('/:resourceId', existsMiddleware.resourceExists, resourceController.httpDeleteResource)
+
+module.exports = resourceRoute

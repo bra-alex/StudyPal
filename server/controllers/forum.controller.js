@@ -43,9 +43,8 @@ async function httpCreatePost(req, res, next) {
 
 async function httpAddComment(req, res, next) {
     try {
-        const postId = req.params.postId
         const comment = req.body
-        comment.post = postId
+        comment.post = res.postId
 
         await commentModel.addComment(comment)
 

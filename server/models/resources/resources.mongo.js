@@ -11,7 +11,7 @@ const resourceSchema = new Schema({
         type: String,
         required: true
     },
-    user: {
+    author: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }

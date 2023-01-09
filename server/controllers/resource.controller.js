@@ -5,10 +5,11 @@ async function httpGetAllResources(req, res, next) {
         const resources = await resourceModel.getAllResources()
 
         if (resources.length === 0) {
-            res.status(404).json({
+            return res.status(404).json({
                 message: 'No resources found'
             })
         }
+
         res.status(200).json(resources)
     } catch (e) {
         next(e)
@@ -29,9 +30,9 @@ async function httpCreateResource(req, res, next) {
     try {
         const resource = req.body
 
-        await resourceModel.createResource(resource)
+        const createdResource = await resourceModel.createResource(resource)
 
-        res.status(201).json(resource)
+        res.status(201).json(createdResource)
     } catch (e) {
         next(e)
     }

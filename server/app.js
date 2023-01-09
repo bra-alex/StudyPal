@@ -12,7 +12,7 @@ app.use(express.json())
 app.use('/', userRoute)
 app.use('/forum', forumRoute)
 app.use('/topic', topicRoute)
-app.use('/resources', resourceRoute)
+app.use('/resource', resourceRoute)
 
 app.use((error, req, res, next) => {
     res.status(error.status).json({

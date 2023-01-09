@@ -15,7 +15,7 @@ async function getAllUsers() {
 
 async function getUser(uid) {
     try {
-        return await User.find({ uid: uid }, {
+        return await User.findOne({ uid: uid }, {
             '__v': 0
         })
     } catch (e) {

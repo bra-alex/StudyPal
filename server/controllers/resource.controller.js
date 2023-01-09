@@ -4,12 +4,6 @@ async function httpGetAllResources(req, res, next) {
     try {
         const resources = await resourceModel.getAllResources()
 
-        if (resources.length === 0) {
-            return res.status(404).json({
-                message: 'No resources found'
-            })
-        }
-
         res.status(200).json(resources)
     } catch (e) {
         next(e)

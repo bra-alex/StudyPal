@@ -7,14 +7,7 @@ async function httpFetchAllPosts(req, res, next) {
     try {
         const posts = await postModel.fetchAllPosts()
 
-        if (posts.length === 0) {
-            return res.status(404).json({
-                message: 'No posts found'
-            })
-        }
-
         res.status(200).json(posts)
-
     } catch (e) {
         next(e)
     }

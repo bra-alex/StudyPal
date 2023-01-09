@@ -32,13 +32,21 @@ async function httpFetchPost(req, res, next) {
 
 async function httpCreatePost(req, res, next) {
     try {
-        const postDetails = req.body
-        postDetails.comments = []
+        const topic = await Topic.findById(req.body.topic.id)
+
+        const postDetails = {
+            author: req.body.author,
+            postContent: req.body.postContent,
+            topic: {
+                id: req.body.topic.id,
+                name: topic.name
+            },
+            comments: []
+        }
 
         const createdPost = await postModel.createPost(postDetails)
 
-        const user = await User.findById(postDetails.user)
-        const topic = await Topic.findById(postDetails.topic)
+        const user = await User.findById(postDetails.author)
 
         user.posts = [...user.posts, createdPost]
         topic.posts = [...topic.posts, createdPost]
@@ -78,10 +86,13 @@ async function httpDeletePost(req, res, next) {
         const topic = await Topic.findById(post.topic)
 
         user.posts = user.posts.filter(p => p._id != res.postId)
-        topic.posts = topic.posts.filter(p => p._id != res.postId)
+
+        if (topic) {
+            topic.posts = topic.posts.filter(p => p._id != res.postId)
+            await topic.save()
+        }
 
         await user.save()
-        await topic.save()
 
         await postModel.deletePost(res.postId)
 

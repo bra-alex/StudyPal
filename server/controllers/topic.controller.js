@@ -31,7 +31,7 @@ async function httpFetchTopic(req, res, next) {
 async function httpCreateTopic(req, res, next) {
     try {
         const topicDetails = req.body
-        topicDetails.users = [topicDetails.user]
+        topicDetails.members = [topicDetails.user]
         topicDetails.posts = []
 
         const createdTopic = await topicModel.createTopic(topicDetails)
@@ -46,7 +46,9 @@ async function httpDeleteTopic(req, res, next) {
     try {
         await topicModel.deleteTopic(res.topicId)
 
-        res.status(200)
+        res.status(200).json({
+            message: "Topic Deleted"
+        })
     } catch (e) {
         next(e)
     }

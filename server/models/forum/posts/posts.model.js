@@ -1,4 +1,5 @@
 const Post = require('./posts.mongo')
+const Comment = require('../comments/comments.mongo')
 
 async function fetchAllPosts() {
     try {
@@ -20,9 +21,9 @@ async function findPostById(id) {
         return await Post.findById(id, {
             '__v': 0
         })
-        .populate({
-            path: 'comments'
-        })
+            .populate({
+                path: 'comments'
+            })
     } catch (e) {
         console.log(e)
         e.status = 500
@@ -31,7 +32,7 @@ async function findPostById(id) {
     }
 }
 
-async function createPost(postDetails){
+async function createPost(postDetails) {
     try {
         const post = new Post(postDetails)
 
@@ -44,9 +45,13 @@ async function createPost(postDetails){
     }
 }
 
-async function deletePost(postId){
+async function deletePost(postId) {
     try {
-        return await Post.deleteOne({_id: postId})
+        const post = await Post.findById(postId)
+        post.comments.forEach(async (comment) => {
+            await Comment.findByIdAndDelete(comment)
+        })
+        return await Post.findByIdAndDelete(postId)
     } catch (e) {
         console.log(e)
         e.status = 500

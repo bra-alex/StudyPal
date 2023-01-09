@@ -4,14 +4,7 @@ async function httpFetchAllTopics(req, res, next) {
     try {
         const topics = await topicModel.fetchAllTopics()
 
-        if (topics.length === 0) {
-            return res.status(404).json({
-                message: 'No topics found'
-            })
-        }
-
         res.status(200).json(topics)
-
     } catch (e) {
         next(e)
     }
@@ -19,15 +12,7 @@ async function httpFetchAllTopics(req, res, next) {
 
 async function httpFetchTopic(req, res, next) {
     try {
-        const topicId = req.params.topicId
-
-        const topic = await topicModel.findTopicById(topicId)
-
-        if (!topic) {
-            return res.status(404).json({
-                message: 'Topic not found'
-            })
-        }
+        const topic = await topicModel.findTopicById(res.topicId)
 
         res.status(200).json(topic)
 
@@ -39,12 +24,12 @@ async function httpFetchTopic(req, res, next) {
 async function httpCreateTopic(req, res, next) {
     try {
         const topicDetails = req.body
-        topicDetails.users = []
+        topicDetails.members = [topicDetails.user]
         topicDetails.posts = []
 
-        await topicModel.createTopic(topicDetails)
+        const createdTopic = await topicModel.createTopic(topicDetails)
 
-        res.status(200).json(topicDetails)
+        res.status(200).json(createdTopic)
     } catch (e) {
         next(e)
     }
@@ -52,11 +37,11 @@ async function httpCreateTopic(req, res, next) {
 
 async function httpDeleteTopic(req, res, next) {
     try {
-        const topicId = req.params.topicId
-        
-        await topicModel.deleteTopic(topicId)
+        await topicModel.deleteTopic(res.topicId)
 
-        res.status(200)
+        res.status(200).json({
+            message: "Topic Deleted"
+        })
     } catch (e) {
         next(e)
     }

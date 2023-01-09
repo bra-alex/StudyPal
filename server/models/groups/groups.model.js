@@ -11,6 +11,17 @@ async function getAllGroups() {
     }
 }
 
+async function getGroup(groupId) {
+    try {
+        return await Groups.findById(groupId).populate('members', ['name', 'username'])
+    } catch (e) {
+        console.log(e)
+        e.status = 500
+        e.message = 'Error getting users from the database'
+        throw e
+    }
+}
+
 async function createGroup(groupDetails) {
     try {
         const group = new Groups(groupDetails)
@@ -21,4 +32,22 @@ async function createGroup(groupDetails) {
         e.message = 'Error getting users from the database'
         throw e
     }
+}
+
+async function deleteGroup(groupId) {
+    try {
+        return await Groups.findByIdAndDelete(groupId)
+    } catch (e) {
+        console.log(e)
+        e.status = 400
+        e.message = 'Error getting users from the database'
+        throw e
+    }
+}
+
+module.exports = {
+    getGroup,
+    deleteGroup,
+    createGroup,
+    getAllGroups,
 }

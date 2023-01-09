@@ -3,7 +3,6 @@ const User = require('./users.mongo')
 async function getAllUsers() {
     try {
         return await User.find({}, {
-            'posts': 0,
             '__v': 0
         })
     } catch (e) {
@@ -41,7 +40,7 @@ async function createUser(user) {
 
 async function updateUser(user) {
     try {
-        return await User.findOneAndUpdate({ uid: uid }, user)
+        return await User.findOneAndUpdate({ uid: user.uid }, user)
     } catch (e) {
         console.log(e)
         e.status = 500

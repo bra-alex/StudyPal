@@ -1,5 +1,5 @@
 const postModel = require('../models/forum/posts/posts.model')
-const forumModel = require('../models/forum/comments/comments.model')
+const commentModel = require('../models/forum/comments/comments.model')
 
 async function httpFetchAllPosts(req, res, next) {
     try {
@@ -20,18 +20,9 @@ async function httpFetchAllPosts(req, res, next) {
 
 async function httpFetchPost(req, res, next) {
     try {
-        const postId = req.params.postId
-
-        const post = await postModel.findPostById(postId)
-
-        if (!post) {
-            return res.status(404).json({
-                message: 'Post not found'
-            })
-        }
+        const post = await postModel.findPostById(res.postId)
 
         res.status(200).json(post)
-
     } catch (e) {
         next(e)
     }
@@ -51,24 +42,22 @@ async function httpCreatePost(req, res, next) {
 }
 
 async function httpAddComment(req, res, next) {
-    try{
+    try {
         const postId = req.params.postId
         const comment = req.body
         comment.post = postId
 
-        await forumModel.addComment(comment)
-        
+        await commentModel.addComment(comment)
+
         res.status(200).json(comment)
-    } catch(e) {
+    } catch (e) {
         next(e)
     }
 }
 
 async function httpDeletePost(req, res, next) {
     try {
-        const postId = req.params.postId
-        
-        await postModel.deletePost(postId)
+        await postModel.deletePost(res.postId)
 
         res.status(200)
     } catch (e) {
@@ -79,8 +68,8 @@ async function httpDeletePost(req, res, next) {
 async function httpDeleteComment(req, res, next) {
     try {
         const commentId = req.params.commentId
-        await forumModel.deleteComment(commentId)
-        
+        await commentModel.deleteComment(commentId)
+
         res.status(200)
     } catch (e) {
         next(e)

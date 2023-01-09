@@ -1,6 +1,6 @@
 const resourceModel = require('../models/resources/resources.model')
 
-async function httpGetAllResources(req, res, next){
+async function httpGetAllResources(req, res, next) {
     try {
         const resources = await resourceModel.getAllResources()
 
@@ -15,23 +15,17 @@ async function httpGetAllResources(req, res, next){
     }
 }
 
-async function httpGetResource(req, res, next){
+async function httpGetResource(req, res, next) {
     try {
-        const resourceId = req.params.resourceId
-        const resource = await resourceModel.getResource(resourceId)
+        const resource = await resourceModel.getResource(res.resourceId)
 
-        if (!resource) {
-            res.status(404).json({
-                message: 'Resource not found'
-            })
-        }
         res.status(200).json(resource)
     } catch (e) {
         next(e)
     }
 }
 
-async function httpCreateResource(req, res, next){
+async function httpCreateResource(req, res, next) {
     try {
         const resource = req.body
 
@@ -43,13 +37,13 @@ async function httpCreateResource(req, res, next){
     }
 }
 
-async function httpDeleteResource(req, res, next){
+async function httpDeleteResource(req, res, next) {
     try {
-        const resourceId = req.params.resourceId
+        await resourceModel.deleteResource(res.resourceId)
 
-        await resourceModel.deleteResource(resourceId)
-
-        res.status(200)
+        res.status(200).json({
+            message: 'Resource deleted'
+        })
     } catch (e) {
         next(e)
     }

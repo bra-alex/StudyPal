@@ -19,15 +19,7 @@ async function httpFetchAllTopics(req, res, next) {
 
 async function httpFetchTopic(req, res, next) {
     try {
-        const topicId = req.params.topicId
-
-        const topic = await topicModel.findTopicById(topicId)
-
-        if (!topic) {
-            return res.status(404).json({
-                message: 'Topic not found'
-            })
-        }
+        const topic = await topicModel.findTopicById(res.topicId)
 
         res.status(200).json(topic)
 
@@ -52,9 +44,7 @@ async function httpCreateTopic(req, res, next) {
 
 async function httpDeleteTopic(req, res, next) {
     try {
-        const topicId = req.params.topicId
-        
-        await topicModel.deleteTopic(topicId)
+        await topicModel.deleteTopic(res.topicId)
 
         res.status(200)
     } catch (e) {

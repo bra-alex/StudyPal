@@ -22,3 +22,8 @@ async function createGroup(groupDetails) {
         throw e
     }
 }
+
+module.exports = {
+    getAllGroups,
+    createGroup
+}

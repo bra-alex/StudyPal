@@ -1,16 +1,5 @@
 const Messages = require('./messages.mongo')
 
-async function getAllMessages(sender) {
-    try {
-        return await Messages.find({ sender: sender })
-    } catch (e) {
-        console.log(e)
-        e.status = 500
-        e.message = 'Error getting messages from the database'
-        throw e
-    }
-}
-
 async function createMessage(message) {
     const sender = message.sender
     const recipient = message.recipient
@@ -27,27 +16,27 @@ async function createMessage(message) {
             userMessage = await createUserMessages(sender, recipient, msg, date)
             recipientMessage = await createUserMessages(recipient, sender, msg, date)
 
-            return userMessage
+            return { userMessage, recipientMessage }
         }
 
         if (!userMessages && recipientMessages) {
             userMessage = await createUserMessages(sender, recipient, msg, date)
             recipientMessage = await updatingExistingUserMessage(recipientMessages, recipient, sender, msg, date)
 
-            return userMessage
+            return { userMessage, recipientMessage }
         }
 
         if (userMessages && !recipientMessages) {
             userMessage = await updatingExistingUserMessage(userMessages, sender, recipient, msg, date)
             recipientMessage = await createUserMessages(recipient, sender, msg, date)
 
-            return userMessage
+            return { userMessage, recipientMessage }
         }
 
         userMessage = await updatingExistingUserMessage(userMessages, sender, recipient, msg, date)
         recipientMessage = await updatingExistingUserMessage(recipientMessages, recipient, sender, msg, date)
 
-        return userMessage
+        return { userMessage, recipientMessage }
     } catch (e) {
         console.log(e)
         e.status = 400
@@ -77,7 +66,7 @@ async function createUserMessages(sender, recipient, message, date) {
 }
 
 async function updatingExistingUserMessage(userMessages, sender, recipient, message, date) {
-    const recipientMessages = userMessages.messages.filter(msg => msg.recipient === recipient)
+    const recipientMessages = userMessages.messages.filter(msg => msg.recipient == recipient)
 
     let newMessage;
     let updatedRecipientMessages;
@@ -102,8 +91,10 @@ async function updatingExistingUserMessage(userMessages, sender, recipient, mess
         }
     } else {
         const recipientMessage = [...recipientMessages]
-        recipientMessage.push({ sender, message, date })
-        updatedRecipientMessages = [...userMessages.messages, recipientMessage]
+        recipientMessage[0].messages.push({ sender, message, date })
+        const oldMessages = userMessages.messages.filter(msg => msg.recipient != recipient)
+        updatedRecipientMessages = [...oldMessages, ...recipientMessage]
+        // console.log(updatedRecipientMessages);
         newMessage = {
             sender,
             messages: updatedRecipientMessages
@@ -114,6 +105,5 @@ async function updatingExistingUserMessage(userMessages, sender, recipient, mess
 }
 
 module.exports = {
-    getAllMessages,
     createMessage
 }

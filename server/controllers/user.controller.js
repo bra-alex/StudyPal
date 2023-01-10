@@ -1,4 +1,5 @@
 const userModel = require('../models/users/users.model')
+const messagesModel = require('../models/users/messages/messages.model')
 const uuid = require('uuid')
 
 async function httpGetAllUsers(req, res, next) {
@@ -13,9 +14,17 @@ async function httpGetAllUsers(req, res, next) {
 
 async function httpGetUser(req, res, next) {
     try {
-        const user = await userModel.getUser(res.uid)
+        res.status(200).json(res.user)
+    } catch (e) {
+        next(e)
+    }
+}
 
-        res.status(200).json(user)
+async function httpGetUserMessages(req, res, next) {
+    try {
+        const messages = await userModel.getUserMessages(res.user.uid)
+
+        res.status(200).json(messages)
     } catch (e) {
         next(e)
     }
@@ -47,9 +56,39 @@ async function httpCreateUser(req, res, next) {
     }
 }
 
+async function httpCreateMessage(req, res, next) {
+    try {
+        const message = {
+            sender: req.body.sender,
+            recipient: req.body.recipient,
+            message: req.body.message,
+            date: req.body.date
+        }
+
+        const newMessage = await messagesModel.createMessage(message)
+
+        const sender = await userModel.getUserById(message.sender)
+        const recipient = await userModel.getUserById(message.recipient)
+
+        if (sender.messages.length === 0 && recipient.messages.length === 0) {
+            sender.messages = [newMessage.userMessage._id]
+            recipient.messages = [newMessage.recipientMessage._id]
+
+            await sender.save()
+            await recipient.save()
+        }
+
+        res.status(201).json(newMessage.userMessage)
+
+    } catch (e) {
+        e.status = 400
+        next(e)
+    }
+}
+
 async function httpUpdateUser(req, res, next) {
     try {
-        const uid = res.uid
+        const uid = res.user.uid
         const name = req.body.name
         const username = req.body.username
         const email = req.body.email
@@ -73,7 +112,7 @@ async function httpUpdateUser(req, res, next) {
 
 async function httpDeleteUser(req, res, next) {
     try {
-        await userModel.deleteUser(res.uid)
+        await userModel.deleteUser(res.user.uid)
 
         res.status(201).json({
             message: 'User Deleted'
@@ -89,4 +128,6 @@ module.exports = {
     httpUpdateUser,
     httpDeleteUser,
     httpGetAllUsers,
+    httpCreateMessage,
+    httpGetUserMessages
 }

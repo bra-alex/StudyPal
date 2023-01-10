@@ -26,6 +26,31 @@ async function getUser(uid) {
     }
 }
 
+async function getUserById(id) {
+    try {
+        return await User.findById(id)
+    } catch (e) {
+        console.log(e)
+        e.status = 500
+        e.message = 'Error getting user from the database'
+        throw e
+    }
+}
+
+async function getUserMessages(uid) {
+    try {
+        return await User.findOne({ uid: uid }, {
+            'messages': 1
+        })
+            .populate('messages')
+    } catch (e) {
+        console.log(e)
+        e.status = 500
+        e.message = 'Error getting user messages from the database'
+        throw e
+    }
+}
+
 async function createUser(user) {
     try {
         const newUser = new User(user)
@@ -61,9 +86,11 @@ async function deleteUser(uid) {
 }
 
 module.exports = {
-    getAllUsers,
     getUser,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getAllUsers,
+    getUserById,
+    getUserMessages
 }

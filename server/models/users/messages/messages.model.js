@@ -1,8 +1,8 @@
 const Messages = require('./messages.mongo')
 
-async function getAllMessages() {
+async function getAllMessages(sender) {
     try {
-        return await Messages.find()
+        return await Messages.find({ sender: sender })
     } catch (e) {
         console.log(e)
         e.status = 500
@@ -18,25 +18,36 @@ async function createMessage(message) {
     const date = message.date
 
     try {
+        let userMessage;
+        let recipientMessage;
         const userMessages = await Messages.findOne({ sender: sender })
-        if (!userMessages) {
-            const newMessage = new Messages({
-                sender,
-                messages: [
-                    {
-                        recipient,
-                        messages: [
-                            {
-                                message: msg,
-                                date
-                            }
-                        ]
-                    }
-                ]
-            })
-            return await newMessage.save()
+        const recipientMessages = await Messages.findOne({ recipient: recipient })
+
+        if (!userMessages && !recipientMessages) {
+            userMessage = await createUserMessages(sender, recipient, msg, date)
+            recipientMessage = await createUserMessages(recipient, sender, msg, date)
+
+            return userMessage
         }
-        return await updatingExistingMessage(userMessages, sender, recipient, msg, date)
+
+        if (!userMessages && recipientMessages) {
+            userMessage = await createUserMessages(sender, recipient, msg, date)
+            recipientMessage = await updatingExistingUserMessage(recipientMessages, recipient, sender, msg, date)
+
+            return userMessage
+        }
+
+        if (userMessages && !recipientMessages) {
+            userMessage = await updatingExistingUserMessage(userMessages, sender, recipient, msg, date)
+            recipientMessage = await createUserMessages(recipient, sender, msg, date)
+
+            return userMessage
+        }
+
+        userMessage = await updatingExistingUserMessage(userMessages, sender, recipient, msg, date)
+        recipientMessage = await updatingExistingUserMessage(recipientMessages, recipient, sender, msg, date)
+
+        return userMessage
     } catch (e) {
         console.log(e)
         e.status = 400
@@ -45,21 +56,53 @@ async function createMessage(message) {
     }
 }
 
-async function updatingExistingMessage(userMessages, sender, recipient, message, date) {
+async function createUserMessages(sender, recipient, message, date) {
+    const userMessage = new Messages({
+        sender,
+        messages: [
+            {
+                recipient,
+                messages: [
+                    {
+                        sender,
+                        message,
+                        date
+                    }
+                ]
+            }
+        ]
+    })
+
+    return await userMessage.save()
+}
+
+async function updatingExistingUserMessage(userMessages, sender, recipient, message, date) {
     const recipientMessages = userMessages.messages.filter(msg => msg.recipient === recipient)
 
     let newMessage;
     let updatedRecipientMessages;
 
     if (recipientMessages.length === 0) {
-        updatedRecipientMessages = [...userMessages.messages, { recipient, messages: [{ message, date }] }]
+        updatedRecipientMessages = [
+            ...userMessages.messages,
+            {
+                recipient,
+                messages: [
+                    {
+                        sender,
+                        message,
+                        date
+                    }
+                ]
+            }
+        ]
         newMessage = {
             sender,
             messages: updatedRecipientMessages
         }
     } else {
-        const recipientMessage = { ...recipientMessages }
-        recipientMessage.messages.push({ message, date })
+        const recipientMessage = [...recipientMessages]
+        recipientMessage.push({ sender, message, date })
         updatedRecipientMessages = [...userMessages.messages, recipientMessage]
         newMessage = {
             sender,

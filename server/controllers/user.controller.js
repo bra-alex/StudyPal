@@ -70,18 +70,22 @@ async function httpCreateMessage(req, res, next) {
         const sender = await userModel.getUserById(message.sender)
         const recipient = await userModel.getUserById(message.recipient)
 
-        if (sender.messages.length === 0 && recipient.messages.length === 0) {
+        if (sender.messages.length === 0) {
             sender.messages = [newMessage.userMessage._id]
-            recipient.messages = [newMessage.recipientMessage._id]
-
             await sender.save()
+        }
+
+        if (recipient.messages.length === 0) {
+            recipient.messages = [newMessage.recipientMessage._id]
             await recipient.save()
         }
 
-        res.status(201).json(newMessage.userMessage)
+        res.status(201).json(newMessage)
 
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }

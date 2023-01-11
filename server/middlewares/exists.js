@@ -36,7 +36,7 @@ async function groupExists(req, res, next) {
             })
         }
 
-        res.groupId = groupId
+        res.group = group
         next()
     } catch (e) {
         next(e)

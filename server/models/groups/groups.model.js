@@ -22,6 +22,20 @@ async function getGroup(groupId) {
     }
 }
 
+async function getGroupMessages(groupId) {
+    try {
+        return await Groups.findById(groupId, {
+            'messages': 1
+        })
+            .populate('messages')
+    } catch (e) {
+        console.log(e)
+        e.status = 500
+        e.message = 'Error getting users from the database'
+        throw e
+    }
+}
+
 async function createGroup(groupDetails) {
     try {
         const group = new Groups(groupDetails)
@@ -50,4 +64,5 @@ module.exports = {
     deleteGroup,
     createGroup,
     getAllGroups,
+    getGroupMessages
 }

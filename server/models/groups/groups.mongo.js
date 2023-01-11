@@ -12,6 +12,10 @@ const groupSchema = new Schema({
         ref: 'User',
         required: true
     },
+    messages: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Group Message',
+    },
     members: [
         {
             type: mongoose.Types.ObjectId,

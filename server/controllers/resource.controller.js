@@ -22,12 +22,17 @@ async function httpGetResource(req, res, next) {
 
 async function httpCreateResource(req, res, next) {
     try {
-        const resource = req.body
+        const resource = {
+            name: req.body.name,
+            resourceUrl: req.file.path,
+            author: req.body.author
+        }
 
         const createdResource = await resourceModel.createResource(resource)
 
         res.status(201).json(createdResource)
     } catch (e) {
+        e.status = 400
         next(e)
     }
 }

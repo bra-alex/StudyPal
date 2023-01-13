@@ -7,6 +7,10 @@ const resourceSchema = new Schema({
         type: String,
         required: true
     },
+    fileName: {
+        type: String,
+        required: true
+    },
     resourceUrl: {
         type: String,
         required: true

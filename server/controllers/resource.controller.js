@@ -14,7 +14,13 @@ async function httpGetResource(req, res, next) {
     try {
         const resource = await resourceModel.getResource(res.resourceId)
 
-        res.status(200).json(resource)
+        res.download(resource.resourceUrl, (err) => {
+            if (err) {
+                err.status = 500
+                err.message = "Could not download resource" + err
+                throw err
+            }
+        })
     } catch (e) {
         next(e)
     }
@@ -22,10 +28,12 @@ async function httpGetResource(req, res, next) {
 
 async function httpCreateResource(req, res, next) {
     try {
+        console.log(req.file);
         const resource = {
             name: req.body.name,
+            fileName: req.file.filename,
+            author: req.body.author,
             resourceUrl: req.file.path,
-            author: req.body.author
         }
 
         const createdResource = await resourceModel.createResource(resource)

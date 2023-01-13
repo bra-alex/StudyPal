@@ -1,3 +1,4 @@
+const deleteFile = require('../util/deleteFile')
 const resourceModel = require('../models/resources/resources.model')
 
 async function httpGetAllResources(req, res, next) {
@@ -12,9 +13,7 @@ async function httpGetAllResources(req, res, next) {
 
 async function httpGetResource(req, res, next) {
     try {
-        const resource = await resourceModel.getResource(res.resourceId)
-
-        res.download(resource.resourceUrl, (err) => {
+        res.download(res.resource.resourceUrl, (err) => {
             if (err) {
                 err.status = 500
                 err.message = "Could not download resource" + err
@@ -47,7 +46,8 @@ async function httpCreateResource(req, res, next) {
 
 async function httpDeleteResource(req, res, next) {
     try {
-        await resourceModel.deleteResource(res.resourceId)
+        deleteFile(res.resource.resourceUrl)
+        await resourceModel.deleteResource(res.resource._id)
 
         res.status(200).json({
             message: 'Resource deleted'

@@ -74,7 +74,7 @@ async function resourceExists(req, res, next) {
             })
         }
 
-        res.resourceId = resourceId
+        res.resource = resource
         next()
     } catch (e) {
         next(e)

@@ -1,6 +1,5 @@
 const userModel = require('../models/users/users.model')
 const messagesModel = require('../models/users/messages/messages.model')
-const uuid = require('uuid')
 
 async function httpGetAllUsers(req, res, next) {
     try {
@@ -32,7 +31,7 @@ async function httpGetUserMessages(req, res, next) {
 
 async function httpCreateUser(req, res, next) {
     try {
-        const uid = uuid.v4()
+        const uid = req.body.uid
         const name = req.body.name
         const username = req.body.username
         const email = req.body.email

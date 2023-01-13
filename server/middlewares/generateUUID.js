@@ -1,7 +1,7 @@
 const uuid = require('uuid').v4
 
 function generateUUID(req, res, next) {
-    req.body.uid = uuid()
+    req.uid = uuid()
     next()
 }
 

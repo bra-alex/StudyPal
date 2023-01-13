@@ -4,7 +4,7 @@ const express = require('express')
 
 const storage = multer.diskStorage({
     destination: (req, res, cb) => {
-        const path = `uploads/users/${req.body.uid}/avatar`
+        const path = `uploads/users/${req.uid}/avatar`
         fs.mkdirsSync(path)
         cb(null, path)
     },

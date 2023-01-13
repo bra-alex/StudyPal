@@ -31,11 +31,11 @@ async function httpGetUserMessages(req, res, next) {
 
 async function httpCreateUser(req, res, next) {
     try {
-        const uid = req.body.uid
+        const uid = req.uid
         const name = req.body.name
         const username = req.body.username
         const email = req.body.email
-        const profileImageUrl = req.body.profileImageUrl
+        const profileImageUrl = req.file.path
 
         const userDetails = {
             uid,

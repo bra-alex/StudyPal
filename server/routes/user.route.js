@@ -2,6 +2,8 @@ const fs = require('fs-extra')
 const multer = require('multer')
 const express = require('express')
 
+const { imageMimeTypes } = require('../util/mimeTypes')
+
 const storage = multer.diskStorage({
     destination: (req, res, cb) => {
         const path = `uploads/users/${req.uid}/avatar`
@@ -14,7 +16,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+    if (imageMimeTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
         cb(null, false)

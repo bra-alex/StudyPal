@@ -37,7 +37,9 @@ async function httpCreateGroup(req, res, next) {
 
         res.status(201).json(createdGroup)
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }
@@ -62,7 +64,9 @@ async function httpCreateGroupMessage(req, res, next) {
 
         res.status(201).json(groupMessages)
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }

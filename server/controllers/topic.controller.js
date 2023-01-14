@@ -31,6 +31,9 @@ async function httpCreateTopic(req, res, next) {
 
         res.status(200).json(createdTopic)
     } catch (e) {
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }

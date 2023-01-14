@@ -11,7 +11,12 @@ const commentSchema = new Schema({
     postContent: {
         type: String,
         required: true
-    }
+    },
+    postMedia: [
+        {
+            mediaURL: String
+        }
+    ],
 },
     {
         timestamps: true,

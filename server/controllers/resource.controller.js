@@ -1,4 +1,4 @@
-const deleteFile = require('../util/deleteFile')
+const { deleteFile } = require('../util/deleteFromStorage')
 const resourceModel = require('../models/resources/resources.model')
 
 async function httpGetAllResources(req, res, next) {
@@ -39,7 +39,9 @@ async function httpCreateResource(req, res, next) {
 
         res.status(201).json(createdResource)
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }

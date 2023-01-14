@@ -18,6 +18,7 @@ async function userExists(req, res, next) {
         }
 
         res.user = user
+        req.uid = uid
         next()
     } catch (e) {
         next(e)
@@ -92,8 +93,8 @@ async function postExists(req, res, next) {
                 message: 'Post not found'
             })
         }
-
-        res.postId = postId
+        res.post = post
+        req.post = post
         next()
     } catch (e) {
         next(e)

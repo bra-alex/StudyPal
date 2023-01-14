@@ -6,8 +6,9 @@ async function addComment(commentDetails) {
         const comment = new Comment(commentDetails)
 
         return await comment.save()
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 400
         e.message = 'Error adding comment'
         throw e
@@ -17,8 +18,9 @@ async function addComment(commentDetails) {
 async function findCommentById(commentId) {
     try {
         return await Comment.findById(commentId)
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 500
         e.message = 'Error retrieving comment'
         throw e
@@ -33,8 +35,9 @@ async function deleteComment(postId, commentId) {
         await post.save()
 
         return await Comment.findByIdAndDelete(commentId)
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 500
         e.message = 'Error deleting comment'
         throw e

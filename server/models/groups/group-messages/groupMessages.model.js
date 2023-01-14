@@ -9,8 +9,9 @@ async function createMessage(message) {
         })
 
         return await groupMessage.save()
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 400
         e.message = 'Error getting users from the database'
         throw e
@@ -20,9 +21,10 @@ async function createMessage(message) {
 async function getMessageById(id) {
     try {
         return await GroupMessages.findById(id)
-    } catch (e) {
-        console.log(e)
-        e.status = 400
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
+        e.status = 500
         e.message = 'Error getting message from the database'
         throw e
     }
@@ -34,8 +36,9 @@ async function updateMessages(existingGroupMessages, message) {
         console.log(existingGroupMessages);
 
         return await GroupMessages.findOneAndUpdate({ id: existingGroupMessages._id }, existingGroupMessages)
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 400
         e.message = 'Error getting users from the database'
         throw e

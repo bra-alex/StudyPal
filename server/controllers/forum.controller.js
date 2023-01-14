@@ -1,7 +1,8 @@
-const postModel = require('../models/forum/posts/posts.model')
-const commentModel = require('../models/forum/comments/comments.model')
 const User = require('../models/users/users.mongo')
 const Topic = require('../models/topics/topics.mongo')
+const postModel = require('../models/forum/posts/posts.model')
+const commentModel = require('../models/forum/comments/comments.model')
+const { deleteFolder } = require('../util/deleteFromStorage')
 
 async function httpFetchAllPosts(req, res, next) {
     try {
@@ -15,9 +16,7 @@ async function httpFetchAllPosts(req, res, next) {
 
 async function httpFetchPost(req, res, next) {
     try {
-        const post = await postModel.findPostById(res.postId)
-
-        res.status(200).json(post)
+        res.status(200).json(res.post)
     } catch (e) {
         next(e)
     }
@@ -25,16 +24,23 @@ async function httpFetchPost(req, res, next) {
 
 async function httpCreatePost(req, res, next) {
     try {
-        const topic = await Topic.findById(req.body.topic.id)
+        const topic = await Topic.findById(req.body.topic)
+        let postMedia = []
+
+        if (req.files) {
+            const filePaths = req.files.map(file => ({ mediaURL: file.path }))
+            postMedia = [...filePaths]
+        }
 
         const postDetails = {
             author: req.body.author,
             postContent: req.body.postContent,
             topic: {
-                id: req.body.topic.id,
+                id: req.body.topic,
                 name: topic.name
             },
-            comments: []
+            comments: [],
+            postMedia
         }
 
         const createdPost = await postModel.createPost(postDetails)
@@ -49,23 +55,40 @@ async function httpCreatePost(req, res, next) {
 
         res.status(200).json(createdPost)
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }
 
 async function httpAddComment(req, res, next) {
     try {
-        const comment = req.body
+        let postMedia = []
+
+        if (req.files) {
+            const filePaths = req.files.map(file => ({ mediaURL: file.path }))
+            postMedia = [...filePaths]
+        }
+
+        const comment = {
+            user: req.body.user,
+            postContent: req.body.postContent,
+            postMedia
+        }
+
         const createdComment = await commentModel.addComment(comment)
 
-        const post = await postModel.findPostById(res.postId)
+        const post = await postModel.findPostById(res.post._id)
         post.comments = [...post.comments, createdComment]
 
         await post.save()
 
         res.status(200).json(createdComment)
     } catch (e) {
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }
@@ -73,26 +96,31 @@ async function httpAddComment(req, res, next) {
 async function httpDeletePost(req, res, next) {
     try {
 
-        const post = await postModel.findPostById(res.postId)
+        const post = await postModel.findPostById(res.post._id)
 
-        const user = await User.findById(post.user)
-        const topic = await Topic.findById(post.topic)
+        const user = await User.findById(post.author)
+        const topic = await Topic.findById(post.topic.id)
 
-        user.posts = user.posts.filter(p => p._id != res.postId)
+        user.posts = user.posts.filter(p => p._id != res.post._id)
 
         if (topic) {
-            topic.posts = topic.posts.filter(p => p._id != res.postId)
+            topic.posts = topic.posts.filter(p => p._id != res.post._id)
             await topic.save()
         }
 
         await user.save()
 
-        await postModel.deletePost(res.postId)
+        await postModel.deletePost(res.post._id)
+
+        deleteFolder(`uploads/forum/posts/${res.post.author}/`)
 
         res.status(200).json({
             message: 'Post deleted'
         })
     } catch (e) {
+        if (!e.status) {
+            e.status = 500
+        }
         next(e)
     }
 }
@@ -100,12 +128,17 @@ async function httpDeletePost(req, res, next) {
 async function httpDeleteComment(req, res, next) {
     try {
 
-        await commentModel.deleteComment(res.postId, res.commentId)
+        await commentModel.deleteComment(res.post._id, res.commentId)
+
+        deleteFolder(`uploads/forum/posts/${res.post.author}/comments`)
 
         res.status(200).json({
             message: 'Comment deleted'
         })
     } catch (e) {
+        if (!e.status) {
+            e.status = 500
+        }
         next(e)
     }
 }

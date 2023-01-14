@@ -2,6 +2,8 @@ const fs = require('fs-extra')
 const multer = require('multer')
 const express = require('express')
 
+const { imageMimeTypes } = require('../util/mimeTypes')
+
 const storage = multer.diskStorage({
     destination: (req, res, cb) => {
         const path = `uploads/users/${req.uid}/avatar`
@@ -14,7 +16,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+    if (imageMimeTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
         cb(null, false)
@@ -31,7 +33,7 @@ userRoute.get('/users', userController.httpGetAllUsers)
 userRoute.get('/user/:uid', userExists, userController.httpGetUser)
 
 userRoute.post('/user', generateUUID, multer({ storage, fileFilter }).single('avatar'), userController.httpCreateUser)
-userRoute.patch('/user/:uid', userExists, userController.httpUpdateUser)
+userRoute.patch('/user/:uid', userExists, multer({ storage, fileFilter }).single('avatar'), userController.httpUpdateUser)
 userRoute.delete('/user/:uid', userExists, userController.httpDeleteUser)
 
 userRoute.get('/user/:uid/messages', userExists, userController.httpGetUserMessages)

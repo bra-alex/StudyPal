@@ -1,3 +1,6 @@
+const fs = require('fs')
+
+const { deleteFile, deleteFolder } = require('../util/deleteFromStorage')
 const userModel = require('../models/users/users.model')
 const messagesModel = require('../models/users/messages/messages.model')
 
@@ -50,7 +53,9 @@ async function httpCreateUser(req, res, next) {
 
         res.status(201).json(createdUser)
     } catch (e) {
-        e.status = 500
+        if (!e.status) {
+            e.status = 500
+        }
         next(e)
     }
 }
@@ -95,7 +100,11 @@ async function httpUpdateUser(req, res, next) {
         const name = req.body.name
         const username = req.body.username
         const email = req.body.email
-        const profileImageUrl = req.body.profileImageUrl
+        let profileImageUrl = res.user.profileImageUrl
+
+        if (req.file) {
+            profileImageUrl = req.file.path
+        }
 
         const userDetails = {
             uid,
@@ -105,16 +114,24 @@ async function httpUpdateUser(req, res, next) {
             profileImageUrl
         }
 
-        const createdUser = await userModel.updateUser(userDetails)
+        await userModel.updateUser(userDetails)
 
-        res.status(200).json(createdUser)
+        if (req.file) {
+            deleteFile(res.user.profileImageUrl)
+        }
+
+        res.status(200).json(userDetails)
     } catch (e) {
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }
 
 async function httpDeleteUser(req, res, next) {
     try {
+        deleteFolder(`uploads/users/${res.user.uid}`)
         await userModel.deleteUser(res.user.uid)
 
         res.status(201).json({

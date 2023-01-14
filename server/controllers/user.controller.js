@@ -53,7 +53,9 @@ async function httpCreateUser(req, res, next) {
 
         res.status(201).json(createdUser)
     } catch (e) {
-        e.status = 500
+        if (!e.status) {
+            e.status = 500
+        }
         next(e)
     }
 }
@@ -112,14 +114,17 @@ async function httpUpdateUser(req, res, next) {
             profileImageUrl
         }
 
-        const createdUser = await userModel.updateUser(userDetails)
+        await userModel.updateUser(userDetails)
 
         if (req.file) {
             deleteFile(res.user.profileImageUrl)
         }
 
-        res.status(200).json(createdUser)
+        res.status(200).json(userDetails)
     } catch (e) {
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }

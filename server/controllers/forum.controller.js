@@ -49,7 +49,9 @@ async function httpCreatePost(req, res, next) {
 
         res.status(200).json(createdPost)
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }
@@ -66,6 +68,9 @@ async function httpAddComment(req, res, next) {
 
         res.status(200).json(createdComment)
     } catch (e) {
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }
@@ -93,6 +98,9 @@ async function httpDeletePost(req, res, next) {
             message: 'Post deleted'
         })
     } catch (e) {
+        if (!e.status) {
+            e.status = 500
+        }
         next(e)
     }
 }
@@ -106,6 +114,9 @@ async function httpDeleteComment(req, res, next) {
             message: 'Comment deleted'
         })
     } catch (e) {
+        if (!e.status) {
+            e.status = 500
+        }
         next(e)
     }
 }

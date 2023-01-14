@@ -39,7 +39,9 @@ async function httpCreateResource(req, res, next) {
 
         res.status(201).json(createdResource)
     } catch (e) {
-        e.status = 400
+        if (!e.status) {
+            e.status = 400
+        }
         next(e)
     }
 }

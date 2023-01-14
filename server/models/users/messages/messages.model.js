@@ -35,8 +35,9 @@ async function createMessage(message) {
         recipientMessage = await updatingExistingUserMessage(recipientMessages, recipient, sender, message)
 
         return { userMessage, recipientMessage }
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 400
         e.message = 'Error saving message to the database'
         throw e

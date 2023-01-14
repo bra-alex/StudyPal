@@ -18,6 +18,7 @@ async function userExists(req, res, next) {
         }
 
         res.user = user
+        req.uid = uid
         next()
     } catch (e) {
         next(e)

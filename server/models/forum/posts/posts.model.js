@@ -8,8 +8,9 @@ async function fetchAllPosts() {
                 '__v': 0
             }
         )
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 500
         e.message = 'Error fetching posts from database'
         throw e
@@ -24,8 +25,9 @@ async function findPostById(id) {
             .populate({
                 path: 'comments'
             })
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 500
         e.message = 'Error fetching post from database'
         throw e
@@ -37,9 +39,10 @@ async function createPost(postDetails) {
         const post = new Post(postDetails)
 
         return await post.save()
-    } catch (e) {
-        console.log(e)
-        e.status = 500
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
+        e.status = 400
         e.message = 'Error creating post'
         throw e
     }
@@ -52,8 +55,9 @@ async function deletePost(postId) {
             await Comment.findByIdAndDelete(comment)
         })
         return await Post.findByIdAndDelete(postId)
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
+        const e = new Error(err)
         e.status = 500
         e.message = 'Error deleting post'
         throw e

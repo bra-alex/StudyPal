@@ -31,7 +31,7 @@ userRoute.get('/users', userController.httpGetAllUsers)
 userRoute.get('/user/:uid', userExists, userController.httpGetUser)
 
 userRoute.post('/user', generateUUID, multer({ storage, fileFilter }).single('avatar'), userController.httpCreateUser)
-userRoute.patch('/user/:uid', userExists, userController.httpUpdateUser)
+userRoute.patch('/user/:uid', userExists, multer({ storage, fileFilter }).single('avatar'), userController.httpUpdateUser)
 userRoute.delete('/user/:uid', userExists, userController.httpDeleteUser)
 
 userRoute.get('/user/:uid/messages', userExists, userController.httpGetUserMessages)

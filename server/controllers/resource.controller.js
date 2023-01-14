@@ -1,4 +1,4 @@
-const deleteFile = require('../util/deleteFile')
+const { deleteFile } = require('../util/deleteFromStorage')
 const resourceModel = require('../models/resources/resources.model')
 
 async function httpGetAllResources(req, res, next) {

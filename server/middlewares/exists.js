@@ -93,8 +93,8 @@ async function postExists(req, res, next) {
                 message: 'Post not found'
             })
         }
-
-        res.postId = postId
+        res.post = post
+        req.post = post
         next()
     } catch (e) {
         next(e)

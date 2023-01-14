@@ -12,6 +12,11 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
+    postMedia: [
+        {
+            mediaURL: String
+        }
+    ],
     topic: {
         id: {
             type: mongoose.Types.ObjectId,

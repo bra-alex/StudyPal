@@ -2,6 +2,10 @@ const fs = require('fs-extra')
 const multer = require('multer')
 const express = require('express')
 
+const isAuthenticated = require('../middlewares/isAuthenticated')
+const forumController = require('../controllers/forum.controller')
+const { postExists, commentExists } = require('../middlewares/exists')
+const { deletePost, deleteComment } = require('../middlewares/isAuthorised')
 const { imageMimeTypes, videoMimeTypes } = require('../util/mimeTypes')
 
 const postStorage = multer.diskStorage({
@@ -34,19 +38,41 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-const isAuthenticated = require('../middlewares/isAuthenticated')
-const forumController = require('../controllers/forum.controller')
-const { postExists, commentExists } = require('../middlewares/exists')
-
 const forumRoute = express.Router()
 
 forumRoute.get('/', forumController.httpFetchAllPosts)
 forumRoute.get('/:postId', postExists, forumController.httpFetchPost)
 
-forumRoute.post('/', isAuthenticated, multer({ storage: postStorage, fileFilter }).array('postMedia', 4), forumController.httpCreatePost)
-forumRoute.delete('/:postId', isAuthenticated, postExists, forumController.httpDeletePost)
+forumRoute.post(
+    '/',
+    isAuthenticated,
+    multer({ storage: postStorage, fileFilter }).array('postMedia', 4),
+    forumController.httpCreatePost
+)
 
-forumRoute.post('/:postId/comment', isAuthenticated, postExists, multer({ storage: commentStorage, fileFilter }).array('postMedia', 4), forumController.httpAddComment)
-forumRoute.delete('/:postId/comment/:commentId', isAuthenticated, postExists, commentExists, forumController.httpDeleteComment)
+forumRoute.delete(
+    '/:postId',
+    isAuthenticated,
+    postExists,
+    deletePost,
+    forumController.httpDeletePost
+)
+
+forumRoute.post(
+    '/:postId/comment',
+    isAuthenticated,
+    postExists,
+    multer({ storage: commentStorage, fileFilter }).array('postMedia', 4),
+    forumController.httpAddComment
+)
+
+forumRoute.delete(
+    '/:postId/comment/:commentId',
+    isAuthenticated,
+    postExists,
+    commentExists,
+    deleteComment,
+    forumController.httpDeleteComment
+)
 
 module.exports = forumRoute

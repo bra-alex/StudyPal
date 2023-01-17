@@ -62,6 +62,7 @@ async function httpCreateUser(req, res, next) {
 }
 
 async function httpCreateMessage(req, res, next) {
+    const messageNamespace = messagesNamespace().messagesNamespace
     try {
         const message = {
             sender: req.body.sender,
@@ -85,7 +86,7 @@ async function httpCreateMessage(req, res, next) {
             await recipient.save()
         }
 
-        messagesNamespace().messagesNamespace.to(recipient.uid).emit('message', newMessage)
+        messageNamespace.to(recipient.uid).emit('message', newMessage)
 
         res.status(201).json(newMessage)
 

@@ -5,6 +5,8 @@ const { deleteFolder } = require('../util/deleteFromStorage')
 const postModel = require('../models/forum/posts/posts.model')
 const commentModel = require('../models/forum/comments/comments.model')
 
+let postNamespace
+
 async function httpFetchAllPosts(req, res, next) {
     try {
         const posts = await postModel.fetchAllPosts()
@@ -24,6 +26,7 @@ async function httpFetchPost(req, res, next) {
 }
 
 async function httpCreatePost(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
         const topic = await Topic.findById(req.body.topic)
         let postMedia = []
@@ -54,7 +57,7 @@ async function httpCreatePost(req, res, next) {
         await user.save()
         await topic.save()
 
-        generalNamespace().io.emit('post', {
+        postNamespace.emit('post', {
             action: 'create',
             post: createdPost
         })
@@ -69,6 +72,7 @@ async function httpCreatePost(req, res, next) {
 }
 
 async function httpAddComment(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
         let postMedia = []
 
@@ -90,7 +94,7 @@ async function httpAddComment(req, res, next) {
 
         await post.save()
 
-        generalNamespace().io.emit('comment', {
+        postNamespace.emit('comment', {
             action: 'create',
             comment: createdComment
         })
@@ -105,6 +109,7 @@ async function httpAddComment(req, res, next) {
 }
 
 async function httpDeletePost(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
 
         const post = await postModel.findPostById(res.post._id)
@@ -125,7 +130,7 @@ async function httpDeletePost(req, res, next) {
 
         deleteFolder(`uploads/forum/posts/${res.post.author}/`)
 
-        generalNamespace().io.emit('post', {
+        postNamespace.emit('post', {
             action: 'delete',
             post: res.post._id
         })
@@ -142,13 +147,14 @@ async function httpDeletePost(req, res, next) {
 }
 
 async function httpDeleteComment(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
 
         await commentModel.deleteComment(res.post._id, res.commentId)
 
         deleteFolder(`uploads/forum/posts/${res.post.author}/comments`)
 
-        generalNamespace().io.emit('comment', {
+        postNamespace.emit('comment', {
             action: 'delete',
             comment: res.commentId
         })

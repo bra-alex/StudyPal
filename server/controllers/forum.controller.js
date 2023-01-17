@@ -1,8 +1,9 @@
+const { generalNamespace } = require('../sockets')
 const User = require('../models/users/users.mongo')
 const Topic = require('../models/topics/topics.mongo')
+const { deleteFolder } = require('../util/deleteFromStorage')
 const postModel = require('../models/forum/posts/posts.model')
 const commentModel = require('../models/forum/comments/comments.model')
-const { deleteFolder } = require('../util/deleteFromStorage')
 
 async function httpFetchAllPosts(req, res, next) {
     try {
@@ -53,6 +54,11 @@ async function httpCreatePost(req, res, next) {
         await user.save()
         await topic.save()
 
+        generalNamespace().io.emit('post', {
+            action: 'create',
+            post: createdPost
+        })
+
         res.status(200).json(createdPost)
     } catch (e) {
         if (!e.status) {
@@ -84,6 +90,11 @@ async function httpAddComment(req, res, next) {
 
         await post.save()
 
+        generalNamespace().io.emit('comment', {
+            action: 'create',
+            comment: createdComment
+        })
+
         res.status(200).json(createdComment)
     } catch (e) {
         if (!e.status) {
@@ -114,6 +125,11 @@ async function httpDeletePost(req, res, next) {
 
         deleteFolder(`uploads/forum/posts/${res.post.author}/`)
 
+        generalNamespace().io.emit('post', {
+            action: 'delete',
+            post: res.post._id
+        })
+
         res.status(200).json({
             message: 'Post deleted'
         })
@@ -131,6 +147,11 @@ async function httpDeleteComment(req, res, next) {
         await commentModel.deleteComment(res.post._id, res.commentId)
 
         deleteFolder(`uploads/forum/posts/${res.post.author}/comments`)
+
+        generalNamespace().io.emit('comment', {
+            action: 'delete',
+            comment: res.commentId
+        })
 
         res.status(200).json({
             message: 'Comment deleted'

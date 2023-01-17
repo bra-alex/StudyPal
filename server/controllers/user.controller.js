@@ -33,34 +33,6 @@ async function httpGetUserMessages(req, res, next) {
     }
 }
 
-async function httpCreateUser(req, res, next) {
-    try {
-        const uid = req.uid
-        const name = req.body.name
-        const username = req.body.username
-        const email = req.body.email
-        const profileImageUrl = req.file.path
-
-        const userDetails = {
-            uid,
-            name,
-            username,
-            email,
-            profileImageUrl,
-            posts: []
-        }
-
-        const createdUser = await userModel.createUser(userDetails)
-
-        res.status(201).json(createdUser)
-    } catch (e) {
-        if (!e.status) {
-            e.status = 500
-        }
-        next(e)
-    }
-}
-
 async function httpCreateMessage(req, res, next) {
     const messageNamespace = messagesNamespace().messagesNamespace
     try {
@@ -148,7 +120,6 @@ async function httpDeleteUser(req, res, next) {
 
 module.exports = {
     httpGetUser,
-    httpCreateUser,
     httpUpdateUser,
     httpDeleteUser,
     httpGetAllUsers,

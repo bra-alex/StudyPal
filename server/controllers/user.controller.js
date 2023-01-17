@@ -1,8 +1,9 @@
 const fs = require('fs')
 
-const { deleteFile, deleteFolder } = require('../util/deleteFromStorage')
+const { messagesNamespace } = require('../sockets')
 const userModel = require('../models/users/users.model')
 const messagesModel = require('../models/users/messages/messages.model')
+const { deleteFile, deleteFolder } = require('../util/deleteFromStorage')
 
 async function httpGetAllUsers(req, res, next) {
     try {
@@ -83,6 +84,8 @@ async function httpCreateMessage(req, res, next) {
             recipient.messages = [newMessage.recipientMessage._id]
             await recipient.save()
         }
+
+        messagesNamespace().messagesNamespace.to(recipient.uid).emit('message', newMessage)
 
         res.status(201).json(newMessage)
 

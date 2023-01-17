@@ -14,6 +14,7 @@ async function startServer() {
 
     io.generalNamespace()
     io.messagesNamespace()
+    io.groupsNamespace()
 }
 
 startServer()

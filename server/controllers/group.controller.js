@@ -1,5 +1,9 @@
+const { groupsNamespace } = require('../sockets')
+const User = require('../models/users/users.mongo')
 const groupModel = require('../models/groups/groups.model')
 const groupMessagesModel = require('../models/groups/group-messages/groupMessages.model')
+
+let groupNamespace
 
 async function httpGetAllGroups(req, res, next) {
     try {
@@ -30,10 +34,19 @@ async function httpGetGroupMessages(req, res, next) {
 }
 
 async function httpCreateGroup(req, res, next) {
+    groupNamespace = groupsNamespace().groupsNamespace
     try {
         const groupDetails = req.body
 
         const createdGroup = await groupModel.createGroup(groupDetails)
+
+        createdGroup.members.forEach(async (member) => {
+            const user = await User.findById(member)
+            groupNamespace.to(user.uid).emit('group', {
+                action: 'create',
+                group: createdGroup
+            })
+        })
 
         res.status(201).json(createdGroup)
     } catch (e) {
@@ -45,6 +58,7 @@ async function httpCreateGroup(req, res, next) {
 }
 
 async function httpCreateGroupMessage(req, res, next) {
+    groupNamespace = groupsNamespace().groupsNamespace
     try {
         let groupMessages;
         const message = req.body
@@ -62,6 +76,11 @@ async function httpCreateGroupMessage(req, res, next) {
             await res.group.save()
         }
 
+        res.group.members.forEach(async (member) => {
+            const user = await User.findById(member)
+            groupNamespace.to(user.uid).emit('message', groupMessages)
+        })
+
         res.status(201).json(groupMessages)
     } catch (e) {
         if (!e.status) {
@@ -72,8 +91,17 @@ async function httpCreateGroupMessage(req, res, next) {
 }
 
 async function httpDeleteGroup(req, res, next) {
+    groupNamespace = groupsNamespace().groupsNamespace
     try {
         await groupModel.deleteGroup(res.group._id)
+
+        res.group.members.forEach(async (member) => {
+            const user = await User.findById(member)
+            groupNamespace.to(user.uid).emit('group', {
+                action: 'delete',
+                group: res.group._id
+            })
+        })
 
         res.status(200).json({
             message: 'Group Deleted'

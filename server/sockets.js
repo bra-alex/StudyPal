@@ -43,6 +43,16 @@ module.exports = {
             throw new Error('Socket not initialised')
         }
 
-        return io.of('/groups')
+        let groupsNamespace = io.of('/groups')
+
+        groupsNamespace.on('connection', socket => {
+            console.log('%s connected to groupsNamespace', socket.id, socket.handshake.query.userId);
+            // console.log('%s connected', socket.id, socket.handshake.auth.userId);
+            // socket.join(socket.handshake.auth.userId)
+            socket.join(socket.handshake.query.userId)
+            socket = socket
+        })
+
+        return { groupsNamespace, socket }
     }
 }

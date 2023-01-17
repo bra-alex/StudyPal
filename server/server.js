@@ -13,6 +13,8 @@ async function startServer() {
     io.init(server)
 
     io.generalNamespace()
+    io.messagesNamespace()
+    io.groupsNamespace()
 }
 
 startServer()

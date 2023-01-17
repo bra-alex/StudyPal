@@ -1,4 +1,6 @@
 let io;
+let socket;
+
 module.exports = {
     init: httpServer => {
         io = require('socket.io')(httpServer)
@@ -14,23 +16,43 @@ module.exports = {
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
             socket.join(socket.handshake.query.userId)
-
+            socket = socket
         })
 
-        return io
+        return { socket, io }
     },
     messagesNamespace: () => {
         if (!io) {
             throw new Error('Socket not initialised')
         }
 
-        return io.of('/messages')
+        let messagesNamespace = io.of('/messages')
+
+        messagesNamespace.on('connection', socket => {
+            console.log('%s connected to messagesNamespace', socket.id, socket.handshake.query.userId);
+            // console.log('%s connected', socket.id, socket.handshake.auth.userId);
+            // socket.join(socket.handshake.auth.userId)
+            socket.join(socket.handshake.query.userId)
+            socket = socket
+        })
+
+        return { messagesNamespace, socket }
     },
     groupsNamespace: () => {
         if (!io) {
             throw new Error('Socket not initialised')
         }
 
-        return io.of('/groups')
+        let groupsNamespace = io.of('/groups')
+
+        groupsNamespace.on('connection', socket => {
+            console.log('%s connected to groupsNamespace', socket.id, socket.handshake.query.userId);
+            // console.log('%s connected', socket.id, socket.handshake.auth.userId);
+            // socket.join(socket.handshake.auth.userId)
+            socket.join(socket.handshake.query.userId)
+            socket = socket
+        })
+
+        return { groupsNamespace, socket }
     }
 }

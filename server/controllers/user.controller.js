@@ -1,8 +1,9 @@
 const fs = require('fs')
 
-const { deleteFile, deleteFolder } = require('../util/deleteFromStorage')
+const { messagesNamespace } = require('../sockets')
 const userModel = require('../models/users/users.model')
 const messagesModel = require('../models/users/messages/messages.model')
+const { deleteFile, deleteFolder } = require('../util/deleteFromStorage')
 
 async function httpGetAllUsers(req, res, next) {
     try {
@@ -32,35 +33,8 @@ async function httpGetUserMessages(req, res, next) {
     }
 }
 
-async function httpCreateUser(req, res, next) {
-    try {
-        const uid = req.uid
-        const name = req.body.name
-        const username = req.body.username
-        const email = req.body.email
-        const profileImageUrl = req.file.path
-
-        const userDetails = {
-            uid,
-            name,
-            username,
-            email,
-            profileImageUrl,
-            posts: []
-        }
-
-        const createdUser = await userModel.createUser(userDetails)
-
-        res.status(201).json(createdUser)
-    } catch (e) {
-        if (!e.status) {
-            e.status = 500
-        }
-        next(e)
-    }
-}
-
 async function httpCreateMessage(req, res, next) {
+    const messageNamespace = messagesNamespace().messagesNamespace
     try {
         const message = {
             sender: req.body.sender,
@@ -83,6 +57,8 @@ async function httpCreateMessage(req, res, next) {
             recipient.messages = [newMessage.recipientMessage._id]
             await recipient.save()
         }
+
+        messageNamespace.to(recipient.uid).emit('message', newMessage)
 
         res.status(201).json(newMessage)
 
@@ -144,7 +120,6 @@ async function httpDeleteUser(req, res, next) {
 
 module.exports = {
     httpGetUser,
-    httpCreateUser,
     httpUpdateUser,
     httpDeleteUser,
     httpGetAllUsers,

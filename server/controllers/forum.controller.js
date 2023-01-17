@@ -1,8 +1,11 @@
+const { generalNamespace } = require('../sockets')
 const User = require('../models/users/users.mongo')
 const Topic = require('../models/topics/topics.mongo')
+const { deleteFolder } = require('../util/deleteFromStorage')
 const postModel = require('../models/forum/posts/posts.model')
 const commentModel = require('../models/forum/comments/comments.model')
-const { deleteFolder } = require('../util/deleteFromStorage')
+
+let postNamespace
 
 async function httpFetchAllPosts(req, res, next) {
     try {
@@ -23,6 +26,7 @@ async function httpFetchPost(req, res, next) {
 }
 
 async function httpCreatePost(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
         const topic = await Topic.findById(req.body.topic)
         let postMedia = []
@@ -53,6 +57,11 @@ async function httpCreatePost(req, res, next) {
         await user.save()
         await topic.save()
 
+        postNamespace.emit('post', {
+            action: 'create',
+            post: createdPost
+        })
+
         res.status(200).json(createdPost)
     } catch (e) {
         if (!e.status) {
@@ -63,6 +72,7 @@ async function httpCreatePost(req, res, next) {
 }
 
 async function httpAddComment(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
         let postMedia = []
 
@@ -84,6 +94,11 @@ async function httpAddComment(req, res, next) {
 
         await post.save()
 
+        postNamespace.emit('comment', {
+            action: 'create',
+            comment: createdComment
+        })
+
         res.status(200).json(createdComment)
     } catch (e) {
         if (!e.status) {
@@ -94,6 +109,7 @@ async function httpAddComment(req, res, next) {
 }
 
 async function httpDeletePost(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
 
         const post = await postModel.findPostById(res.post._id)
@@ -114,6 +130,11 @@ async function httpDeletePost(req, res, next) {
 
         deleteFolder(`uploads/forum/posts/${res.post.author}/`)
 
+        postNamespace.emit('post', {
+            action: 'delete',
+            post: res.post._id
+        })
+
         res.status(200).json({
             message: 'Post deleted'
         })
@@ -126,11 +147,17 @@ async function httpDeletePost(req, res, next) {
 }
 
 async function httpDeleteComment(req, res, next) {
+    postNamespace = generalNamespace().io
     try {
 
         await commentModel.deleteComment(res.post._id, res.commentId)
 
         deleteFolder(`uploads/forum/posts/${res.post.author}/comments`)
+
+        postNamespace.emit('comment', {
+            action: 'delete',
+            comment: res.commentId
+        })
 
         res.status(200).json({
             message: 'Comment deleted'

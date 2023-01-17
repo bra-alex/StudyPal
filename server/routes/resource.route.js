@@ -14,14 +14,15 @@ const storage = multer.diskStorage({
 })
 
 const { resourceExists } = require('../middlewares/exists')
+const isAuthenticated = require('../middlewares/isAuthenticated')
 const resourceController = require('../controllers/resource.controller')
 
 const resourceRoute = express.Router()
 
-resourceRoute.get('/resources/', resourceController.httpGetAllResources)
-resourceRoute.get('/resource/:resourceId', resourceExists, resourceController.httpGetResource)
+resourceRoute.get('/resources/', isAuthenticated, resourceController.httpGetAllResources)
+resourceRoute.get('/resource/:resourceId', isAuthenticated, resourceExists, resourceController.httpGetResource)
 
-resourceRoute.post('/resource/', multer({ storage }).single('file'), resourceController.httpCreateResource)
-resourceRoute.delete('/resource/:resourceId', resourceExists, resourceController.httpDeleteResource)
+resourceRoute.post('/resource/', isAuthenticated, multer({ storage }).single('file'), resourceController.httpCreateResource)
+resourceRoute.delete('/resource/:resourceId', isAuthenticated, resourceExists, resourceController.httpDeleteResource)
 
 module.exports = resourceRoute

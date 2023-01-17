@@ -5,6 +5,7 @@ const express = require('express')
 const { userExists } = require('../middlewares/exists')
 const { imageMimeTypes } = require('../util/mimeTypes')
 const userController = require('../controllers/user.controller')
+const isAuthenticated = require('../middlewares/isAuthenticated')
 
 const storage = multer.diskStorage({
     destination: (req, res, cb) => {
@@ -27,13 +28,13 @@ const fileFilter = (req, file, cb) => {
 
 const userRoute = express.Router()
 
-userRoute.get('/users', userController.httpGetAllUsers)
-userRoute.get('/user/:uid', userExists, userController.httpGetUser)
+userRoute.get('/users', isAuthenticated, userController.httpGetAllUsers)
+userRoute.get('/user/:uid', isAuthenticated, userExists, userController.httpGetUser)
 
-userRoute.patch('/user/:uid', userExists, multer({ storage, fileFilter }).single('avatar'), userController.httpUpdateUser)
-userRoute.delete('/user/:uid', userExists, userController.httpDeleteUser)
+userRoute.patch('/user/:uid', isAuthenticated, userExists, multer({ storage, fileFilter }).single('avatar'), userController.httpUpdateUser)
+userRoute.delete('/user/:uid', isAuthenticated, userExists, userController.httpDeleteUser)
 
-userRoute.get('/user/:uid/messages', userExists, userController.httpGetUserMessages)
-userRoute.post('/user/:uid/message', userExists, userController.httpCreateMessage)
+userRoute.get('/user/:uid/messages', isAuthenticated, userExists, userController.httpGetUserMessages)
+userRoute.post('/user/:uid/message', isAuthenticated, userExists, userController.httpCreateMessage)
 
 module.exports = userRoute

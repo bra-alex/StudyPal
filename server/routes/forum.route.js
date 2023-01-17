@@ -34,18 +34,19 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-const { postExists, commentExists } = require('../middlewares/exists')
+const isAuthenticated = require('../middlewares/isAuthenticated')
 const forumController = require('../controllers/forum.controller')
+const { postExists, commentExists } = require('../middlewares/exists')
 
 const forumRoute = express.Router()
 
 forumRoute.get('/', forumController.httpFetchAllPosts)
 forumRoute.get('/:postId', postExists, forumController.httpFetchPost)
 
-forumRoute.post('/', multer({ storage: postStorage, fileFilter }).array('postMedia', 4), forumController.httpCreatePost)
-forumRoute.delete('/:postId', postExists, forumController.httpDeletePost)
+forumRoute.post('/', isAuthenticated, multer({ storage: postStorage, fileFilter }).array('postMedia', 4), forumController.httpCreatePost)
+forumRoute.delete('/:postId', isAuthenticated, postExists, forumController.httpDeletePost)
 
-forumRoute.post('/:postId/comment', postExists, multer({ storage: commentStorage, fileFilter }).array('postMedia', 4), forumController.httpAddComment)
-forumRoute.delete('/:postId/comment/:commentId', postExists, commentExists, forumController.httpDeleteComment)
+forumRoute.post('/:postId/comment', isAuthenticated, postExists, multer({ storage: commentStorage, fileFilter }).array('postMedia', 4), forumController.httpAddComment)
+forumRoute.delete('/:postId/comment/:commentId', isAuthenticated, postExists, commentExists, forumController.httpDeleteComment)
 
 module.exports = forumRoute

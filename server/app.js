@@ -1,6 +1,7 @@
 const express = require('express')
 
 const userRoute = require('./routes/user.route')
+const authRoute = require('./routes/auth.route')
 const groupRoute = require('./routes/group.route')
 const forumRoute = require('./routes/forum.route')
 const topicRoute = require('./routes/topic.route')
@@ -14,6 +15,7 @@ app.use('/', userRoute)
 app.use('/', groupRoute)
 app.use('/', topicRoute)
 app.use('/', resourceRoute)
+app.use('/auth', authRoute)
 app.use('/forum', forumRoute)
 
 app.use((error, req, res, next) => {

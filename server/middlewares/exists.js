@@ -7,47 +7,56 @@ const resourceModel = require('../models/resources/resources.model')
 const commentModel = require('../models/forum/comments/comments.model')
 
 async function signUpExists(req, res, next) {
-    const email = req.body.email
-    const username = req.body.username
+    try {
+        const email = req.body.email
+        const username = req.body.username
 
-    const emailExists = await User.findOne({ email: email })
-    const usernameExists = await User.findOne({ username: username })
+        const emailExists = await User.findOne({ email: email })
+        const usernameExists = await User.findOne({ username: username })
 
-    if (!emailExists) {
-        const e = new Error('Email already in use')
-        e.status = 400
-        throw e
+        if (emailExists) {
+            const e = new Error('Email already in use')
+            e.status = 400
+            throw e
+        }
+
+        if (usernameExists) {
+            const e = new Error('Username already in use')
+            e.status = 400
+            throw e
+        }
+
+        console.log(req.body)
+
+        res.email = email
+        res.username = username
+        next()
+    } catch (e) {
+        next(e)
     }
-
-    if (!usernameExists) {
-        const e = new Error('Username already in use')
-        e.status = 400
-        throw e
-    }
-
-    res.email = email
-    res.username = username
-
-    next()
 }
 
 async function loginExists(req, res, next) {
-    const username = req.body.username
+    try {
+        const username = req.body.username
 
-    let user = await User.findOne({ username: username })
+        let user = await User.findOne({ username: username })
 
-    if (!user) {
-        user = await User.findOne({ email: username })
+        if (!user) {
+            user = await User.findOne({ email: username })
+        }
+
+        if (!user) {
+            const e = new Error('Invalid email or password')
+            e.status = 400
+            throw e
+        }
+
+        res.user = user
+        next()
+    } catch (e) {
+        next(e)
     }
-
-    if (!user) {
-        const e = new Error('Invalid email or password')
-        e.status = 400
-        throw e
-    }
-
-    res.user = user
-    next()
 }
 
 async function userExists(req, res, next) {

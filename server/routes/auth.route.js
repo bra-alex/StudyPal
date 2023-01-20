@@ -1,3 +1,4 @@
+const fs = require('fs-extra')
 const multer = require('multer')
 const express = require('express')
 

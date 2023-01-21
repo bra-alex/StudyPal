@@ -10,8 +10,8 @@ async function signUp(req, res, next) {
         console.log(req.body);
         const uid = req.uid
         const name = req.body.name
-        const username = res.username
-        const email = res.email
+        const username = req.body.username
+        const email = req.body.email
         const profileImageUrl = req.file.path
         const password = await encryptPassword(req.body.password)
         console.log(username)

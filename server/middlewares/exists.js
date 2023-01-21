@@ -6,34 +6,19 @@ const postModel = require('../models/forum/posts/posts.model')
 const resourceModel = require('../models/resources/resources.model')
 const commentModel = require('../models/forum/comments/comments.model')
 
-async function signUpExists(req, res, next) {
-    try {
-        const email = req.body.email
-        const username = req.body.username
+async function signUpExists(email, username) {
+    const emailExists = await User.findOne({ email: email })
+    const usernameExists = await User.findOne({ username: username })
 
-        const emailExists = await User.findOne({ email: email })
-        const usernameExists = await User.findOne({ username: username })
-
-        if (emailExists) {
-            const e = new Error('Email already in use')
-            e.status = 400
-            throw e
-        }
-
-        if (usernameExists) {
-            const e = new Error('Username already in use')
-            e.status = 400
-            throw e
-        }
-
-        console.log(req.body)
-
-        res.email = email
-        res.username = username
-        next()
-    } catch (e) {
-        next(e)
+    if (emailExists) {
+        return true
     }
+
+    if (usernameExists) {
+        return true
+    }
+
+    return false
 }
 
 async function loginExists(req, res, next) {

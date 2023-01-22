@@ -19,12 +19,6 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = async (req, file, cb) => {
-    const exists = await signUpExists(req.body.email, req.body.username)
-
-    if (exists) {
-        cb(null, false)
-    }
-
     if (imageMimeTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
@@ -34,7 +28,7 @@ const fileFilter = async (req, file, cb) => {
 
 const authRoute = express.Router()
 
-authRoute.post('/signup', generateUUID, multer({ storage, fileFilter }).single('avatar'), authController.signUp)
+authRoute.post('/signup', signUpExists, generateUUID, multer({ storage, fileFilter }).single('avatar'), authController.signUp)
 authRoute.post('/login', loginExists, authController.login)
 authRoute.post('/logout', authController.logout)
 

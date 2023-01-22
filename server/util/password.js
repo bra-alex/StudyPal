@@ -5,7 +5,7 @@ async function encryptPassword(password) {
 }
 
 async function decryptPassword(password, oldPassword) {
-    await bcrypt.compare(password, oldPassword)
+    return await bcrypt.compare(password, oldPassword)
 }
 
 module.exports = {

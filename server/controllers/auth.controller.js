@@ -68,7 +68,8 @@ async function login(req, res, next) {
 
         res.status(200).json({
             message: 'Logged in successfully',
-            userId: user.uid,
+            userId: user._id.toString(),
+            uid: user.uid,
             token,
         })
     } catch (e) {

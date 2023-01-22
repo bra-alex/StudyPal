@@ -12,8 +12,7 @@ module.exports = (req, res, next) => {
 
         const token = authHeader.split(' ')[1]
 
-
-        const decodedToken = jwt.verify(token, 'secret')
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
 
         if (!decodedToken) {
             const e = new Error('Not authenticated')

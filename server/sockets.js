@@ -3,7 +3,9 @@ let socket;
 
 module.exports = {
     init: httpServer => {
-        io = require('socket.io')(httpServer)
+        io = require('socket.io')(httpServer, {
+            allowEIO3: true
+        })
         return io
     },
     generalNamespace: () => {

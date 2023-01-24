@@ -8,6 +8,7 @@ async function fetchAllPosts() {
                 '__v': 0
             }
         )
+            .populate('author', ['name', 'username'])
     } catch (err) {
         console.log(err)
         const e = new Error(err)

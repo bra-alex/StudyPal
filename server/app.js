@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 
 const userRoute = require('./routes/user.route')
@@ -10,6 +11,7 @@ const resourceRoute = require('./routes/resource.route')
 const app = express()
 
 app.use(express.json())
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.use('/', userRoute)
 app.use('/', groupRoute)

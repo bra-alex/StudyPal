@@ -59,7 +59,20 @@ async function httpCreatePost(req, res, next) {
 
         postNamespace.emit('post', {
             action: 'create',
-            post: createdPost
+            post: {
+                author: {
+                    name: user.name,
+                    username: user.username
+                },
+                postContent: createdPost.postContent,
+                postMedia: createdPost.postMedia,
+                topic: createdPost.topic,
+                comments: createdPost.comments,
+                _id: createdPost._id,
+                createdAt: createdPost.createdAt,
+                updatedAt: createdPost.updatedAt,
+                __v: createdPost.__v
+            }
         })
 
         res.status(200).json(createdPost)

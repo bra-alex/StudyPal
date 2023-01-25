@@ -15,7 +15,8 @@ const postStorage = multer.diskStorage({
         cb(null, path)
     },
     filename: (req, file, cb) => {
-        cb(null, new Date().toISOString() + '-' + file.originalname)
+        const filename = file.originalname.replace(" ", "")
+        cb(null, new Date().toISOString() + '-' + filename)
     }
 })
 

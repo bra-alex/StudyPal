@@ -41,8 +41,8 @@ const fileFilter = (req, file, cb) => {
 
 const forumRoute = express.Router()
 
-forumRoute.get('/', forumController.httpFetchAllPosts)
-forumRoute.get('/:postId', postExists, forumController.httpFetchPost)
+forumRoute.get('/', isAuthenticated, forumController.httpFetchAllPosts)
+forumRoute.get('/:postId', isAuthenticated, postExists, forumController.httpFetchPost)
 
 forumRoute.post(
     '/',

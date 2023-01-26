@@ -45,7 +45,18 @@ async function getUserMessages(uid) {
         return await User.findOne({ uid: uid }, {
             'messages': 1
         })
-            .populate('messages')
+            .populate({
+                path: 'messages',
+
+                populate: {
+                    path: 'messages.recipient',
+                    select: '-posts -__v -messages'
+                },
+                populate: {
+                    path: 'messages.messages.sender',
+                    select: '-posts -__v -messages'
+                }
+            })
     } catch (err) {
         console.log(err)
         const e = new Error(err)

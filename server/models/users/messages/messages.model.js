@@ -106,7 +106,12 @@ async function updatingExistingUserMessage(userMessages, sender, recipient, mess
         }
     }
 
-    return await Messages.findOneAndUpdate({ sender: sender }, newMessage, { upsert: true })
+    await Messages.findOneAndUpdate({ sender: sender }, newMessage, { upsert: true })
+
+    return await Messages.findOne({ sender: sender }).populate({
+        path: 'messages.recipient messages.messages.sender',
+        select: '-posts -__v -messages'
+    })
 }
 
 module.exports = {

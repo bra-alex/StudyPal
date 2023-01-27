@@ -58,9 +58,9 @@ async function httpCreateMessage(req, res, next) {
             await recipient.save()
         }
 
-        messageNamespace.to(recipient.uid).emit('message', newMessage)
+        messageNamespace.to(recipient.uid).emit('message', newMessage.recipientMessage)
 
-        res.status(201).json(newMessage)
+        res.status(201).json(newMessage.userMessage)
 
     } catch (e) {
         if (!e.status) {

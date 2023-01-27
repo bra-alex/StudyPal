@@ -52,10 +52,6 @@ async function getUserMessages(uid) {
                     path: 'messages.recipient messages.messages.sender',
                     select: '-posts -__v -messages'
                 },
-                // populate: {
-                //     path: 'messages.messages.sender',
-                //     select: '-posts -__v -messages'
-                // }
             })
     } catch (err) {
         console.log(err)

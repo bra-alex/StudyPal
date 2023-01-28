@@ -61,7 +61,10 @@ async function createUserMessages(sender, recipient, message) {
         ]
     })
 
-    return await userMessage.save()
+    return await userMessage.save().populate({
+        path: 'messages.recipient messages.messages.sender',
+        select: '-posts -__v -messages'
+    })
 }
 
 async function updatingExistingUserMessage(userMessages, sender, recipient, message) {

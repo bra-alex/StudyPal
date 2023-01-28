@@ -1,3 +1,5 @@
+const User = require('./models/users/users.mongo')
+
 let io;
 let socket;
 
@@ -30,12 +32,15 @@ module.exports = {
 
         let messagesNamespace = io.of('/messages')
 
-        messagesNamespace.on('connection', socket => {
+        messagesNamespace.on('connection', async socket => {
             console.log('%s connected to messagesNamespace', socket.id, socket.handshake.query.userId);
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
             socket.join(socket.handshake.query.userId)
             socket = socket
+            const user = await User.findOne({ uid: socket.handshake.query.userId })
+            user.online = true
+            await user.save()
         })
 
         return { messagesNamespace, socket }

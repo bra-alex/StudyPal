@@ -40,7 +40,7 @@ async function httpCreateMessage(req, res, next) {
             sender: req.body.sender,
             recipient: req.body.recipient,
             message: req.body.message,
-            date: req.body.date
+            date: Date.now()
         }
 
         const newMessage = await messagesModel.createMessage(message)

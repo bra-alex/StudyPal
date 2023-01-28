@@ -27,6 +27,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    online: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     posts: [
         {
             type: mongoose.Types.ObjectId,

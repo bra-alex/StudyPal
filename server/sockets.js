@@ -37,10 +37,24 @@ module.exports = {
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
             socket.join(socket.handshake.query.userId)
-            socket = socket
             const user = await User.findOne({ uid: socket.handshake.query.userId })
             user.online = true
-            await user.save()
+            const connectedUser = await user.save()
+
+            socket.broadcast.emit('user connected', connectedUser)
+
+            socket = socket
+
+            socket.on('disconnect', async () => {
+                console.log('%s disconnected', socket.handshake.query.userId);
+                socket.leave(socket.handshake.query.userId)
+
+                const user = await User.findOne({ uid: socket.handshake.query.userId })
+                user.online = false
+                const disconnectedUser = await user.save()
+
+                socket.broadcast.emit('user disconnected', disconnectedUser)
+            })
         })
 
         return { messagesNamespace, socket }

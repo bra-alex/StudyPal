@@ -43,7 +43,13 @@ module.exports = {
 
             socket.broadcast.emit('user connected', connectedUser)
 
-            socket = socket
+            socket.on('typing', async data => {
+                messagesNamespace.to(data.recipientUID).emit('typing', user.name)
+            })
+
+            socket.on('typingEnd', () => {
+                socket.broadcast.emit('typingEnd')
+            })
 
             socket.on('disconnect', async () => {
                 console.log('%s disconnected', socket.handshake.query.userId);
@@ -55,6 +61,8 @@ module.exports = {
 
                 socket.broadcast.emit('user disconnected', disconnectedUser)
             })
+
+            socket = socket
         })
 
         return { messagesNamespace, socket }

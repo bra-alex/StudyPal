@@ -5,9 +5,7 @@ let socket;
 
 module.exports = {
     init: httpServer => {
-        io = require('socket.io')(httpServer, {
-            allowEIO3: true
-        })
+        io = require('socket.io')(httpServer)
         return io
     },
     generalNamespace: () => {
@@ -15,12 +13,33 @@ module.exports = {
             throw new Error('Socket not initialised')
         }
 
-        io.on('connection', socket => {
+        io.on('connection', async socket => {
             console.log('%s connected to', socket.id, socket.handshake.query.userId);
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
             socket.join(socket.handshake.query.userId)
             socket = socket
+
+            let connectedUser = await User.findOne({ uid: socket.handshake.query.userId })
+
+            if (connectedUser.online !== true) {
+                connectedUser.online = true
+                connectedUser = await connectedUser.save()
+                socket.broadcast.emit('user connected', connectedUser)
+            }
+
+            socket.on('disconnect', async () => {
+                console.log('%s disconnected', socket.handshake.query.userId);
+                socket.leave(socket.handshake.query.userId)
+
+                let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })
+
+                if (disconnectedUser.online !== false) {
+                    disconnectedUser.online = false
+                    disconnectedUser = await disconnectedUser.save()
+                    socket.broadcast.emit('user connected', disconnectedUser)
+                }
+            })
         })
 
         return { socket, io }
@@ -37,14 +56,17 @@ module.exports = {
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
             socket.join(socket.handshake.query.userId)
-            const user = await User.findOne({ uid: socket.handshake.query.userId })
-            user.online = true
-            const connectedUser = await user.save()
 
-            socket.broadcast.emit('user connected', connectedUser)
+            let connectedUser = await User.findOne({ uid: socket.handshake.query.userId })
 
-            socket.on('typing', async data => {
-                messagesNamespace.to(data.recipientUID).emit('typing', user.name)
+            if (connectedUser.online !== true) {
+                connectedUser.online = true
+                connectedUser = await connectedUser.save()
+                socket.broadcast.emit('user connected', connectedUser)
+            }
+
+            socket.on('typing', data => {
+                messagesNamespace.to(data.recipientUID).emit('typing', data.sender)
             })
 
             socket.on('typingEnd', () => {
@@ -55,11 +77,14 @@ module.exports = {
                 console.log('%s disconnected', socket.handshake.query.userId);
                 socket.leave(socket.handshake.query.userId)
 
-                const user = await User.findOne({ uid: socket.handshake.query.userId })
-                user.online = false
-                const disconnectedUser = await user.save()
+                let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })
 
-                socket.broadcast.emit('user disconnected', disconnectedUser)
+                if (disconnectedUser.online !== false) {
+                    disconnectedUser.online = false
+                    disconnectedUser = await disconnectedUser.save()
+
+                    socket.broadcast.emit('user connected', disconnectedUser)
+                }
             })
 
             socket = socket
@@ -74,12 +99,32 @@ module.exports = {
 
         let groupsNamespace = io.of('/groups')
 
-        groupsNamespace.on('connection', socket => {
+        groupsNamespace.on('connection', async socket => {
             console.log('%s connected to groupsNamespace', socket.id, socket.handshake.query.userId);
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
             socket.join(socket.handshake.query.userId)
             socket = socket
+
+            if (connectedUser.online !== true) {
+                connectedUser.online = true
+                connectedUser = await connectedUser.save()
+                socket.broadcast.emit('user connected', connectedUser)
+            }
+
+            socket.on('disconnect', async () => {
+                console.log('%s disconnected', socket.handshake.query.userId);
+                socket.leave(socket.handshake.query.userId)
+
+                let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })
+
+                if (disconnectedUser.online !== false) {
+                    disconnectedUser.online = false
+                    disconnectedUser = await disconnectedUser.save()
+
+                    socket.broadcast.emit('user connected', disconnectedUser)
+                }
+            })
         })
 
         return { groupsNamespace, socket }

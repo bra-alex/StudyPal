@@ -19,7 +19,6 @@ const groupMessagesSchema = new Schema({
                 default: Date.now()
             }
 
-
         }
     ]
 })

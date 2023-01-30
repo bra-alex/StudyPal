@@ -29,7 +29,12 @@ async function getGroupMessages(groupId) {
         return await Groups.findById(groupId, {
             'messages': 1
         })
-            .populate('messages')
+            .populate({
+                path: 'messages',
+                populate: {
+                    path: 'messages.sender'
+                }
+            })
     } catch (err) {
         console.log(err)
         const e = new Error(err)

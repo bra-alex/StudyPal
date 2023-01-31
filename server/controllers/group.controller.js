@@ -7,7 +7,9 @@ let groupNamespace
 
 async function httpGetAllGroups(req, res, next) {
     try {
-        const groups = await groupModel.getAllGroups()
+        let groups = await groupModel.getAllGroups()
+
+        groups = groups.filter(g => g.members.includes(req.userId))
 
         res.status(200).json(groups)
     } catch (e) {

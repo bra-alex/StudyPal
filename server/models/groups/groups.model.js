@@ -3,23 +3,65 @@ const Groups = require('./groups.mongo')
 async function getAllGroups() {
     try {
         return await Groups.find()
+            .populate([
+                {
+                    path: 'admin',
+                    select: {
+                        posts: 0,
+                        messages: 0,
+                        __v: 0
+                    },
+                },
+                {
+                    path: 'messages',
+                    populate: {
+                        path: 'messages.sender',
+                        select: {
+                            posts: 0,
+                            messages: 0,
+                            __v: 0
+                        }
+                    }
+                }
+            ])
     } catch (err) {
         console.log(err)
         const e = new Error(err)
         e.status = 500
-        e.message = 'Error getting users from the database'
+        e.message = 'Error getting groups from the database'
         throw e
     }
 }
 
 async function getGroup(groupId) {
     try {
-        return await Groups.findById(groupId).populate('members', ['name', 'username'])
+        return await Groups.findById(groupId)
+            .populate([
+                {
+                    path: 'admin members',
+                    select: {
+                        posts: 0,
+                        messages: 0,
+                        __v: 0
+                    },
+                },
+                {
+                    path: 'messages',
+                    populate: {
+                        path: 'messages.sender',
+                        select: {
+                            posts: 0,
+                            messages: 0,
+                            __v: 0
+                        }
+                    }
+                }
+            ])
     } catch (err) {
         console.log(err)
         const e = new Error(err)
         e.status = 500
-        e.message = 'Error getting users from the database'
+        e.message = 'Error getting groups from the database'
         throw e
     }
 }
@@ -39,7 +81,7 @@ async function getGroupMessages(groupId) {
         console.log(err)
         const e = new Error(err)
         e.status = 500
-        e.message = 'Error getting users from the database'
+        e.message = 'Error getting group messages from the database'
         throw e
     }
 }
@@ -52,7 +94,7 @@ async function createGroup(groupDetails) {
         console.log(err)
         const e = new Error(err)
         e.status = 400
-        e.message = 'Error getting users from the database'
+        e.message = 'Error adding group to the database'
         throw e
     }
 }
@@ -64,7 +106,7 @@ async function deleteGroup(groupId) {
         console.log(err)
         const e = new Error(err)
         e.status = 500
-        e.message = 'Error getting users from the database'
+        e.message = 'Error deleting group from the database'
         throw e
     }
 }

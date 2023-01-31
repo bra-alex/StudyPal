@@ -5,7 +5,7 @@ async function getAllGroups() {
         return await Groups.find()
             .populate([
                 {
-                    path: 'admin members',
+                    path: 'admin',
                     select: {
                         posts: 0,
                         messages: 0,

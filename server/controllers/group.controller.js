@@ -9,7 +9,7 @@ async function httpGetAllGroups(req, res, next) {
     try {
         let groups = await groupModel.getAllGroups()
 
-        groups = groups.filter(g => g.members.includes(req.userId))
+        groups = groups.filter(g => g.isPublic === true || g.members.includes(req.userId))
 
         res.status(200).json(groups)
     } catch (e) {

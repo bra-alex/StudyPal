@@ -33,9 +33,11 @@ async function getMessageById(id) {
 async function updateMessages(existingGroupMessages, message) {
     try {
         existingGroupMessages.messages = [...existingGroupMessages.messages, { sender: message.sender, message: message.message }]
-        console.log(existingGroupMessages);
+        // console.log(existingGroupMessages);
 
-        return await GroupMessages.findOneAndUpdate({ id: existingGroupMessages._id }, existingGroupMessages)
+        await GroupMessages.findOneAndUpdate({ id: existingGroupMessages._id }, existingGroupMessages)
+
+        return await GroupMessages.findById(existingGroupMessages._id).populate('messages.sender', '-messages -posts -__v')
     } catch (err) {
         console.log(err)
         const e = new Error(err)

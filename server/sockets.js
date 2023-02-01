@@ -106,6 +106,8 @@ module.exports = {
             socket.join(socket.handshake.query.userId)
             socket = socket
 
+            let connectedUser = await User.findOne({ uid: socket.handshake.query.userId })
+
             if (connectedUser.online !== true) {
                 connectedUser.online = true
                 connectedUser = await connectedUser.save()

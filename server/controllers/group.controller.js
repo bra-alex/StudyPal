@@ -79,7 +79,7 @@ async function httpCreateGroupMessage(req, res, next) {
         }
 
         res.group.members.forEach(async (member) => {
-            if (member.toString() !== message.sender.toString()) {
+            if (member._id.toString() !== message.sender) {
                 const user = await User.findById(member)
                 groupNamespace.to(user.uid).emit('message', groupMessages)
             }

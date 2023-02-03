@@ -17,8 +17,11 @@ const groupMessagesSchema = new Schema({
             date: {
                 type: Date,
                 default: Date.now()
+            },
+            sent: {
+                type: Boolean,
+                default: true
             }
-
         }
     ]
 })

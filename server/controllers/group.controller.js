@@ -78,12 +78,22 @@ async function httpCreateGroupMessage(req, res, next) {
             await res.group.save()
         }
 
-        res.group.members.forEach(async (member) => {
-            if (member._id.toString() !== message.sender) {
-                const user = await User.findById(member)
-                groupNamespace.to(user.uid).emit('message', groupMessages)
-            }
-        })
+        // Listener leak
+        //TODO: Fix Listener leak
+
+        // const recipients = res.group.members
+        //     .filter(member => member._id.toString() !== message.sender)
+        //     .map(uid => member.uid)
+
+        // groupsNamespace().socket.to(res.group._id.toString()).emit('message', groupMessages)
+        groupNamespace.to(res.group._id.toString()).emit('message', groupMessages)
+
+        // res.group.members.forEach(async (member) => {
+        //     if (member._id.toString() !== message.sender) {
+        //         const user = await User.findById(member)
+        //         groupNamespace.to(user.uid).emit('message', groupMessages)
+        //     }
+        // })
 
         res.status(201).json(groupMessages)
     } catch (e) {

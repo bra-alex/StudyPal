@@ -37,7 +37,7 @@ module.exports = {
                 if (disconnectedUser.online !== false) {
                     disconnectedUser.online = false
                     disconnectedUser = await disconnectedUser.save()
-                    socket.broadcast.emit('user connected', disconnectedUser)
+                    socket.broadcast.emit('user disconnected', disconnectedUser)
                 }
             })
         })
@@ -62,7 +62,7 @@ module.exports = {
             if (connectedUser.online !== true) {
                 connectedUser.online = true
                 connectedUser = await connectedUser.save()
-                socket.broadcast.emit('user connected', connectedUser)
+                socket.broadcast.emit('user disconnected', connectedUser)
             }
 
             socket.on('typing', data => {
@@ -75,7 +75,6 @@ module.exports = {
 
             socket.on('disconnect', async () => {
                 console.log('%s disconnected', socket.handshake.query.userId);
-                socket.leave(socket.handshake.query.userId)
 
                 let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })
 
@@ -83,8 +82,9 @@ module.exports = {
                     disconnectedUser.online = false
                     disconnectedUser = await disconnectedUser.save()
 
-                    socket.broadcast.emit('user connected', disconnectedUser)
+                    socket.broadcast.emit('user disconnected', disconnectedUser)
                 }
+                socket.leave(socket.handshake.query.userId)
             })
 
             socket = socket
@@ -103,8 +103,7 @@ module.exports = {
             console.log('%s connected to groupsNamespace', socket.id, socket.handshake.query.userId);
             // console.log('%s connected', socket.id, socket.handshake.auth.userId);
             // socket.join(socket.handshake.auth.userId)
-            socket.join(socket.handshake.query.userId)
-            socket = socket
+            // socket.join(socket.handshake.query.userId)
 
             let connectedUser = await User.findOne({ uid: socket.handshake.query.userId })
 
@@ -114,19 +113,26 @@ module.exports = {
                 socket.broadcast.emit('user connected', connectedUser)
             }
 
+            socket.on('join-group', groupId => {
+                socket.join(groupId)
+            })
+
             socket.on('disconnect', async () => {
                 console.log('%s disconnected', socket.handshake.query.userId);
-                socket.leave(socket.handshake.query.userId)
-
                 let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })
 
                 if (disconnectedUser.online !== false) {
                     disconnectedUser.online = false
                     disconnectedUser = await disconnectedUser.save()
 
-                    socket.broadcast.emit('user connected', disconnectedUser)
+                    socket.broadcast.emit('user disconnected', disconnectedUser)
                 }
+
+                groupsNamespace.in(socket.handshake.query.userId).socketsLeave()
+
+                socket.leave(socket.handshake.query.userId)
             })
+            socket = socket
         })
 
         return { groupsNamespace, socket }

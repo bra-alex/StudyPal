@@ -81,12 +81,14 @@ async function httpCreateGroupMessage(req, res, next) {
         // Listener leak
         //TODO: Fix Listener leak
 
-        // const recipients = res.group.members
-        //     .filter(member => member._id.toString() !== message.sender)
-        //     .map(uid => member.uid)
+        const recipients = res.group.members
+            .filter(member => member._id.toString() !== message.sender)
+            .map(member => member.uid)
 
         // groupsNamespace().socket.to(res.group._id.toString()).emit('message', groupMessages)
-        groupNamespace.to(res.group._id.toString()).emit('message', groupMessages)
+        // groupNamespace.to(res.group._id.toString()).emit('message', groupMessages)
+        console.log(recipients);
+        groupNamespace.to(recipients).emit('message', groupMessages)
 
         // res.group.members.forEach(async (member) => {
         //     if (member._id.toString() !== message.sender) {

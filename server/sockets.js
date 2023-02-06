@@ -30,7 +30,6 @@ module.exports = {
 
             socket.on('disconnect', async () => {
                 console.log('%s disconnected', socket.handshake.query.userId);
-                socket.removeAllListeners()
                 socket.leave(socket.handshake.query.userId)
 
                 let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })

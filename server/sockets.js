@@ -119,6 +119,8 @@ module.exports = {
 
             socket.on('disconnect', async () => {
                 console.log('%s disconnected', socket.handshake.query.userId);
+                socket.leave(socket.handshake.query.userId)
+
                 let disconnectedUser = await User.findOne({ uid: socket.handshake.query.userId })
 
                 if (disconnectedUser.online !== false) {
@@ -128,9 +130,7 @@ module.exports = {
                     socket.broadcast.emit('user disconnected', disconnectedUser)
                 }
 
-                groupsNamespace.in(socket.handshake.query.userId).socketsLeave()
-
-                socket.leave(socket.handshake.query.userId)
+                // groupsNamespace.in(socket.handshake.query.userId).socketsLeave()
             })
             socket = socket
         })

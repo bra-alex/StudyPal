@@ -11,28 +11,28 @@ interface User {
 }
 
 interface Messages {
-  sender: User
+  sender: User | string
   messages: MessageBody[]
 }
 
 interface MessageBody {
-  sender: User
+  sender: User | string
   message: String
   date: Date
 }
 
 interface Posts {
-  author: User
+  author: User | string
   postContent: string
   postMedia: { mediaURL: String }[]
-  topic: { id: Topics; name: string }
-  comments: Comments[]
+  topic: { id: Topics | string; name: string }
+  comments: (Comments | string)[]
   createdAt: Date
   updatedAt: Date
 }
 
 interface Comments {
-  user: User
+  user: User | string
   postContent: string
   postMedia: { mediaURL: String }[]
   createdAt: Date
@@ -41,15 +41,15 @@ interface Comments {
 
 interface Topics {
   name: string
-  members: User[]
+  members: (User | string)[]
   posts: Posts[]
 }
 
 interface Groups {
   name: string
-  admin: User
+  admin: User | string
   messages: GroupMessages[]
-  members: User[]
+  members: (User | string)[]
   joinCode: number
   isPublic: boolean
   createdAt: Date
@@ -59,7 +59,7 @@ interface Groups {
 interface GroupMessages {
   messages: {
     message: string
-    sender: User
+    sender: User | string
     date: Date
     sent: boolean
   }[]
@@ -69,7 +69,7 @@ interface Resources {
   name: string
   fileName: string
   resourceUrl: string
-  author: User
+  author: User | string
   createdAt: Date
   updatedAt: Date
 }

@@ -21,6 +21,6 @@ const topicSchema = new Schema({
   ],
 })
 
-const topicsModel = mongoose.model('Topic', topicSchema)
+const topicsModel = mongoose.model<Topics>('Topic', topicSchema)
 
 export default topicsModel

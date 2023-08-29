@@ -36,6 +36,6 @@ const messagesSchema = new Schema({
   ],
 })
 
-const messagesModel = mongoose.model('Message', messagesSchema)
+const messagesModel = mongoose.model<Messages>('Message', messagesSchema)
 
 export default messagesModel

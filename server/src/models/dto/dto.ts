@@ -12,13 +12,25 @@ interface User {
 }
 
 interface Messages {
-  _id: string
+  _id?: string
   sender: User | string
+  messages: MessagePacket[]
+}
+
+interface MessageInput {
+  sender: string
+  recipient: string
+  message: string
+  date: Date
+}
+
+interface MessagePacket {
+  recipient: string
   messages: MessageBody[]
 }
 
 interface MessageBody {
-  _id: string
+  _id?: string
   sender: User | string
   message: String
   date: Date

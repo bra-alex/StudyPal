@@ -1,8 +1,6 @@
-import jwt from 'jsonwebtoken'
-import config from 'config'
 import { NextFunction, Request, Response } from 'express'
 
-const JWT_SECRET = config.get<string>('jwt_secret')
+import { validateJWT } from '../util/jwt'
 
 export default function isAuthenticated(req: Request, res: Response, next: NextFunction) {
   try {
@@ -12,11 +10,11 @@ export default function isAuthenticated(req: Request, res: Response, next: NextF
 
     const token = authHeader.split(' ')[1]
 
-    const decodedToken = jwt.verify(token, JWT_SECRET)
+    const decoded = validateJWT(token)
 
-    if (!decodedToken) return res.status(403).json('Not authenticated')
+    if (decoded.expired && !decoded.valid) return res.status(403).json('Not authenticated')
 
-    // req.userId = decodedToken.userId
+    res.locals.user = decoded
 
     return next()
   } catch (e) {

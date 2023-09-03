@@ -8,7 +8,8 @@ type DestinationCallBack = (error: Error | null, destination: string) => void
 
 const authStorage = multer.diskStorage({
   destination: (_req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
-    const path = `uploads/users/${uuid()}/avatar`
+    const uid = uuid()
+    const path = `uploads/users/${uid}/avatar`
     fs.mkdirsSync(path)
     cb(null, path)
   },

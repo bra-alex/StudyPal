@@ -1,3 +1,4 @@
+import { MessageInput, Messages } from '../../../models/dto/dto'
 import messagesModel from '../../../models/users/messages/messages.mongo'
 
 async function createMessage(message: MessageInput) {

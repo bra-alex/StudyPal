@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { GroupMessages } from '../../dto/dto'
 
 const Schema = mongoose.Schema
 

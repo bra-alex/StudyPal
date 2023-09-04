@@ -1,5 +1,6 @@
 import postModel from '../../../models/forum/posts/posts.mongo'
 import commentModel from '../../../models/forum/comments/comments.mongo'
+import { Comments } from '../../../models/dto/dto'
 
 async function addComment(commentDetails: Comments) {
   const comment = new commentModel(commentDetails)

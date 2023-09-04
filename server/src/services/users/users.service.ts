@@ -1,3 +1,4 @@
+import { User } from '../../models/dto/dto'
 import userModel from '../../models/users/users.mongo'
 
 async function getAllUsers() {

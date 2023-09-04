@@ -1,3 +1,4 @@
+import { Topics } from '../../models/dto/dto'
 import topicsModel from '../../models/topics/topics.mongo'
 
 async function fetchAllTopics() {

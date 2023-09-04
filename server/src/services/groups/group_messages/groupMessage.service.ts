@@ -1,3 +1,4 @@
+import { GroupMessages, GroupMessagesData } from '../../../models/dto/dto'
 import groupMessagesModel from '../../../models/groups/group_messages/groupMessages.mongo'
 
 async function createMessage(message: GroupMessages) {

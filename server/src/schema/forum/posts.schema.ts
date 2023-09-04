@@ -45,9 +45,8 @@ const postParams = {
 const getPostSchema = object({
   ...postParams,
 })
-const deletePostSchema = object({
-  ...postParams,
-})
+
+const deletePostSchema = getPostSchema
 
 const createPostSchema = object({
   ...postSchema,

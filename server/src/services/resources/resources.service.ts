@@ -1,3 +1,4 @@
+import { Resources } from '../../models/dto/dto'
 import resourceModel from '../../models/resources/resources.mongo'
 
 async function getAllResources() {

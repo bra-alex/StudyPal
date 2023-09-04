@@ -1,3 +1,4 @@
+import { Groups } from '../../models/dto/dto'
 import groupModel from '../../models/groups/groups.mongo'
 
 async function getAllGroups() {

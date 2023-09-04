@@ -9,7 +9,7 @@ type DestinationCallBack = (error: Error | null, destination: string) => void
 const authStorage = multer.diskStorage({
   destination: (_req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
     const uid = uuid()
-    const path = `uploads/users/${uid}/avatar`
+    const path = `./uploads/users/${uid}/avatar`
     fs.mkdirsSync(path)
     cb(null, path)
   },
@@ -20,7 +20,7 @@ const authStorage = multer.diskStorage({
 
 const postStorage = multer.diskStorage({
   destination: (req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
-    const path = `uploads/forum/posts/${req.body.author}/`
+    const path = `./uploads/forum/posts/${req.body.author}/`
     fs.mkdirsSync(path)
     cb(null, path)
   },
@@ -32,7 +32,7 @@ const postStorage = multer.diskStorage({
 
 const commentStorage = multer.diskStorage({
   destination: (req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
-    const path = `uploads/forum/posts/${req.body.author}/comments`
+    const path = `./uploads/forum/posts/${req.body.author}/comments`
     fs.mkdirsSync(path)
     cb(null, path)
   },
@@ -43,7 +43,7 @@ const commentStorage = multer.diskStorage({
 
 const resourceStorage = multer.diskStorage({
   destination: (_req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
-    const path = 'uploads/resources'
+    const path = './uploads/resources'
     fs.mkdirsSync(path)
     cb(null, path)
   },
@@ -54,7 +54,7 @@ const resourceStorage = multer.diskStorage({
 
 const userStorage = multer.diskStorage({
   destination: (req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
-    const path = `uploads/users/${req.body.uid}/avatar`
+    const path = `./uploads/users/${req.body.uid}/avatar`
     fs.mkdirsSync(path)
     cb(null, path)
   },

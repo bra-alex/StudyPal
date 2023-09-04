@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { Comments } from '../../dto/dto'
 
 const Schema = mongoose.Schema
 

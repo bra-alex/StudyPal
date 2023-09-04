@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
+import { Resources } from '../dto/dto'
 
 const Schema = mongoose.Schema
 
 const resourceSchema = new Schema(
   {
-    name: {
+    category: {
       type: String,
       required: true,
     },
@@ -19,6 +20,7 @@ const resourceSchema = new Schema(
     author: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
   },
   {

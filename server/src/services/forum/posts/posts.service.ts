@@ -1,5 +1,6 @@
 import postModel from '../../../models/forum/posts/posts.mongo'
 import commentModel from '../../../models/forum/comments/comments.mongo'
+import { Posts } from '../../../models/dto/dto'
 
 async function fetchAllPosts() {
   return await postModel

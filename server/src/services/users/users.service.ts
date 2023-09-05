@@ -1,3 +1,4 @@
+import { FilterQuery } from 'mongoose'
 import { User } from '../../models/dto/dto'
 import userModel from '../../models/users/users.mongo'
 
@@ -10,13 +11,10 @@ async function getAllUsers() {
   )
 }
 
-async function getUser(uid: string) {
-  return await userModel.findOne(
-    { uid: uid },
-    {
-      __v: 0,
-    },
-  )
+async function getUser(filter: FilterQuery<User>) {
+  return await userModel.findOne(filter, {
+    __v: 0,
+  })
 }
 
 async function getUserById(id: string) {

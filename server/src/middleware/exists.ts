@@ -155,7 +155,4 @@ async function loginExists(req: Request, res: Response, next: NextFunction) {
 //   }
 // }
 
-module.exports = {
-  loginExists,
-  signUpExists,
-}
+export { loginExists, signUpExists }

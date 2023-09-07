@@ -4,6 +4,11 @@ import { Auth } from '../dto/dto'
 const Schema = mongoose.Schema
 
 const authSchema = new Schema({
+  uid: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   username: {
     type: String,
     unique: true,

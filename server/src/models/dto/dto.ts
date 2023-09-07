@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 
 interface Auth extends mongoose.Document {
+  uid: string
   email: string
   username: string
   password: string
 }
 
 interface User extends mongoose.Document {
-  _id: string
   uid: string
   name: string
   username: string
@@ -19,7 +19,6 @@ interface User extends mongoose.Document {
 }
 
 interface Messages extends mongoose.Document {
-  _id?: string
   sender: User | string
   messages: MessagePacket[]
 }
@@ -44,7 +43,6 @@ interface MessageBody {
 }
 
 interface Posts extends mongoose.Document {
-  _id: string
   author: User | string
   postContent: string
   postMedia: { mediaURL: String }[]
@@ -55,7 +53,6 @@ interface Posts extends mongoose.Document {
 }
 
 interface Comments extends mongoose.Document {
-  _id: string
   user: User | string
   postContent: string
   postMedia: { mediaURL: String }[]
@@ -64,14 +61,12 @@ interface Comments extends mongoose.Document {
 }
 
 interface Topics extends mongoose.Document {
-  _id: string
   name: string
   members: (User | string)[]
   posts: Posts[]
 }
 
 interface Groups extends mongoose.Document {
-  _id: string
   name: string
   admin: User | string
   messages: GroupMessages[]
@@ -83,7 +78,6 @@ interface Groups extends mongoose.Document {
 }
 
 interface GroupMessages extends mongoose.Document {
-  _id: string
   messages: GroupMessagesData[]
 }
 
@@ -96,7 +90,6 @@ interface GroupMessagesData {
 }
 
 interface Resources extends mongoose.Document {
-  _id: string
   name: string
   fileName: string
   resourceUrl: string

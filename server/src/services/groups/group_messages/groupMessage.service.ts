@@ -1,7 +1,7 @@
 import { GroupMessages, GroupMessagesData } from '../../../models/dto/dto'
 import groupMessagesModel from '../../../models/groups/group_messages/groupMessages.mongo'
 
-async function createMessage(message: GroupMessages) {
+async function createMessage(message: GroupMessagesData) {
   const groupMessage = new groupMessagesModel({
     messages: [message],
   })

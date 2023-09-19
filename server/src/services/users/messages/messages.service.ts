@@ -1,14 +1,18 @@
+import { ObjectId } from 'mongoose'
 import { MessageInput, Messages } from '../../../models/dto/dto'
 import messagesModel from '../../../models/users/messages/messages.mongo'
+
+type MessagesType = Messages & { _id: ObjectId }
 
 async function createMessage(message: MessageInput) {
   const sender = message.sender
   const recipient = message.recipient
 
-  let userMessage: Messages | null
-  let recipientMessage: Messages | null
-  const userMessages = await messagesModel.findOne({ sender: sender })
-  const recipientMessages = await messagesModel.findOne({ sender: recipient })
+  let userMessage: MessagesType
+  let recipientMessage: MessagesType
+
+  const userMessages = (await messagesModel.findOne({ sender: sender })) as MessagesType
+  const recipientMessages = (await messagesModel.findOne({ sender: recipient })) as MessagesType
 
   if (!userMessages && !recipientMessages) {
     userMessage = await createUserMessages(sender, recipient, message)
@@ -19,30 +23,40 @@ async function createMessage(message: MessageInput) {
 
   if (!userMessages && recipientMessages) {
     userMessage = await createUserMessages(sender, recipient, message)
-    recipientMessage = await updatingExistingUserMessage(
+    recipientMessage = (await updatingExistingUserMessage(
       recipientMessages,
       recipient,
       sender,
       message,
-    )
+    )) as MessagesType
 
     return { userMessage, recipientMessage }
   }
 
   if (userMessages && !recipientMessages) {
-    userMessage = await updatingExistingUserMessage(userMessages, sender, recipient, message)
+    userMessage = (await updatingExistingUserMessage(
+      userMessages,
+      sender,
+      recipient,
+      message,
+    )) as MessagesType
     recipientMessage = await createUserMessages(recipient, sender, message)
 
     return { userMessage, recipientMessage }
   }
 
-  userMessage = await updatingExistingUserMessage(userMessages, sender, recipient, message)
-  recipientMessage = await updatingExistingUserMessage(
+  userMessage = (await updatingExistingUserMessage(
+    userMessages,
+    sender,
+    recipient,
+    message,
+  )) as MessagesType
+  recipientMessage = (await updatingExistingUserMessage(
     recipientMessages,
     recipient,
     sender,
     message,
-  )
+  )) as MessagesType
 
   return { userMessage, recipientMessage }
 }
@@ -73,7 +87,7 @@ async function createUserMessages(sender: string, recipient: string, message: Me
 }
 
 async function updatingExistingUserMessage(
-  userMessages: Messages | null,
+  userMessages: MessagesType,
   sender: string,
   recipient: string,
   message: MessageInput,

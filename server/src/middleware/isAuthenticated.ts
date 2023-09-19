@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 
 import { validateJWT } from '../util/jwt'
+import { JwtPayload } from 'jsonwebtoken'
 
 export default function isAuthenticated(req: Request, res: Response, next: NextFunction) {
   try {
@@ -14,7 +15,7 @@ export default function isAuthenticated(req: Request, res: Response, next: NextF
 
     if (decoded.expired && !decoded.valid) return res.status(403).json('Not authenticated')
 
-    res.locals.user = decoded
+    res.locals.user = decoded.decoded as JwtPayload
 
     return next()
   } catch (e) {

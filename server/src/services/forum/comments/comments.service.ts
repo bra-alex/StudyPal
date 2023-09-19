@@ -12,7 +12,7 @@ async function findCommentById(commentId: string) {
   return await commentModel.findById(commentId)
 }
 
-async function deleteComment(postId: string, commentId: string) {
+async function deleteComment({ postId, commentId }: { postId: string; commentId: string }) {
   const post = await postModel.findById(postId)
   if (!post) return null
   post.comments = post.comments.filter(c => c != commentId)

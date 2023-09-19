@@ -8,6 +8,10 @@ const topicSchema = new Schema({
     type: String,
     required: true,
   },
+  creator: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+  },
   members: [
     {
       type: mongoose.Types.ObjectId,

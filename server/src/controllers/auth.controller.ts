@@ -6,11 +6,11 @@ import { Auth, User } from '../models/dto/dto'
 import { LoginInput } from '../schema/auth/auth.schema'
 import { CreateUserInput } from '../schema/users/users.schema'
 import { decryptPassword, encryptPassword } from '../util/password'
-import { createAuth, findAuth } from '../services/auth/auth.service'
+import { createAuth } from '../services/auth/auth.service'
 import { createUser, getUser } from '../services/users/users.service'
 
 async function signUpHandler(
-  req: Request<{}, {}, CreateUserInput['body']>,
+  req: Request<CreateUserInput['body']>,
   res: Response,
   next: NextFunction,
 ) {
@@ -54,18 +54,9 @@ async function signUpHandler(
   }
 }
 
-async function loginHandler(
-  req: Request<{}, {}, LoginInput['body']>,
-  res: Response,
-  next: NextFunction,
-) {
+async function loginHandler(req: Request<LoginInput['body']>, res: Response, next: NextFunction) {
   try {
-    const username = req.body.username
-    let auth = await findAuth({ email: username })
-
-    if (!auth) auth = await findAuth({ username })
-
-    if (!auth) return res.status(400).json('Invalid username or password')
+    const auth = res.locals.auth!
 
     const isEqual = await decryptPassword(req.body.password, auth.password)
 

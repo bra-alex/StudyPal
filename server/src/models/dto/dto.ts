@@ -14,7 +14,7 @@ interface User extends mongoose.Document {
   email: string
   profileImageUrl: string
   online: boolean
-  posts: string[]
+  posts: (Posts | string)[]
   messages: Messages[]
 }
 
@@ -45,39 +45,41 @@ interface MessageBody {
 interface Posts extends mongoose.Document {
   author: User | string
   postContent: string
-  postMedia: { mediaURL: String }[]
+  postMedia?: { mediaURL: string }[]
   topic: { id: Topics | string; name: string }
   comments: (Comments | string)[]
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 interface Comments extends mongoose.Document {
   user: User | string
   postContent: string
-  postMedia: { mediaURL: String }[]
+  postMedia: { mediaURL: string }[]
   createdAt: Date
   updatedAt: Date
 }
 
 interface Topics extends mongoose.Document {
   name: string
+  creator: string
   members: (User | string)[]
-  posts: Posts[]
+  posts: (Posts | string)[]
 }
 
 interface Groups extends mongoose.Document {
   name: string
   admin: User | string
-  messages: GroupMessages[]
+  messages?: string
   members: (User | string)[]
-  joinCode: number
+  joinCode?: number
   isPublic: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 interface GroupMessages extends mongoose.Document {
+  _id?: string
   messages: GroupMessagesData[]
 }
 
@@ -90,13 +92,23 @@ interface GroupMessagesData {
 }
 
 interface Resources extends mongoose.Document {
-  name: string
+  category: string
   fileName: string
   resourceUrl: string
   author: User | string
   createdAt: Date
   updatedAt: Date
 }
+
+type AuthType = Auth
+type UserType = User
+type MessagesType = Messages
+type PostsType = Posts
+type CommentsType = Comments
+type TopicsType = Topics
+type GroupsType = Groups
+type GroupMessagesType = GroupMessages
+type ResourcesType = Resources
 
 export {
   Auth,
@@ -110,4 +122,13 @@ export {
   MessageInput,
   GroupMessages,
   GroupMessagesData,
+  AuthType,
+  UserType,
+  PostsType,
+  TopicsType,
+  GroupsType,
+  MessagesType,
+  CommentsType,
+  ResourcesType,
+  GroupMessagesType,
 }

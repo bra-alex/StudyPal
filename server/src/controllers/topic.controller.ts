@@ -24,7 +24,7 @@ async function httpFetchTopic(_req: Request, res: Response, next: NextFunction) 
 }
 
 async function httpCreateTopic(
-  req: Request<CreateTopicInput['body']>,
+  req: Request<{}, {}, CreateTopicInput['body']>,
   res: Response,
   next: NextFunction,
 ) {
@@ -53,9 +53,4 @@ async function httpDeleteTopic(_req: Request, res: Response, next: NextFunction)
     next(e)
   }
 }
-module.exports = {
-  httpFetchAllTopics,
-  httpFetchTopic,
-  httpCreateTopic,
-  httpDeleteTopic,
-}
+export { httpFetchAllTopics, httpFetchTopic, httpCreateTopic, httpDeleteTopic }

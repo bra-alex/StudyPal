@@ -3,6 +3,8 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import express from 'express'
 
+import routes from './routes'
+
 const app = express()
 
 app.use(helmet())
@@ -15,5 +17,7 @@ app.use(
   }),
 )
 app.use('/uploads', express.static('uploads'))
+
+routes(app)
 
 export default app

@@ -43,7 +43,7 @@ async function httpGetUserMessages(_req: Request, res: Response, next: NextFunct
 }
 
 async function httpCreateMessage(
-  req: Request<CreateUserMessageInput['body']>,
+  req: Request<{}, {}, CreateUserMessageInput['body']>,
   res: Response,
   next: NextFunction,
 ) {
@@ -82,7 +82,11 @@ async function httpCreateMessage(
   }
 }
 
-async function httpUpdateUser(req: Request<UpdateUserInput[]>, res: Response, next: NextFunction) {
+async function httpUpdateUser(
+  req: Request<UpdateUserInput['params'], {}, UpdateUserInput['body']>,
+  res: Response,
+  next: NextFunction,
+) {
   try {
     const uid = res.locals.user!.uid
     const name = req.body.name

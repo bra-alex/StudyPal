@@ -51,7 +51,7 @@ async function httpGetGroupMessages(_req: Request, res: Response, next: NextFunc
 }
 
 async function httpCreateGroup(
-  req: Request<CreateGroupInput['body']>,
+  req: Request<{}, {}, CreateGroupInput['body']>,
   res: Response,
   next: NextFunction,
 ) {
@@ -75,7 +75,7 @@ async function httpCreateGroup(
 }
 
 async function httpCreateGroupMessage(
-  req: Request<CreateGroupMessageInput['body']>,
+  req: Request<{}, {}, CreateGroupMessageInput['body']>,
   res: Response,
   next: NextFunction,
 ) {

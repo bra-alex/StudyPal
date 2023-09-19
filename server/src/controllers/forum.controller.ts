@@ -34,7 +34,7 @@ async function httpFetchPost(_req: Request, res: Response, next: NextFunction) {
 }
 
 async function httpCreatePost(
-  req: Request<CreatePostInput['body']>,
+  req: Request<{}, {}, CreatePostInput['body']>,
   res: Response,
   next: NextFunction,
 ) {
@@ -97,7 +97,7 @@ async function httpCreatePost(
 }
 
 async function httpAddComment(
-  req: Request<CreateCommentInput['body']>,
+  req: Request<{}, {}, CreateCommentInput['body']>,
   res: Response,
   next: NextFunction,
 ) {

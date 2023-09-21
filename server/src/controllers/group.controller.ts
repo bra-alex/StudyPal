@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { GroupMessages, Groups, User } from '../models/dto/dto'
 import { socketConnection } from '../sockets'
 import { getUserById } from '../services/users/users.service'
+import { GroupMessages, Groups, User } from '../models/dto/dto'
 import { CreateGroupInput } from '../schema/groups/groups.schema'
 import { CreateGroupMessageInput } from '../schema/groups/groupMessages.schema'
 
@@ -19,7 +19,9 @@ import {
   updateMessages,
 } from '../services/groups/group_messages/groupMessage.service'
 
-const groupNamespace = socketConnection.groupsNamespace().groupsNamespace
+function groupNamespace() {
+  return socketConnection.groupsNamespace().groupsNamespace
+}
 
 async function httpGetAllGroups(_req: Request, res: Response, next: NextFunction) {
   try {
@@ -59,10 +61,10 @@ async function httpCreateGroup(
   try {
     const createdGroup = await createGroup(req.body as Groups)
 
-    createdGroup.members.forEach(async member => {
+    createdGroup.members.forEach(async (member: string | User) => {
       const user = await getUserById(member as string)
       if (user)
-        groupNamespace.to(user.uid).emit('group', {
+        groupNamespace().to(user.uid).emit('group', {
           action: 'create',
           group: createdGroup,
         })
@@ -101,24 +103,24 @@ async function httpCreateGroupMessage(
     //TODO: Fix Listener leak
 
     const recipients = res.locals
-      .group!.members.filter(member => {
+      .group!.members.filter((member: string | User) => {
         if (typeof member !== 'string') return member._id.toString() !== message.sender
         return member !== message.sender
       })
-      .map(member => (member as User).uid)
+      .map((member: string | User) => (member as User).uid)
 
     socketConnection
       .groupsNamespace()
       .socket.to(res.locals.group!._id.toString())
       .emit('message', groupMessages)
-    groupNamespace.to(res.locals.group!._id.toString()).emit('message', groupMessages)
+    groupNamespace().to(res.locals.group!._id.toString()).emit('message', groupMessages)
     console.log(recipients)
-    groupNamespace.to(recipients).emit('message', groupMessages)
+    groupNamespace().to(recipients).emit('message', groupMessages)
 
-    res.locals.group!.members.forEach(async member => {
+    res.locals.group!.members.forEach(async (member: string | User) => {
       if ((member as User)._id.toString() !== message.sender) {
         const user = await getUserById(member as string)
-        groupNamespace.to(user!.uid).emit('message', groupMessages)
+        groupNamespace().to(user!.uid).emit('message', groupMessages)
       }
     })
 
@@ -134,12 +136,14 @@ async function httpDeleteGroup(_req: Request, res: Response, next: NextFunction)
   try {
     await deleteGroup(res.locals.group!._id)
 
-    res.locals.group!.members.forEach(async member => {
+    res.locals.group!.members.forEach(async (member: string | User) => {
       const user = await getUserById(member as string)
-      groupNamespace.to(user?.uid ?? '').emit('group', {
-        action: 'delete',
-        group: res.locals.group!._id,
-      })
+      groupNamespace()
+        .to(user?.uid ?? '')
+        .emit('group', {
+          action: 'delete',
+          group: res.locals.group!._id,
+        })
     })
 
     return res.status(200).json({

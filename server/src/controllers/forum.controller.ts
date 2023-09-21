@@ -10,7 +10,9 @@ import { CreateCommentInput } from '../schema/forum/comments.schema'
 import { addComment, deleteComment } from '../services/forum/comments/comments.service'
 import { createPost, deletePost, fetchAllPosts } from '../services/forum/posts/posts.service'
 
-const generalNamespace = socketConnection.generalNamespace().io
+function generalNamespace() {
+  return socketConnection.generalNamespace().io
+}
 
 type PostMedia = { mediaURL: string }[]
 
@@ -68,7 +70,7 @@ async function httpCreatePost(
     await user.save()
     await topic.save()
 
-    generalNamespace.emit('post', {
+    generalNamespace().emit('post', {
       action: 'create',
       post: {
         _id: createdPost._id,
@@ -122,7 +124,7 @@ async function httpAddComment(
 
     await post.save()
 
-    generalNamespace.emit('comment', {
+    generalNamespace().emit('comment', {
       action: 'create',
       comment: createdComment,
     })
@@ -163,7 +165,7 @@ async function httpDeletePost(_req: Request, res: Response, next: NextFunction) 
 
     deleteFolder(`uploads/forum/posts/${post.author}/`)
 
-    generalNamespace.emit('post', {
+    generalNamespace().emit('post', {
       action: 'delete',
       post: res.locals.post!._id,
     })
@@ -186,7 +188,7 @@ async function httpDeleteComment(_req: Request, res: Response, next: NextFunctio
 
     deleteFolder(`uploads/forum/posts/${post.author}/comments`)
 
-    generalNamespace.emit('comment', {
+    generalNamespace().emit('comment', {
       action: 'delete',
       comment: res.locals.comment!._id,
     })

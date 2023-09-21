@@ -12,7 +12,7 @@ import {
 let io: socketIo.Server<{}, GeneralServerToClientEvents>
 let socket: socketIo.Socket
 
-export default {
+const socketConnection = {
   init: (httpServer: Server<typeof IncomingMessage, typeof ServerResponse>) => {
     io = new socketIo.Server<{}, GeneralServerToClientEvents>(httpServer)
     return io
@@ -151,3 +151,12 @@ export default {
     return { groupsNamespace, socket }
   },
 }
+
+function initSocketServer(server: Server<typeof IncomingMessage, typeof ServerResponse>) {
+  socketConnection.init(server)
+  socketConnection.generalNamespace()
+  socketConnection.messagesNamespace()
+  socketConnection.groupsNamespace()
+}
+
+export { initSocketServer, socketConnection }

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-// const { generalNamespace } = require('../sockets')
-
+import { socketConnection } from '../sockets'
 import { Comments, Posts } from '../models/dto/dto'
 import { deleteFolder } from '../util/deleteFromStorage'
 import { getUserById } from '../services/users/users.service'
@@ -11,7 +10,7 @@ import { CreateCommentInput } from '../schema/forum/comments.schema'
 import { addComment, deleteComment } from '../services/forum/comments/comments.service'
 import { createPost, deletePost, fetchAllPosts } from '../services/forum/posts/posts.service'
 
-// let postNamespace
+const generalNamespace = socketConnection.generalNamespace().io
 
 type PostMedia = { mediaURL: string }[]
 
@@ -38,7 +37,6 @@ async function httpCreatePost(
   res: Response,
   next: NextFunction,
 ) {
-  //   postNamespace = generalNamespace().io
   try {
     const files = req.files as Express.Multer.File[] | undefined
 
@@ -70,23 +68,23 @@ async function httpCreatePost(
     await user.save()
     await topic.save()
 
-    // postNamespace.emit('post', {
-    //   action: 'create',
-    //   post: {
-    //     author: {
-    //       name: user.name,
-    //       username: user.username,
-    //     },
-    //     postContent: createdPost.postContent,
-    //     postMedia: createdPost.postMedia,
-    //     topic: createdPost.topic,
-    //     comments: createdPost.comments,
-    //     _id: createdPost._id,
-    //     createdAt: createdPost.createdAt,
-    //     updatedAt: createdPost.updatedAt,
-    //     __v: createdPost.__v,
-    //   },
-    // })
+    generalNamespace.emit('post', {
+      action: 'create',
+      post: {
+        _id: createdPost._id,
+        author: {
+          name: user.name,
+          username: user.username,
+        },
+        postContent: createdPost.postContent,
+        postMedia: createdPost.postMedia,
+        topic: createdPost.topic,
+        comments: createdPost.comments,
+        createdAt: createdPost.createdAt,
+        updatedAt: createdPost.updatedAt,
+        __v: createdPost.__v,
+      },
+    })
 
     return res.status(200).json(createdPost)
   } catch (e) {
@@ -101,7 +99,6 @@ async function httpAddComment(
   res: Response,
   next: NextFunction,
 ) {
-  //   postNamespace = generalNamespace().io
   try {
     const files = req.files as Express.Multer.File[] | undefined
 
@@ -125,10 +122,10 @@ async function httpAddComment(
 
     await post.save()
 
-    // postNamespace.emit('comment', {
-    //   action: 'create',
-    //   comment: createdComment,
-    // })
+    generalNamespace.emit('comment', {
+      action: 'create',
+      comment: createdComment,
+    })
 
     return res.status(200).json(createdComment)
   } catch (e) {
@@ -139,7 +136,6 @@ async function httpAddComment(
 }
 
 async function httpDeletePost(_req: Request, res: Response, next: NextFunction) {
-  //   postNamespace = generalNamespace().io
   try {
     const post = res.locals.post!
 
@@ -167,10 +163,10 @@ async function httpDeletePost(_req: Request, res: Response, next: NextFunction) 
 
     deleteFolder(`uploads/forum/posts/${post.author}/`)
 
-    // postNamespace.emit('post', {
-    //   action: 'delete',
-    //   post: res.locals.post!._id,
-    // })
+    generalNamespace.emit('post', {
+      action: 'delete',
+      post: res.locals.post!._id,
+    })
 
     return res.status(200).json({
       message: 'Post deleted',
@@ -183,7 +179,6 @@ async function httpDeletePost(_req: Request, res: Response, next: NextFunction) 
 }
 
 async function httpDeleteComment(_req: Request, res: Response, next: NextFunction) {
-  //   postNamespace = generalNamespace().io
   try {
     const post = res.locals.post!
 
@@ -191,10 +186,10 @@ async function httpDeleteComment(_req: Request, res: Response, next: NextFunctio
 
     deleteFolder(`uploads/forum/posts/${post.author}/comments`)
 
-    // postNamespace.emit('comment', {
-    //   action: 'delete',
-    //   comment: res.commentId,
-    // })
+    generalNamespace.emit('comment', {
+      action: 'delete',
+      comment: res.locals.comment!._id,
+    })
 
     res.status(200).json({
       message: 'Comment deleted',

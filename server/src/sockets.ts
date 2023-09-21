@@ -1,10 +1,11 @@
-import socketIo from 'socket.io'
+import socketIo, { Namespace } from 'socket.io'
 import { IncomingMessage, Server, ServerResponse } from 'http'
 
 import { getUser } from './services/users/users.service'
 
 import {
   GeneralServerToClientEvents,
+  GroupServerToClientEvents,
   MessageClientToServerEvents,
   MessageServerToClientEvents,
 } from './models/sockets/sockets.interface'
@@ -110,7 +111,7 @@ const socketConnection = {
       throw new Error('Socket not initialised')
     }
 
-    let groupsNamespace = io.of('/groups')
+    let groupsNamespace: Namespace<{}, GroupServerToClientEvents> = io.of('/groups')
 
     groupsNamespace.on('connection', async socket => {
       console.log('%s connected to groupsNamespace', socket.id, socket.handshake.query.userId)

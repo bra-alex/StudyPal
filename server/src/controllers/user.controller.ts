@@ -13,6 +13,7 @@ import {
   getUserById,
   getUserMessages,
 } from '../services/users/users.service'
+import { socketConnection } from '../sockets'
 
 async function httpGetAllUsers(_req: Request, res: Response, next: NextFunction) {
   try {
@@ -47,7 +48,7 @@ async function httpCreateMessage(
   res: Response,
   next: NextFunction,
 ) {
-  //   const messageNamespace = messagesNamespace().messagesNamespace
+  const messageNamespace = socketConnection.messagesNamespace().messagesNamespace
   try {
     const message = {
       sender: req.body.sender,
@@ -72,7 +73,7 @@ async function httpCreateMessage(
       await recipient.save()
     }
 
-    // messageNamespace.to(recipient.uid).emit('message', newMessage.recipientMessage)
+    messageNamespace.to(recipient.uid).emit('message', newMessage.recipientMessage)
 
     return res.status(201).json(newMessage.userMessage)
   } catch (e) {

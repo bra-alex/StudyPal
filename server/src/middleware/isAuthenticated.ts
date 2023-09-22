@@ -11,11 +11,11 @@ export default function isAuthenticated(req: Request, res: Response, next: NextF
 
     const token = authHeader.split(' ')[1]
 
-    const decoded = validateJWT(token)
+    const { expired, decoded, valid } = validateJWT(token)
 
-    if (decoded.expired && !decoded.valid) return res.status(403).json('Not authenticated')
+    if (expired && !valid) return res.status(403).json('Not authenticated')
 
-    res.locals.user = decoded.decoded as JwtPayload
+    res.locals.user = decoded as JwtPayload
 
     return next()
   } catch (e) {

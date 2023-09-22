@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 
 import { findAuth } from '../services/auth/auth.service'
 import { getUser } from '../services/users/users.service'
-import { GetUserInput } from '../schema/users/users.schema'
+import { CreateUserInput, GetUserInput } from '../schema/users/users.schema'
 import { GetPostInput } from '../schema/forum/posts.schema'
 import { getGroup } from '../services/groups/groups.service'
 import { GetGroupInput } from '../schema/groups/groups.schema'
@@ -12,21 +12,33 @@ import { getResource } from '../services/resources/resources.service'
 import { GetResourceInput } from '../schema/resources/resources.schema'
 import { findCommentById } from '../services/forum/comments/comments.service'
 import { CreateCommentInput, DeleteCommentInput } from '../schema/forum/comments.schema'
+import { deleteFolder } from '../util/deleteFromStorage'
 
-async function signUpExists(req: Request, res: Response, next: NextFunction) {
+async function signUpExists(
+  req: Request<{}, {}, CreateUserInput['body']>,
+  res: Response,
+  next: NextFunction,
+) {
   try {
-    const email = req.headers.email
-    const username = req.headers.username
+    const email = req.body.email
+    const username = req.body.username
 
-    const emailExists = await getUser({ email })
-    const usernameExists = await getUser({ username })
+    const emailExists = await findAuth({ email })
+    const usernameExists = await findAuth({ username })
 
-    if (emailExists) return res.status(409).json('Email already exists')
+    if (emailExists) {
+      deleteFolder(`uploads/users/${req.body.uid}`)
+      return res.status(409).json('Email already exists')
+    }
 
-    if (usernameExists) return res.status(409).json('Username already exists')
+    if (usernameExists) {
+      deleteFolder(`uploads/users/${req.body.uid}`)
+      return res.status(409).json('Username already exists')
+    }
 
     return next()
   } catch (e) {
+    deleteFolder(`uploads/users/${req.body.uid}`)
     next(e)
   }
 }

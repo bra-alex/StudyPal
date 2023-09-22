@@ -8,6 +8,7 @@ import { CreateUserInput } from '../schema/users/users.schema'
 import { decryptPassword, encryptPassword } from '../util/password'
 import { createAuth } from '../services/auth/auth.service'
 import { createUser, getUser } from '../services/users/users.service'
+import { deleteFolder } from '../util/deleteFromStorage'
 
 async function signUpHandler(
   req: Request<CreateUserInput['body']>,
@@ -50,6 +51,7 @@ async function signUpHandler(
       token: token,
     })
   } catch (e) {
+    deleteFolder(`uploads/users/${req.body.uid}`)
     return next(e)
   }
 }
@@ -66,7 +68,7 @@ async function loginHandler(req: Request<LoginInput['body']>, res: Response, nex
 
     if (!user) return res.status(400).json('Invalid username or password')
 
-    const token = signJWT(user, { expiresIn: '1h' })
+    const token = signJWT({ ...user }, { expiresIn: '1h' })
 
     return res.status(200).json({
       message: 'Logged in successfully',
@@ -75,6 +77,7 @@ async function loginHandler(req: Request<LoginInput['body']>, res: Response, nex
       token,
     })
   } catch (e) {
+    deleteFolder(`uploads/users/${res.locals.auth!.uid}`)
     return next(e)
   }
 }

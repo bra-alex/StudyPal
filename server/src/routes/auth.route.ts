@@ -12,12 +12,14 @@ const authRoute = express.Router()
 
 authRoute.post(
   '/signup',
-  multer({ storage: authStorage, fileFilter: imageFileFilter }).single('avatar'),
-  validateInput(createUserSchema),
-  signUpExists,
+  [
+    multer({ storage: authStorage, fileFilter: imageFileFilter }).single('avatar'),
+    validateInput(createUserSchema),
+    signUpExists,
+  ],
   signUpHandler,
 )
-authRoute.post('/login', validateInput(loginSchema), loginExists, loginHandler)
+authRoute.post('/login', [validateInput(loginSchema), loginExists], loginHandler)
 authRoute.post('/logout', logoutHandler)
 
 export default authRoute

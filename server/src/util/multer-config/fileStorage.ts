@@ -4,7 +4,6 @@ import { Request } from 'express'
 import { v4 as uuid } from 'uuid'
 
 import { CreateUserInput } from '../../schema/users/users.schema'
-import { CreatePostInput } from '../../schema/forum/posts.schema'
 import { CreateCommentInput } from '../../schema/forum/comments.schema'
 
 type FileNameCallBack = (error: Error | null, fileName: string) => void
@@ -29,12 +28,8 @@ const authStorage = multer.diskStorage({
 })
 
 const postStorage = multer.diskStorage({
-  destination: (
-    req: Request<any, any, CreatePostInput['body']>,
-    _file: Express.Multer.File,
-    cb: DestinationCallBack,
-  ) => {
-    const path = `uploads/forum/posts/${req.body.author}/`
+  destination: (req: Request, _file: Express.Multer.File, cb: DestinationCallBack) => {
+    const path = `uploads/forum/posts/${req.res?.locals.user!._id}/`
     fs.mkdirsSync(path)
     cb(null, path)
   },

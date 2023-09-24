@@ -43,7 +43,7 @@ async function signUpHandler(
 
     if (!user) throw new Error('User could not be created')
 
-    const token = signJWT(user, { expiresIn: '1h' })
+    const token = signJWT({ ...user.toJSON() }, { expiresIn: '1h' })
 
     return res.status(201).json({
       message: 'User created',
@@ -68,7 +68,7 @@ async function loginHandler(req: Request<LoginInput['body']>, res: Response, nex
 
     if (!user) return res.status(400).json('Invalid username or password')
 
-    const token = signJWT({ ...user }, { expiresIn: '1h' })
+    const token = signJWT({ ...user.toJSON() }, { expiresIn: '1h' })
 
     return res.status(200).json({
       message: 'Logged in successfully',

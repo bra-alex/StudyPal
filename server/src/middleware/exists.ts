@@ -150,6 +150,8 @@ async function postExists(
   try {
     const post = await findPostById(req.params.postId)
 
+    console.log(req.params.postId)
+
     if (!post)
       return res.status(404).json({
         message: 'Post not found',

@@ -9,7 +9,7 @@ const app = express()
 
 app.use(helmet())
 app.use(express.json())
-app.use(morgan('combined'))
+app.use(morgan('dev'))
 app.use(
   cors({
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],

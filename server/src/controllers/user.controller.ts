@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 
 import { User } from '../models/dto/dto'
+import { socketConnection } from '../sockets'
 import { UpdateUserInput } from '../schema/users/users.schema'
 import { deleteFile, deleteFolder } from '../util/deleteFromStorage'
 import { CreateUserMessageInput } from '../schema/users/messages.schema'
@@ -13,7 +14,6 @@ import {
   getUserById,
   getUserMessages,
 } from '../services/users/users.service'
-import { socketConnection } from '../sockets'
 
 async function httpGetAllUsers(_req: Request, res: Response, next: NextFunction) {
   try {
@@ -126,7 +126,7 @@ async function httpDeleteUser(_req: Request, res: Response, next: NextFunction) 
     deleteFolder(`uploads/users/${res.locals.user!.uid}`)
     await deleteUser(res.locals.user!.uid)
 
-    res.status(201).json({
+    res.status(200).json({
       message: 'User Deleted',
     })
   } catch (e) {

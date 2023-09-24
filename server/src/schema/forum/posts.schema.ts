@@ -2,9 +2,6 @@ import { TypeOf, array, object, optional, string } from 'zod'
 
 const postSchema = {
   body: object({
-    author: string({
-      required_error: 'Author is required',
-    }),
     postContent: string({
       required_error: 'Post content is required',
     }),
@@ -17,19 +14,9 @@ const postSchema = {
         }),
       ),
     ),
-    topic: object(
-      {
-        id: string({
-          required_error: 'Topic Id is required',
-        }),
-        name: string({
-          required_error: 'Topic Name is required',
-        }),
-      },
-      {
-        required_error: 'Topic is required',
-      },
-    ),
+    topic: string({
+      required_error: 'Topic is required',
+    }),
     comments: optional(array(string())),
   }),
 }

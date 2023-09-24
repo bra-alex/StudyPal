@@ -39,10 +39,11 @@ async function httpCreatePost(
   res: Response,
   next: NextFunction,
 ) {
+  let author = res.locals.user!
   try {
     const files = req.files as Express.Multer.File[] | undefined
 
-    const topic = await findTopicById(req.body.topic.id)
+    const topic = await findTopicById(req.body.topic)
 
     if (!topic) return res.status(404).json('Selected topic does not exist')
 
@@ -54,20 +55,23 @@ async function httpCreatePost(
     }
 
     const postDetails = {
+      author,
       ...req.body,
+      topic: {
+        id: req.body.topic,
+        name: topic.name,
+      },
       postMedia,
     } as Posts
 
     const createdPost = await createPost(postDetails)
 
-    const user = await getUserById(postDetails.author as string)
+    author = (await getUserById(author._id))!
 
-    if (!user) return res.status(404).json('User does not exist')
-
-    user.posts = [...user.posts, createdPost]
+    author.posts = [...author.posts, createdPost]
     topic.posts = [...topic.posts, createdPost]
 
-    await user.save()
+    await author.save()
     await topic.save()
 
     generalNamespace().emit('post', {
@@ -75,8 +79,8 @@ async function httpCreatePost(
       post: {
         _id: createdPost._id,
         author: {
-          name: user.name,
-          username: user.username,
+          name: author.name,
+          username: author.username,
         },
         postContent: createdPost.postContent,
         postMedia: createdPost.postMedia,
@@ -88,10 +92,10 @@ async function httpCreatePost(
       },
     })
 
-    return res.status(200).json(createdPost)
+    return res.status(201).json(createdPost)
   } catch (e) {
     console.log(e)
-
+    deleteFolder(`uploads/forum/posts/${author._id}`)
     return next(e)
   }
 }
@@ -129,7 +133,7 @@ async function httpAddComment(
       comment: createdComment,
     })
 
-    return res.status(200).json(createdComment)
+    return res.status(201).json(createdComment)
   } catch (e) {
     console.log(e)
 

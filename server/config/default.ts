@@ -1,5 +1,6 @@
 export default {
   port: '',
   mongo_url: '',
-  jwt_secret: '',
+  jwt_private_key: '',
+  jwt_public_key: '',
 }

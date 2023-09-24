@@ -7,10 +7,12 @@ const topicSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   creator: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   members: [
     {

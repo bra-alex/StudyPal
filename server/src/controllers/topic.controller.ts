@@ -29,12 +29,14 @@ async function httpCreateTopic(
   next: NextFunction,
 ) {
   try {
-    const topicDetails = req.body as Topics
-    topicDetails.creator = res.locals.user!.id
+    const topicDetails: Topics = {
+      ...req.body,
+      creator: res.locals.user!._id,
+    } as Topics
 
     const createdTopic = await createTopic(topicDetails)
 
-    res.status(200).json(createdTopic)
+    res.status(201).json(createdTopic)
   } catch (e) {
     console.log(e)
 

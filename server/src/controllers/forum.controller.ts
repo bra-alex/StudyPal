@@ -116,6 +116,7 @@ async function httpAddComment(
     }
 
     const comment = {
+      user: res.locals.user?._id,
       ...req.body,
       postMedia,
     } as Comments

@@ -2,9 +2,6 @@ import { TypeOf, array, object, optional, string } from 'zod'
 
 const commentsSchema = {
   body: object({
-    user: string({
-      required_error: 'User is required',
-    }),
     postContent: string({
       required_error: 'Post content is required',
     }),

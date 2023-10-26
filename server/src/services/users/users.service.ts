@@ -1,6 +1,7 @@
 import { FilterQuery } from 'mongoose'
 import { User } from '../../models/dto/dto'
 import userModel from '../../models/users/users.mongo'
+import { deleteAuth, updateAuth } from '../auth/auth.service'
 
 async function getAllUsers() {
   return await userModel.find(
@@ -45,10 +46,14 @@ async function createUser(user: User) {
 }
 
 async function updateUser(user: User) {
-  return await userModel.findOneAndUpdate({ uid: user.uid }, user)
+  if (user.username || user.email) {
+    await updateAuth({ uid: user.uid }, { email: user.email, username: user.username })
+  }
+  return await userModel.findOneAndUpdate({ uid: user.uid }, user, { new: true })
 }
 
 async function deleteUser(uid: string) {
+  await deleteAuth({ uid: uid })
   return await userModel.findOneAndDelete({ uid: uid })
 }
 

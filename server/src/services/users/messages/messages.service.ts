@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose'
+import { FilterQuery, ObjectId } from 'mongoose'
 import { MessageInput, Messages } from '../../../models/dto/dto'
 import messagesModel from '../../../models/users/messages/messages.mongo'
 
@@ -7,62 +7,48 @@ type MessagesType = Messages & { _id: ObjectId }
 async function createMessage(message: MessageInput) {
   const sender = message.sender
   const recipient = message.recipient
-
-  let userMessage: MessagesType
-  let recipientMessage: MessagesType
-
-  const userMessages = (await messagesModel.findOne({ sender: sender })) as MessagesType
-  const recipientMessages = (await messagesModel.findOne({ sender: recipient })) as MessagesType
+  let userMessages = await messagesModel.findOne({ sender: sender })
+  let recipientMessages = await messagesModel.findOne({ sender: recipient })
 
   if (!userMessages && !recipientMessages) {
-    userMessage = await createUserMessages(sender, recipient, message)
-    recipientMessage = await createUserMessages(recipient, sender, message)
+    userMessages = await createUserMessages(sender, recipient, message)
+    recipientMessages = await createUserMessages(recipient, sender, message)
 
-    return { userMessage, recipientMessage }
+    return { userMessages, recipientMessages }
   }
 
   if (!userMessages && recipientMessages) {
-    userMessage = await createUserMessages(sender, recipient, message)
-    recipientMessage = (await updatingExistingUserMessage(
+    userMessages = await createUserMessages(sender, recipient, message)
+    recipientMessages = await updatingExistingUserMessage(
       recipientMessages,
       recipient,
       sender,
       message,
-    )) as MessagesType
+    )
 
-    return { userMessage, recipientMessage }
+    return { userMessages, recipientMessages }
   }
 
   if (userMessages && !recipientMessages) {
-    userMessage = (await updatingExistingUserMessage(
-      userMessages,
-      sender,
-      recipient,
-      message,
-    )) as MessagesType
-    recipientMessage = await createUserMessages(recipient, sender, message)
+    userMessages = await updatingExistingUserMessage(userMessages, sender, recipient, message)
+    recipientMessages = await createUserMessages(recipient, sender, message)
 
-    return { userMessage, recipientMessage }
+    return { userMessages, recipientMessages }
   }
 
-  userMessage = (await updatingExistingUserMessage(
-    userMessages,
-    sender,
-    recipient,
-    message,
-  )) as MessagesType
-  recipientMessage = (await updatingExistingUserMessage(
+  userMessages = await updatingExistingUserMessage(userMessages, sender, recipient, message)
+  recipientMessages = await updatingExistingUserMessage(
     recipientMessages,
     recipient,
     sender,
     message,
-  )) as MessagesType
+  )
 
-  return { userMessage, recipientMessage }
+  return { userMessages, recipientMessages }
 }
 
 async function createUserMessages(sender: string, recipient: string, message: MessageInput) {
-  const userMessage = new messagesModel({
+  const userMessages = new messagesModel({
     sender,
     messages: [
       {
@@ -78,21 +64,18 @@ async function createUserMessages(sender: string, recipient: string, message: Me
     ],
   })
 
-  return await (
-    await userMessage.save()
-  ).populate({
-    path: 'messages.recipient messages.messages.sender',
-    select: '-posts -__v -messages',
-  })
+  return await userMessages.save()
 }
 
 async function updatingExistingUserMessage(
-  userMessages: MessagesType,
+  userMessages: MessagesType | null,
   sender: string,
   recipient: string,
   message: MessageInput,
 ) {
-  const recipientMessages = userMessages!.messages.filter(msg => msg.recipient == recipient)
+  const recipientMessages = userMessages!.messages.filter(
+    msg => msg.recipient.toString() === recipient.toString(),
+  )
 
   let newMessage
   let updatedRecipientMessages
@@ -122,21 +105,24 @@ async function updatingExistingUserMessage(
       message: message.message,
       date: message.date,
     })
-    const oldMessages = userMessages!.messages.filter(msg => msg.recipient != recipient)
+    const oldMessages = userMessages!.messages.filter(
+      msg => msg.recipient.toString() !== recipient.toString(),
+    )
     updatedRecipientMessages = [...oldMessages, ...recipientMessage]
-    // console.log(updatedRecipientMessages);
     newMessage = {
       sender,
       messages: updatedRecipientMessages,
     }
   }
 
-  await messagesModel.findOneAndUpdate({ sender: sender }, newMessage, { upsert: true })
-
-  return await messagesModel.findOne({ sender: sender }).populate({
-    path: 'messages.recipient messages.messages.sender',
-    select: '-posts -__v -messages',
+  return await messagesModel.findOneAndUpdate({ sender: sender }, newMessage, {
+    upsert: true,
+    new: true,
   })
 }
 
-export { createMessage }
+async function deleteUserMessages(filter: FilterQuery<Messages>) {
+  return await messagesModel.findOneAndDelete(filter)
+}
+
+export { createMessage, deleteUserMessages }

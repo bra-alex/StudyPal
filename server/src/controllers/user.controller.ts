@@ -50,32 +50,36 @@ async function httpCreateMessage(
 ) {
   const messageNamespace = socketConnection.messagesNamespace().messagesNamespace
   try {
+    const sender = res.locals.user as User
     const message = {
-      sender: req.body.sender,
-      recipient: req.body.recipient,
-      message: req.body.message,
+      sender: sender._id,
+      ...req.body,
       date: new Date(),
     }
-    const sender = await getUserById(message.sender)
+
     const recipient = await getUserById(message.recipient)
 
-    if (sender === null || recipient === null) return res.status(404).json('User not found')
+    if (!recipient) return res.status(404).json('Recipient not found')
 
     const newMessage = await createMessage(message)
 
     if (sender.messages.length === 0) {
-      sender.messages = [newMessage.userMessage._id]
+      sender.messages = [newMessage.userMessages?._id]
       await sender.save()
     }
 
     if (recipient.messages.length === 0) {
-      recipient.messages = [newMessage.recipientMessage._id]
+      recipient.messages = [newMessage.recipientMessages?._id]
       await recipient.save()
     }
 
-    messageNamespace.to(recipient.uid).emit('message', newMessage.recipientMessage)
+    messageNamespace.to(recipient.uid).emit('message', newMessage.recipientMessages!)
 
-    return res.status(201).json(newMessage.userMessage)
+    const messages = newMessage.userMessages.messages.filter(
+      message => message.recipient.toString() === recipient._id.toString(),
+    )
+
+    return res.status(201).json(messages)
   } catch (e) {
     console.log(e)
 
@@ -89,31 +93,22 @@ async function httpUpdateUser(
   next: NextFunction,
 ) {
   try {
-    const uid = res.locals.user!.uid
-    const name = req.body.name
-    const username = req.body.username
-    const email = req.body.email
-    let profileImageUrl = res.locals.user!.profileImageUrl
-
-    if (req.file) {
-      profileImageUrl = req.file.path
-    }
+    const { uid } = res.locals.user!
+    const profileImageUrl = req.file?.path ?? res.locals.user!.profileImageUrl
 
     const userDetails = {
       uid,
-      name,
-      username,
-      email,
+      ...req.body,
       profileImageUrl,
     } as User
 
-    await updateUser(userDetails)
+    const user = await updateUser(userDetails)
 
     if (req.file) {
       deleteFile(res.locals.user!.profileImageUrl)
     }
 
-    return res.status(200).json(userDetails)
+    return res.status(200).json(user)
   } catch (e) {
     console.log(e)
 

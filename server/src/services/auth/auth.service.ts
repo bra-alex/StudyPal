@@ -1,6 +1,6 @@
 import { Auth } from '../../models/dto/dto'
 import authModel from '../../models/auth/auth.mongo'
-import { FilterQuery } from 'mongoose'
+import { FilterQuery, UpdateQuery } from 'mongoose'
 
 async function createAuth(authDetails: Auth) {
   return await authModel.create(authDetails)
@@ -10,4 +10,12 @@ async function findAuth(filter: FilterQuery<Auth>) {
   return await authModel.findOne(filter)
 }
 
-export { findAuth, createAuth }
+async function updateAuth(filter: FilterQuery<Auth>, update: UpdateQuery<Auth>) {
+  return await authModel.findOneAndUpdate(filter, update)
+}
+
+async function deleteAuth(filter: FilterQuery<Auth>) {
+  return await authModel.findOneAndDelete(filter)
+}
+
+export { findAuth, createAuth, updateAuth, deleteAuth }

@@ -45,7 +45,7 @@ userRoute.get(
   httpGetUserMessages,
 )
 userRoute.post(
-  '/:userId/message',
+  '/:userId/messages',
   validateInput(createUserMessageSchema),
   userExists,
   httpCreateMessage,

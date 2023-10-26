@@ -66,7 +66,8 @@ const userStorage = multer.diskStorage({
     _file: Express.Multer.File,
     cb: DestinationCallBack,
   ) => {
-    const path = `uploads/users/${req.body.uid}/avatar`
+    const uid = req.body.uid ?? req.res?.locals.user?.uid
+    const path = `uploads/users/${uid}/avatar`
     fs.mkdirsSync(path)
     cb(null, path)
   },

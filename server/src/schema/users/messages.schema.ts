@@ -2,9 +2,6 @@ import { TypeOf, object, string } from 'zod'
 
 const messagesSchema = {
   body: object({
-    sender: string({
-      required_error: 'Sender is required',
-    }),
     message: string({
       required_error: 'Message is required',
     }),

@@ -39,13 +39,13 @@ groupRoute.delete(
 )
 
 groupRoute.get(
-  '/:groupId/message',
+  '/:groupId/messages',
   validateInput(getGroupMessagesSchema),
   groupExists,
   httpGetGroupMessages,
 )
 groupRoute.post(
-  '/:groupId/message',
+  '/:groupId/messages',
   validateInput(createGroupMessageSchema),
   groupExists,
   httpCreateGroupMessage,

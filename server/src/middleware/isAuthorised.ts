@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import { User } from '../models/dto/dto'
 
 function deletePost(_req: Request, res: Response, next: NextFunction) {
   if (res.locals.post!.author.toString() !== res.locals.user!._id.toString())
@@ -15,7 +16,9 @@ function deleteComment(_req: Request, res: Response, next: NextFunction) {
 }
 
 function deleteGroup(_req: Request, res: Response, next: NextFunction) {
-  if (res.locals.group!.admin.toString() !== res.locals.user!._id.toString())
+  const { _id } = res.locals.group!.admin as User
+
+  if (_id.toString() !== res.locals.user!._id.toString())
     return res.status(403).json('Unauthorised to delete this group')
 
   return next()

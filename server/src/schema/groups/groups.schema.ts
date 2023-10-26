@@ -5,9 +5,6 @@ const groupsSchema = {
     name: string({
       required_error: 'Group Name is required',
     }),
-    admin: string({
-      required_error: 'Admin is required',
-    }),
     messages: optional(string()),
     members: array(
       string({

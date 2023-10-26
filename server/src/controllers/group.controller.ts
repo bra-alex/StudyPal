@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 
 import { socketConnection } from '../sockets'
 import { getUserById } from '../services/users/users.service'
-import { GroupMessages, Groups, User } from '../models/dto/dto'
+import { Groups, User } from '../models/dto/dto'
 import { CreateGroupInput } from '../schema/groups/groups.schema'
 import { CreateGroupMessageInput } from '../schema/groups/groupMessages.schema'
 
@@ -59,7 +59,9 @@ async function httpCreateGroup(
   next: NextFunction,
 ) {
   try {
-    const createdGroup = await createGroup(req.body as Groups)
+    const { _id } = res.locals.user as User
+
+    const createdGroup = await createGroup({ ...req.body, admin: _id } as Groups)
 
     createdGroup.members.forEach(async (member: string | User) => {
       const user = await getUserById(member as string)
@@ -82,17 +84,13 @@ async function httpCreateGroupMessage(
   next: NextFunction,
 ) {
   try {
-    let groupMessages: GroupMessages & { _id: string }
-
     const message = req.body
 
     const existingGroupMessages = await getMessageById(res.locals.group!.messages!)
 
-    if (!existingGroupMessages) {
-      groupMessages = await createMessage(message)
-    } else {
-      groupMessages = (await updateMessages(existingGroupMessages, message))!
-    }
+    const groupMessages = !existingGroupMessages
+      ? await createMessage(message)
+      : (await updateMessages(existingGroupMessages, message))!
 
     if (!res.locals.group!.messages) {
       res.locals.group!.messages = groupMessages!._id
@@ -102,27 +100,28 @@ async function httpCreateGroupMessage(
     // Listener leak
     //TODO: Fix Listener leak
 
-    const recipients = res.locals
-      .group!.members.filter((member: string | User) => {
-        if (typeof member !== 'string') return member._id.toString() !== message.sender
-        return member !== message.sender
-      })
-      .map((member: string | User) => (member as User).uid)
+    // const recipients = res.locals
+    //   .group!.members.filter((member: string | User) => {
+    //     if (typeof member !== 'string') return member._id.toString() !== message.sender
+    //     return member !== message.sender
+    //   })
+    //   .map((member: string | User) => (member as User).uid)
 
-    socketConnection
-      .groupsNamespace()
-      .socket.to(res.locals.group!._id.toString())
-      .emit('message', groupMessages)
-    groupNamespace().to(res.locals.group!._id.toString()).emit('message', groupMessages)
-    console.log(recipients)
-    groupNamespace().to(recipients).emit('message', groupMessages)
+    // socketConnection
+    //   .groupsNamespace()
+    //   .socket.to(res.locals.group!._id.toString())
+    //   .emit('message', groupMessages)
 
-    res.locals.group!.members.forEach(async (member: string | User) => {
-      if ((member as User)._id.toString() !== message.sender) {
-        const user = await getUserById(member as string)
-        groupNamespace().to(user!.uid).emit('message', groupMessages)
-      }
-    })
+    // groupNamespace().to(res.locals.group!._id.toString()).emit('message', groupMessages)
+    // console.log(recipients)
+    // groupNamespace().to(recipients).emit('message', groupMessages)
+
+    // res.locals.group!.members.forEach(async (member: string | User) => {
+    //   if ((member as User)._id.toString() !== message.sender) {
+    //     const user = await getUserById(member as string)
+    //     groupNamespace().to(user!.uid).emit('message', groupMessages)
+    //   }
+    // })
 
     res.status(201).json(groupMessages)
   } catch (e) {

@@ -5,9 +5,6 @@ const resourcesSchema = {
     category: string({
       required_error: 'Resource Category required',
     }),
-    author: string({
-      required_error: 'Author is required',
-    }),
   }),
 }
 

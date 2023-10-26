@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { Resources } from '../models/dto/dto'
+import { Resources, User } from '../models/dto/dto'
 import { deleteFile } from '../util/deleteFromStorage'
 import { CreateResourceInput } from '../schema/resources/resources.schema'
 
@@ -35,13 +35,15 @@ async function httpCreateResource(
   res: Response,
   next: NextFunction,
 ) {
+  const { filename, path } = req.file as Express.Multer.File
   try {
-    const file = req.file as Express.Multer.File
+    const { _id } = res.locals.user as User
+
     const resource = {
       category: req.body.category,
-      fileName: file.filename,
-      author: req.body.author,
-      resourceUrl: file.path,
+      fileName: filename,
+      author: _id,
+      resourceUrl: path,
     } as Resources
 
     const createdResource = await createResource(resource)
@@ -49,7 +51,7 @@ async function httpCreateResource(
     res.status(201).json(createdResource)
   } catch (e) {
     console.log(e)
-
+    deleteFile(path)
     next(e)
   }
 }

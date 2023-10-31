@@ -51,7 +51,7 @@ function deleteUser(req: Request<DeleteUserInput['params']>, res: Response, next
 
   if (res.locals.user!.uid.toString() !== req.params.userId.toString())
     return res.status(403).json('Unauthorised to delete this user')
-
+  // save
   return next()
 }
 
